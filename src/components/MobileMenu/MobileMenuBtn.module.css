@@ -1,0 +1,15 @@
+.menuButton {
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.menuIcon {
+    width: 32px;
+    height: 32px;
+}
+
+.modal {}

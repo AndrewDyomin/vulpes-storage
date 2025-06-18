@@ -1,0 +1,60 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobileWrapper {
+  flex-direction: column;
+}
+
+.username {
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.propMob {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  position: absolute;
+  left: 30px;
+  bottom: 75px;
+  z-index: 2;
+}
+
+.prop {
+  display: flex;
+  gap: 10px;
+}
+
+.mobileMenuLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 8px 8px;
+  font-weight: 700;
+  color: #2a363b;
+}
+
+.logoutBtn {
+  background: #b88e2f;
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  /* margin-left: 10px; */
+  cursor: pointer;
+  min-width: 50%;
+}
+
+@media screen and (min-width: 833px) {
+  .username {
+    margin-bottom: 0;
+  }
+}

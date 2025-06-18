@@ -1,0 +1,23 @@
+.navBlock {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 700;
+    color: #2a363b;
+}
+
+.link:nth-child(n + 2) {
+    margin-left: 30px;
+}
+
+.logo {
+    max-height: 50px;
+}
+  

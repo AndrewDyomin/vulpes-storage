@@ -1,0 +1,33 @@
+.container {
+    /* background-image: url(../../images/scandinavian-interior-mockup-wall-decal-background\ 1.jpg); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 500px;
+    position: relative;
+}
+
+.wrapper {
+    border-radius: 5px;
+    background: #FFF3E3;
+    width: 45%;
+    position: absolute;
+    right: 40px;
+    top: 30%;
+    padding: 10px;
+}
+
+.heroTitle {
+    font-size: 25px;
+}
+
+.heroBtn {
+    background:#B88E2F;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 30px;
+    cursor: pointer;
+    min-width: 50%;
+}
