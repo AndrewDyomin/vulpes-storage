@@ -17,15 +17,9 @@ export const Navigation = () => {
       </NavLink>
       {isLoggedIn && !isMobile && (
         <>
-          <NavLink className={css.link} to="/orders">
-            {t('orders')}
-          </NavLink>
-          <NavLink className={css.link} to="/products">
+          {/* <NavLink className={css.link} to="/products">
             {t('catalog')}
-          </NavLink>
-          {user.description !== "guest" && <NavLink className={css.link} to="/drufts">
-            {t('my drufts')}
-          </NavLink>}
+          </NavLink> */}
           {user.description === "administrator" && (
             <NavLink className={css.link} to="/room">{t('my room')}</NavLink>
           )}

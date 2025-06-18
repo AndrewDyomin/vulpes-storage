@@ -18,21 +18,9 @@ export const UserMenu = ({ close }) => {
       <p className={css.username}>{user.name}</p>
       {isLoggedIn && isMobile && (
         <div className={css.mobileMenuLinks}>
-          <Link className={css.link} to="/orders" onClick={close}>
-            {t('orders')}
-          </Link>
           <Link className={css.link} to="/products" onClick={close}>
             {t('catalog')}
           </Link>
-          {user.description === "administrator" && (
-            <div className={css.mobileMenuLinks}>
-              <Link className={css.link} to="/room" onClick={close}>{t('my room')}</Link>
-            <Link className={css.link} to="/archive" onClick={close}>{t('archive')}</Link>
-            </div>
-          )}
-          {user.description === "administrator" || user.description === "carpenter" || user.description === "seamstress" || user.description === "upholsterer" ? (
-            <Link className={css.link} to="/drufts" onClick={close}>{t('my drufts')}</Link>
-          ) : <></>}
         </div>
       )}
       <div className={isMobile ? css.propMob : css.prop}>
