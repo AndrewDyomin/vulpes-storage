@@ -11,6 +11,7 @@ import { Loading } from './Loading/Loading';
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
 const LoginPage = lazy(() => import('../pages/Login'));
+const ProductsPage = lazy(() => import('../pages/Products'));
 const MyRoomPage = lazy(() => import('../pages/MyRoom'));
 
 export const App = () => {
@@ -40,15 +41,10 @@ export const App = () => {
               <RestrictedRoute redirectTo="/" component={<LoginPage />} />
             }
           />
-          {/* <Route
-            path="/archive/:orderId"
-            element={
-              <PrivateRoute
-                redirectTo="/login"
-                component={<OrderDetailsPage />}
-              />
-            }
-          /> */}
+          <Route
+            path="/products"
+            element={<ProductsPage />}
+          />
           <Route
             path="/room"
             element={

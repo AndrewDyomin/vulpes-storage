@@ -36,6 +36,9 @@ export const logIn = createAsyncThunk(
       toast.success(`Welcome ${res.data.user.name}`)
       return res.data;
     } catch (error) {
+      if (error.response.status === 401) {
+        toast.error(`Error: wrong login or password`)
+      }
       return thunkAPI.rejectWithValue(error.message);
     }
   }

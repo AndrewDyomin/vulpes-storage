@@ -1,5 +1,5 @@
 .container {
-    /* background-image: url(../../images/scandinavian-interior-mockup-wall-decal-background\ 1.jpg); */
+    background-image: url(../../images/hero-image.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -9,7 +9,7 @@
 
 .wrapper {
     border-radius: 5px;
-    background: #FFF3E3;
+    background: #1f1f1fc5;
     width: 45%;
     position: absolute;
     right: 40px;
@@ -18,15 +18,16 @@
 }
 
 .heroTitle {
+    color: #f3f3f3;
     font-size: 25px;
 }
 
 .heroBtn {
-    background:#B88E2F;
+    background:#8a2313;
     padding: 10px 20px;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-top: 30px;
     cursor: pointer;
     min-width: 50%;

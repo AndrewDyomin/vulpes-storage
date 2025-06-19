@@ -5,7 +5,7 @@ export const getProduct = createAsyncThunk(
   'products/getProduct',
   async (id, thunkAPI) => {
     try {
-      const res = await axios.post('/collections/get', { id });
+      const res = await axios.post('/products/get', { id });
       return JSON.parse(res.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -17,7 +17,7 @@ export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (_, thunkAPI) => {
     try {
-      const res = await axios.get('/collections/all');
+      const res = await axios.get('/products/all');
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -40,7 +40,7 @@ export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (credentials, thunkAPI) => {
     try {
-      await axios.delete('/collections/remove', {
+      await axios.delete('/products/remove', {
         data: credentials,
         headers: {
           'Content-Type': 'application/json'
