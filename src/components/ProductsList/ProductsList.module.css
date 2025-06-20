@@ -1,0 +1,21 @@
+.productList {
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.productCard {
+    display: flex;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+}
+
+.productCard:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.productImg {
+    width: 100%;
+}

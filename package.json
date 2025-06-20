@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://andrewdyomin.github.io/vulpes-storage",
   "dependencies": {
+    "@fancyapps/ui": "^6.0.5",
     "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",

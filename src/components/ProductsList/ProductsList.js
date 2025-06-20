@@ -2,22 +2,35 @@ import css from './ProductsList.module.css';
 // import { Link } from 'react-router-dom';
 import { selectAllProducts } from '../../redux/products/selectors';
 import { useSelector } from 'react-redux';
+import logo from 'images/logo 2.png'
 
 export const ProductsList = () => {
+  const productsArray = useSelector(selectAllProducts).products;
 
-const productsArray = useSelector(selectAllProducts).products;
-
-console.log(productsArray)
+  console.log(productsArray);
 
   return (
     <div className={css.container}>
-        <div className={css.wrapper}>
-            {productsArray.map((product) => (
+      <div className={css.wrapper}>
+        <ul className={css.productList}>
+          {productsArray &&
+            productsArray.map(product => (
+              <li key={product.art} className={css.productCard}>
                 <div>
-                    <p>{product.name.UA}</p>
+                  <img
+                    className={css.productImg}
+                    src={product.images?.[0]}
+                    onError={e => {
+                      e.currentTarget.src = logo;
+                    }}
+                    alt={product.name?.UA || 'Изображение'}
+                  />
+                  <p>{product.name.UA !== '' && product.name.UA !== null ? product.name.UA : product.name.DE}</p>
                 </div>
+              </li>
             ))}
-        </div>
+        </ul>
+      </div>
     </div>
   );
 };
