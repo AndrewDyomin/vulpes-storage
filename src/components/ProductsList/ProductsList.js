@@ -19,7 +19,7 @@ export const ProductsList = () => {
                 <div>
                   <img
                     className={css.productImg}
-                    src={product.images?.[0]}
+                    src={product.images?.[0] || logo}
                     onError={e => {
                       e.currentTarget.src = logo;
                     }}
