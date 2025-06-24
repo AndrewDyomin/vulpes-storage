@@ -3,6 +3,7 @@ import { logOut } from '../auth/operations';
 import { 
   fetchAllProducts, 
   getProduct,
+  getProductByBarcode,
   setActiveProduct, 
   deleteProduct, 
   updateProduct 
@@ -41,6 +42,13 @@ const productsSlice = createSlice({
         state.activeItem = action.payload;
       })
       .addCase(getProduct.rejected, handleRejected)
+      .addCase(getProductByBarcode.pending, handlePending)
+      .addCase(getProductByBarcode.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.activeItem = action.payload;
+      })
+      .addCase(getProductByBarcode.rejected, handleRejected)
       .addCase(setActiveProduct.fulfilled, (state, action) => {
         state.activeItem = action.payload;
       })

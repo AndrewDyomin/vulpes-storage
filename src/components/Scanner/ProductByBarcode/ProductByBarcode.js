@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import css from './ProductByBarcode.module.css';
 import { BrowserMultiFormatReader } from '@zxing/library';
+import { getProductByBarcode } from '../../../redux/products/operations';
+import { useDispatch } from 'react-redux';
 
 export const ProductByBarcode = () => {
+  const dispatch = useDispatch();
   const videoRef = useRef(null);
   const selectRef = useRef(null);
   const [devices, setDevices] = useState([]);
@@ -34,26 +37,28 @@ export const ProductByBarcode = () => {
       videoRef.current,
       async (result, err) => {
         if (result) {
+          console.log(result.text)
           try {
-            const res = await fetch(`/api/products/${result.text}`);
-            const contentType = res.headers.get('content-type');
+            dispatch(getProductByBarcode(result.text))
+            // const res = await fetch(`/api/products/${result.text}`);
+            // const contentType = res.headers.get('content-type');
 
-            if (contentType && contentType.includes('application/json')) {
-              const data = await res.json();
+            // if (contentType && contentType.includes('application/json')) {
+            //   const data = await res.json();
 
-              if (res.status === 200) {
-                setResult({
-                  name: data.name,
-                  article: data.article,
-                  barcode: data.barcode,
-                });
-              } else {
-                setResult({ error: data.message });
-              }
-            } else {
-              const text = await res.text();
-              console.error('Сервер вернул не JSON:', text);
-            }
+            //   if (res.status === 200) {
+            //     setResult({
+            //       name: data.name,
+            //       article: data.article,
+            //       barcode: data.barcode,
+            //     });
+            //   } else {
+            //     setResult({ error: data.message });
+            //   }
+            // } else {
+            //   const text = await res.text();
+            //   console.error('Сервер вернул не JSON:', text);
+            // }
           } catch (error) {
             console.error(error);
             setResult({ error: 'Ошибка запроса к серверу' });

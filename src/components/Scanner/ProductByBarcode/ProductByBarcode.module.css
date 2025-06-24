@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.videoArea {
+    box-sizing: border-box;
+    border: 2px solid green;
+    width: 100%;
+}
