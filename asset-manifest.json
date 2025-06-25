@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/vulpes-storage/static/css/main.dd24a7c6.css",
-    "main.js": "/vulpes-storage/static/js/main.0e1b25d8.js",
+    "main.js": "/vulpes-storage/static/js/main.e8364cfd.js",
     "static/css/379.e3e0ba20.chunk.css": "/vulpes-storage/static/css/379.e3e0ba20.chunk.css",
     "static/js/379.bc238f34.chunk.js": "/vulpes-storage/static/js/379.bc238f34.chunk.js",
     "static/css/40.28351077.chunk.css": "/vulpes-storage/static/css/40.28351077.chunk.css",
@@ -11,8 +11,8 @@
     "static/css/547.198cbe3a.chunk.css": "/vulpes-storage/static/css/547.198cbe3a.chunk.css",
     "static/js/547.a8ec451e.chunk.js": "/vulpes-storage/static/js/547.a8ec451e.chunk.js",
     "static/js/785.b8300f0a.chunk.js": "/vulpes-storage/static/js/785.b8300f0a.chunk.js",
-    "static/css/19.31d6cfe0.chunk.css": "/vulpes-storage/static/css/19.31d6cfe0.chunk.css",
-    "static/js/19.7babdc75.chunk.js": "/vulpes-storage/static/js/19.7babdc75.chunk.js",
+    "static/css/19.57d683fb.chunk.css": "/vulpes-storage/static/css/19.57d683fb.chunk.css",
+    "static/js/19.9b5c19ee.chunk.js": "/vulpes-storage/static/js/19.9b5c19ee.chunk.js",
     "static/js/50.4224b5d6.chunk.js": "/vulpes-storage/static/js/50.4224b5d6.chunk.js",
     "static/js/89.7631a643.chunk.js": "/vulpes-storage/static/js/89.7631a643.chunk.js",
     "static/js/827.86e105c0.chunk.js": "/vulpes-storage/static/js/827.86e105c0.chunk.js",
@@ -22,7 +22,7 @@
     "index.html": "/vulpes-storage/index.html",
     "static/media/getFetch.cjs": "/vulpes-storage/static/media/getFetch.40f37ddea2378391108f.cjs",
     "main.dd24a7c6.css.map": "/vulpes-storage/static/css/main.dd24a7c6.css.map",
-    "main.0e1b25d8.js.map": "/vulpes-storage/static/js/main.0e1b25d8.js.map",
+    "main.e8364cfd.js.map": "/vulpes-storage/static/js/main.e8364cfd.js.map",
     "379.e3e0ba20.chunk.css.map": "/vulpes-storage/static/css/379.e3e0ba20.chunk.css.map",
     "379.bc238f34.chunk.js.map": "/vulpes-storage/static/js/379.bc238f34.chunk.js.map",
     "40.28351077.chunk.css.map": "/vulpes-storage/static/css/40.28351077.chunk.css.map",
@@ -32,13 +32,14 @@
     "547.198cbe3a.chunk.css.map": "/vulpes-storage/static/css/547.198cbe3a.chunk.css.map",
     "547.a8ec451e.chunk.js.map": "/vulpes-storage/static/js/547.a8ec451e.chunk.js.map",
     "785.b8300f0a.chunk.js.map": "/vulpes-storage/static/js/785.b8300f0a.chunk.js.map",
-    "19.7babdc75.chunk.js.map": "/vulpes-storage/static/js/19.7babdc75.chunk.js.map",
+    "19.57d683fb.chunk.css.map": "/vulpes-storage/static/css/19.57d683fb.chunk.css.map",
+    "19.9b5c19ee.chunk.js.map": "/vulpes-storage/static/js/19.9b5c19ee.chunk.js.map",
     "50.4224b5d6.chunk.js.map": "/vulpes-storage/static/js/50.4224b5d6.chunk.js.map",
     "89.7631a643.chunk.js.map": "/vulpes-storage/static/js/89.7631a643.chunk.js.map",
     "827.86e105c0.chunk.js.map": "/vulpes-storage/static/js/827.86e105c0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.dd24a7c6.css",
-    "static/js/main.0e1b25d8.js"
+    "static/js/main.e8364cfd.js"
   ]
 }
