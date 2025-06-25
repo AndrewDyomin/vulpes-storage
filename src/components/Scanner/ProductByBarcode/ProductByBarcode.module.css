@@ -8,3 +8,11 @@
     border: 2px solid green;
     width: 100%;
 }
+
+.modalArea:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.modalImage {
+    width: 100%;
+}

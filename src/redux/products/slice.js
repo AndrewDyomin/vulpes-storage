@@ -26,6 +26,11 @@ const productsSlice = createSlice({
     isLoading: false,
     error: null,
   },
+  reducers: {
+    clearActiveProduct: (state) => {
+      state.activeItem = {};
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchAllProducts.pending, handlePending)
@@ -76,3 +81,4 @@ const productsSlice = createSlice({
 });
 
 export const productsReducer = productsSlice.reducer;
+export const { clearActiveProduct } = productsSlice.actions;

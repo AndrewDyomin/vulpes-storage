@@ -2,32 +2,42 @@ import { useEffect, useRef, useState } from 'react';
 import css from './ProductByBarcode.module.css';
 import { BrowserMultiFormatReader } from '@zxing/library';
 import { getProductByBarcode } from '../../../redux/products/operations';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectActiveProduct } from '../../../redux/products/selectors';
+import { clearActiveProduct } from '../../../redux/products/slice';
+import { PopUp } from 'components/PopUp/PopUp';
 
 export const ProductByBarcode = () => {
+  
   const dispatch = useDispatch();
+  const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
   const selectRef = useRef(null);
   const [devices, setDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const [result, setResult] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const codeReader = useRef(new BrowserMultiFormatReader());
 
   useEffect(() => {
-  const reader = codeReader.current;
+    dispatch(clearActiveProduct());
+  }, [dispatch]);
 
-  reader.listVideoInputDevices().then(videoInputDevices => {
-    setDevices(videoInputDevices);
-    if (videoInputDevices.length > 0) {
-      setSelectedDeviceId(videoInputDevices[0].deviceId);
-    }
-  });
+  useEffect(() => {
+    const reader = codeReader.current;
 
-  return () => {
-    reader.reset();
-  };
-}, []);
+    reader.listVideoInputDevices().then(videoInputDevices => {
+      setDevices(videoInputDevices);
+      if (videoInputDevices.length > 0) {
+        setSelectedDeviceId(videoInputDevices[0].deviceId);
+      }
+    });
+
+    return () => {
+      reader.reset();
+    };
+  }, []);
 
   const startScan = () => {
     if (!selectedDeviceId) return;
@@ -37,9 +47,9 @@ export const ProductByBarcode = () => {
       videoRef.current,
       async (result, err) => {
         if (result) {
-          console.log(result.text)
           try {
-            dispatch(getProductByBarcode(result.text))
+            dispatch(getProductByBarcode(result.text));
+            
             // const res = await fetch(`/api/products/${result.text}`);
             // const contentType = res.headers.get('content-type');
 
@@ -73,6 +83,19 @@ export const ProductByBarcode = () => {
     setResult(null);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  useEffect(() => {
+    if (activeItem.article) {
+      console.log('active item changed');
+      stopScan();
+      setIsModalOpen(true)
+    }
+    
+  }, [activeItem]);
+
   return (
     <div className={css.container}>
       <div className={css.scanBlock}>
@@ -80,8 +103,12 @@ export const ProductByBarcode = () => {
       </div>
 
       <div className={css.buttonsBlock}>
-        <button className={css.button} onClick={startScan}>Start</button>
-        <button className={css.button} onClick={stopScan}>Reset</button>
+        <button className={css.button} onClick={startScan}>
+          Start
+        </button>
+        <button className={css.button} onClick={stopScan}>
+          Reset
+        </button>
       </div>
 
       <div className={css.scanBlock}>
@@ -99,23 +126,14 @@ export const ProductByBarcode = () => {
           ))}
         </select>
       </div>
-
-      <div className={css.scanBlock}>
-        <label>Result:</label>
-        {result ? (
-          result.error ? (
-            <p>{result.error}</p>
-          ) : (
-            <>
-              <p>Название: {result.name}</p>
-              <p>Артикул: {result.article}</p>
-              <p>Штрихкод: {result.barcode}</p>
-            </>
-          )
-        ) : (
-          <p>Нет результата</p>
-        )}
-      </div>
+      <PopUp isOpen={isModalOpen} close={closeModal} body={
+        activeItem.article ? <div className={css.modalArea}>
+            {activeItem.images ? <img className={css.modalImage} alt='scanned product' src={activeItem.images[0]}/> : <p>No image</p>}
+            <p>{`${activeItem.name.UA} (${activeItem.article})`}</p>
+            <p>{activeItem.price.UAH}грн.</p>
+        </div> : 
+        <></>
+        }/>
     </div>
   );
 };

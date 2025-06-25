@@ -18,7 +18,7 @@ export const getProductByBarcode = createAsyncThunk(
   async (barcode, thunkAPI) => {
     try {
       const res = await axios.post('/products/bybarcode', { barcode });
-      return JSON.parse(res.data);
+      return res.data.product;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
