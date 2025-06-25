@@ -8,7 +8,6 @@ import { clearActiveProduct } from '../../../redux/products/slice';
 import { PopUp } from 'components/PopUp/PopUp';
 
 export const ProductByBarcode = () => {
-  
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
@@ -16,7 +15,9 @@ export const ProductByBarcode = () => {
   const [devices, setDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const [result, setResult] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [lastResult, setLastResult] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeScanner, setActiveScanner] = useState(false)
 
   const codeReader = useRef(new BrowserMultiFormatReader());
 
@@ -40,6 +41,7 @@ export const ProductByBarcode = () => {
   }, []);
 
   const startScan = () => {
+    setActiveScanner(true)
     if (!selectedDeviceId) return;
 
     codeReader.current.decodeFromVideoDevice(
@@ -48,8 +50,9 @@ export const ProductByBarcode = () => {
       async (result, err) => {
         if (result) {
           try {
+            setLastResult(result.text)
             dispatch(getProductByBarcode(result.text));
-            
+
             // const res = await fetch(`/api/products/${result.text}`);
             // const contentType = res.headers.get('content-type');
 
@@ -79,27 +82,31 @@ export const ProductByBarcode = () => {
   };
 
   const stopScan = () => {
+    setActiveScanner(false)
     codeReader.current.reset();
     setResult(null);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
-    if (activeItem.article) {
+    if (activeItem && activeItem.article) {
       console.log('active item changed');
       stopScan();
-      setIsModalOpen(true)
+      setIsModalOpen(true);
     }
-    
-  }, [activeItem]);
+    if (activeItem === null) {
+      setIsModalOpen(true);
+      stopScan();
+    }
+  }, [activeItem, result]);
 
   return (
     <div className={css.container}>
       <div className={css.scanBlock}>
-        <video ref={videoRef} className={css.videoArea} />
+        <video ref={videoRef} className={activeScanner ? css.videoArea : css.hide} />
       </div>
 
       <div className={css.buttonsBlock}>
@@ -126,14 +133,39 @@ export const ProductByBarcode = () => {
           ))}
         </select>
       </div>
-      <PopUp isOpen={isModalOpen} close={closeModal} body={
-        activeItem.article ? <div className={css.modalArea}>
-            {activeItem.images ? <img className={css.modalImage} alt='scanned product' src={activeItem.images[0]}/> : <p>No image</p>}
-            <p>{`${activeItem.name.UA} (${activeItem.article})`}</p>
-            <p>{activeItem.price.UAH}грн.</p>
-        </div> : 
-        <></>
-        }/>
+      <PopUp
+        isOpen={isModalOpen}
+        close={closeModal}
+        body={
+          activeItem && activeItem.article ? (
+            <div className={css.modalArea}>
+              {Array.isArray(activeItem.images) &&
+              activeItem.images.length > 0 ? (
+                <img
+                  className={css.modalImage}
+                  alt="scanned product"
+                  src={activeItem.images[0]}
+                />
+              ) : (
+                <p>No image</p>
+              )}
+              <p>{`${activeItem.name?.UA || 'Без названия'} (${
+                activeItem.article
+              })`}</p>
+              <p>
+                {activeItem.price?.UAH
+                  ? `${activeItem.price.UAH} грн.`
+                  : 'Цена не указана'}
+              </p>
+            </div>
+          ) : activeItem === null ? (
+            <div>
+              <p>Товар не найден!</p>
+              <p>Штрихкод: {lastResult}</p>
+            </div>
+          ) : null
+        }
+      />
     </div>
   );
 };
