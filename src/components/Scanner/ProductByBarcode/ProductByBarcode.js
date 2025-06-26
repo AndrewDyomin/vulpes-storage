@@ -15,25 +15,29 @@ export const ProductByBarcode = () => {
   const [devices, setDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const [result, setResult] = useState(null);
-  const [lastResult, setLastResult] = useState('')
+  const [lastResult, setLastResult] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeScanner, setActiveScanner] = useState(false)
+  const [activeScanner, setActiveScanner] = useState(false);
 
   const codeReader = useRef(new BrowserMultiFormatReader());
 
   useEffect(() => {
-    dispatch(clearActiveProduct());
-  }, [dispatch]);
-
-  useEffect(() => {
     const reader = codeReader.current;
 
-    reader.listVideoInputDevices().then(videoInputDevices => {
-      setDevices(videoInputDevices);
-      if (videoInputDevices.length > 0) {
-        setSelectedDeviceId(videoInputDevices[0].deviceId);
-      }
-    });
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then(() => {
+        return reader.listVideoInputDevices();
+      })
+      .then(videoInputDevices => {
+        setDevices(videoInputDevices);
+        if (videoInputDevices.length > 0) {
+          setSelectedDeviceId(videoInputDevices[0].deviceId);
+        }
+      })
+      .catch(err => {
+        console.error('Ошибка доступа к камере:', err);
+      });
 
     return () => {
       reader.reset();
@@ -41,7 +45,7 @@ export const ProductByBarcode = () => {
   }, []);
 
   const startScan = () => {
-    setActiveScanner(true)
+    setActiveScanner(true);
     if (!selectedDeviceId) return;
 
     codeReader.current.decodeFromVideoDevice(
@@ -50,7 +54,7 @@ export const ProductByBarcode = () => {
       async (result, err) => {
         if (result) {
           try {
-            setLastResult(result.text)
+            setLastResult(result.text);
             dispatch(getProductByBarcode(result.text));
 
             // const res = await fetch(`/api/products/${result.text}`);
@@ -82,7 +86,7 @@ export const ProductByBarcode = () => {
   };
 
   const stopScan = () => {
-    setActiveScanner(false)
+    setActiveScanner(false);
     codeReader.current.reset();
     setResult(null);
   };

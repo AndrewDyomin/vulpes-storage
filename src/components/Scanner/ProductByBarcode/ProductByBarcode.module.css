@@ -10,7 +10,8 @@
 }
 
 .hide {
-    display: none;
+    width: 0px;
+    height: 0px;
 }
 
 .modalArea:nth-child(n+2) {
