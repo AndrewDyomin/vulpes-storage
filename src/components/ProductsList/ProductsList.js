@@ -7,8 +7,6 @@ import logo from 'images/logo 2.png'
 export const ProductsList = () => {
   const productsArray = useSelector(selectAllProducts).products;
 
-  console.log(productsArray);
-
   return (
     <div className={css.container}>
       <div className={css.wrapper}>
