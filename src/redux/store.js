@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { authReducer } from './auth/slice';
 import { productsReducer } from './products/slice';
+import { inventoryCheckReducer } from './inventory/slice'
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 import { userReducer } from './user/slice';
 
@@ -27,10 +28,17 @@ const productsPersistConfig = {
   whitelist: ['activeItem'],
 }
 
+const inventoryCheckPersistConfig = {
+  key: 'inventory',
+  storage,
+  whitelist: ['activeItem'],
+}
+
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
     products: persistReducer(productsPersistConfig, productsReducer),
+    inventory: persistReducer(inventoryCheckPersistConfig, inventoryCheckReducer),
     user: userReducer,
   },
   middleware: getDefaultMiddleware =>

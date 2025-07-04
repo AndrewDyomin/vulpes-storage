@@ -5,13 +5,18 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useEffect, useState } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
 import { selectActiveProduct } from '../../redux/products/selectors';
+import { selectAllInventoryChecks, isInventoryChecksLoading } from '../../redux/inventory/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
+import { addInventoryCheck, getAllInventoryChecks } from '../../redux/inventory/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { PopUp } from '../PopUp/PopUp';
+import toast from 'react-hot-toast';
 
 export const InventoryCheckList = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
+  const isLoading = useSelector(isInventoryChecksLoading);
+  const allChecks = useSelector(selectAllInventoryChecks);
   const [addMode, setAddMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [lastResult, setLastResult] = useState('');
@@ -44,7 +49,12 @@ export const InventoryCheckList = () => {
 
   const saveList = () => {
     const check = {name: listDate(), items: addItemsList}
-    console.log(check)
+    try {
+       dispatch(addInventoryCheck(check));
+       setAddMode(false);
+    } catch(err) {
+        toast.error(err)
+    }
   }
 
   useEffect(() => {
@@ -58,6 +68,20 @@ export const InventoryCheckList = () => {
     }
   }, [activeItem, lastResult]);
 
+  useEffect(() => {
+    if (!addMode) {
+        dispatch(getAllInventoryChecks())
+    }
+  }, [addMode, dispatch])
+
+  const calculatePcs = (arr) => {
+    let i = 0
+    for (const item of arr) {
+        i += Number(item.count)
+    }
+    return i;
+  }
+
   return (
     <>
       {!addMode && (
@@ -66,7 +90,17 @@ export const InventoryCheckList = () => {
             <AddCircleOutlineIcon fill="transparent" fontSize="large" />
           </button>
           <div className={css.listWrapper}>
-            <ClockLoader color="#c04545" />
+            {isLoading && <ClockLoader color="#c04545" />}
+            {(!isLoading && allChecks) && (
+                <ul className={css.list}>
+                    {allChecks.map((check, index) => (
+                        <li key={index} className={css.listItem}>
+                            <p>{check.name}</p>
+                            <p className={css.count}>{calculatePcs(check.items)}шт.</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
           </div>
         </>
       )}
