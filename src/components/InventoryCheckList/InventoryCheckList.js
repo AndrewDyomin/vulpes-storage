@@ -34,8 +34,9 @@ export const InventoryCheckList = () => {
   };
 
   const addItemToList = () => {
-    setAddItemsList(prevState => [...prevState, {article: activeItem.article, count}])
+    setAddItemsList(prevState => [...prevState, {article: !article ? activeItem.article : article, count}])
     setIsModalOpen(false);
+    setArticle();
     setCount();
     dispatch(clearActiveProduct());
     scannerRef.current?.startScan()
