@@ -2,7 +2,7 @@ import css from './InventoryCheckList.module.css';
 import { ClockLoader } from 'react-spinners';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
 import { selectActiveProduct } from '../../redux/products/selectors';
 import { selectAllInventoryChecks, isInventoryChecksLoading } from '../../redux/inventory/selectors';
@@ -17,11 +17,13 @@ export const InventoryCheckList = () => {
   const activeItem = useSelector(selectActiveProduct);
   const isLoading = useSelector(isInventoryChecksLoading);
   const allChecks = useSelector(selectAllInventoryChecks);
+  const scannerRef = useRef();
   const [addMode, setAddMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [lastResult, setLastResult] = useState('');
   const [count, setCount] = useState();
   const [addItemsList, setAddItemsList] = useState([]);
+  const [article, setArticle] = useState()
 
   const changeMode = () => {
     addMode ? setAddMode(false) : setAddMode(true);
@@ -36,6 +38,7 @@ export const InventoryCheckList = () => {
     setIsModalOpen(false);
     setCount();
     dispatch(clearActiveProduct());
+    scannerRef.current?.startScan()
   }
 
   const listDate = () => {
@@ -52,9 +55,18 @@ export const InventoryCheckList = () => {
     try {
        dispatch(addInventoryCheck(check));
        setAddMode(false);
+       setAddItemsList([])
     } catch(err) {
         toast.error(err)
     }
+  }
+
+  const calculatePcs = (arr) => {
+    let i = 0
+    for (const item of arr) {
+        i += Number(item.count)
+    }
+    return i;
   }
 
   useEffect(() => {
@@ -73,14 +85,6 @@ export const InventoryCheckList = () => {
         dispatch(getAllInventoryChecks())
     }
   }, [addMode, dispatch])
-
-  const calculatePcs = (arr) => {
-    let i = 0
-    for (const item of arr) {
-        i += Number(item.count)
-    }
-    return i;
-  }
 
   return (
     <>
@@ -113,7 +117,7 @@ export const InventoryCheckList = () => {
             <HighlightOffIcon fill="transparent" fontSize="large" />
           </button>
           <div>
-            <BarcodeScanner setLastResult={setLastResult} />
+            <BarcodeScanner setLastResult={setLastResult} ref={scannerRef}/>
           </div>
           {(activeItem && activeItem.article) && (<button className={css.button} onClick={() => setIsModalOpen(true)}>Last Scan</button>)}
           {addItemsList?.length > 0 && (
@@ -168,6 +172,21 @@ export const InventoryCheckList = () => {
                 <div>
                   <p>Товар не найден!</p>
                   <p>Штрихкод: {lastResult}</p>
+                  <div className={css.countArea}>
+                    <input
+                        placeholder='Артикул' 
+                        onChange={e => setArticle(e.target.value)}
+                        defaultValue={article}
+                        className={css.countInput}
+                    />
+                    <input
+                        placeholder='Сколько штук?' 
+                        onChange={e => setCount(e.target.value)}
+                        defaultValue={count}
+                        className={css.countInput}
+                    />
+                    <button className={css.countAddBtn} onClick={addItemToList}>Add</button>
+                  </div>
                 </div>
               ) : null
             }

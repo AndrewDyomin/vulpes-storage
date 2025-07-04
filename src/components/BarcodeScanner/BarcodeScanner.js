@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import css from './BarcodeScanner.module.css';
 import { BrowserMultiFormatReader } from '@zxing/library';
 import { getProductByBarcode } from '../../redux/products/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveProduct } from '../../redux/products/selectors';
-// import { clearActiveProduct } from '../../redux/products/slice';
 
-export const BarcodeScanner = ({ setLastResult }) => {
+export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
@@ -40,6 +39,11 @@ export const BarcodeScanner = ({ setLastResult }) => {
       reader.reset();
     };
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    startScan,
+    stopScan,
+  }));
 
   const startScan = () => {
     setActiveScanner(true);
@@ -113,39 +117,6 @@ export const BarcodeScanner = ({ setLastResult }) => {
           ))}
         </select>
       </div>
-      {/* <PopUp
-        isOpen={isModalOpen}
-        close={closeModal}
-        body={
-          activeItem && activeItem.article ? (
-            <div className={css.modalArea}>
-              {Array.isArray(activeItem.images) &&
-              activeItem.images.length > 0 ? (
-                <img
-                  className={css.modalImage}
-                  alt="scanned product"
-                  src={activeItem.images[0]}
-                />
-              ) : (
-                <p>No image</p>
-              )}
-              <p>{`${activeItem.name?.UA || 'Без названия'} (${
-                activeItem.article
-              })`}</p>
-              <p>
-                {activeItem.price?.UAH
-                  ? `${activeItem.price.UAH} грн.`
-                  : 'Цена не указана'}
-              </p>
-            </div>
-          ) : activeItem === null ? (
-            <div>
-              <p>Товар не найден!</p>
-              <p>Штрихкод: {lastResult}</p>
-            </div>
-          ) : null
-        }
-      /> */}
     </div>
   );
-};
+})
