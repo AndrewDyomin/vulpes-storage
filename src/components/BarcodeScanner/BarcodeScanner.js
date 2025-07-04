@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import css from './ProductByBarcode.module.css';
+import css from './BarcodeScanner.module.css';
 import { BrowserMultiFormatReader } from '@zxing/library';
-import { getProductByBarcode } from '../../../redux/products/operations';
+import { getProductByBarcode } from '../../redux/products/operations';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveProduct } from '../../../redux/products/selectors';
-// import { clearActiveProduct } from '../../../redux/products/slice';
-import { PopUp } from 'components/PopUp/PopUp';
+import { selectActiveProduct } from '../../redux/products/selectors';
+// import { clearActiveProduct } from '../../redux/products/slice';
 
-export const ProductByBarcode = () => {
+export const BarcodeScanner = ({ setLastResult }) => {
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
@@ -15,8 +14,6 @@ export const ProductByBarcode = () => {
   const [devices, setDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const [result, setResult] = useState(null);
-  const [lastResult, setLastResult] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeScanner, setActiveScanner] = useState(false);
 
   const codeReader = useRef(new BrowserMultiFormatReader());
@@ -54,28 +51,11 @@ export const ProductByBarcode = () => {
       async (result, err) => {
         if (result) {
           try {
-            setLastResult(result.text);
-            dispatch(getProductByBarcode(result.text));
 
-            // const res = await fetch(`/api/products/${result.text}`);
-            // const contentType = res.headers.get('content-type');
-
-            // if (contentType && contentType.includes('application/json')) {
-            //   const data = await res.json();
-
-            //   if (res.status === 200) {
-            //     setResult({
-            //       name: data.name,
-            //       article: data.article,
-            //       barcode: data.barcode,
-            //     });
-            //   } else {
-            //     setResult({ error: data.message });
-            //   }
-            // } else {
-            //   const text = await res.text();
-            //   console.error('Сервер вернул не JSON:', text);
-            // }
+            if (result?.text[0] !== 'H') {
+              setLastResult(result.text);
+              dispatch(getProductByBarcode(result.text));
+            }
           } catch (error) {
             console.error(error);
             setResult({ error: 'Ошибка запроса к серверу' });
@@ -91,17 +71,11 @@ export const ProductByBarcode = () => {
     setResult(null);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   useEffect(() => {
     if (activeItem && activeItem.article) {
       stopScan();
-      setIsModalOpen(true);
     }
     if (activeItem === null) {
-      setIsModalOpen(true);
       stopScan();
     }
   }, [activeItem, result]);
@@ -109,7 +83,10 @@ export const ProductByBarcode = () => {
   return (
     <div className={css.container}>
       <div className={css.scanBlock}>
-        <video ref={videoRef} className={activeScanner ? css.videoArea : css.hide} />
+        <video
+          ref={videoRef}
+          className={activeScanner ? css.videoArea : css.hide}
+        />
       </div>
 
       <div className={css.buttonsBlock}>
@@ -136,7 +113,7 @@ export const ProductByBarcode = () => {
           ))}
         </select>
       </div>
-      <PopUp
+      {/* <PopUp
         isOpen={isModalOpen}
         close={closeModal}
         body={
@@ -168,7 +145,7 @@ export const ProductByBarcode = () => {
             </div>
           ) : null
         }
-      />
+      /> */}
     </div>
   );
 };

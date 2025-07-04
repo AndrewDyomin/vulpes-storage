@@ -1,0 +1,73 @@
+.listWrapper {
+    margin-top: 25px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.addButton {
+    border: none;
+    background-color: #ffffff00;
+    color: #c04545;
+    cursor: pointer;
+}
+
+.modalArea:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.modalImage {
+    width: 100%;
+}
+
+.button {
+    background:#8a2313;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    margin-top: 30px;
+    cursor: pointer;
+    min-width: 50%;
+}
+
+.countArea {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.countInput {
+    box-sizing: border-box;
+    width: calc(50% - 3px);
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+}
+
+.addListArea {
+    margin-top: 25px;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.listItem {
+    border: 1px solid #282727;
+    border-radius: 4px;
+    padding: 5px 10px;
+    display: flex;
+}
+
+.listItem:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.count {
+    margin-left: auto;
+}

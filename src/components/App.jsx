@@ -15,6 +15,7 @@ const ProductsPage = lazy(() => import('../pages/Products'));
 const MyRoomPage = lazy(() => import('../pages/MyRoom'));
 const ScannerPage = lazy(() => import('../pages/Scanner'));
 const ShippingPage = lazy(() => import('../pages/Shipping'));
+const InventoryCheckPage = lazy(() => import('../pages/InventoryCheck'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -63,6 +64,12 @@ export const App = () => {
             path="/shipping"
             element={
               <PrivateRoute redirectTo="/login" component={<ShippingPage />} />
+            }
+          />
+          <Route
+            path="/inventory-check"
+            element={
+              <PrivateRoute redirectTo="/login" component={<InventoryCheckPage />} />
             }
           />
           <Route path="*" element={<Navigate to="/" />} />

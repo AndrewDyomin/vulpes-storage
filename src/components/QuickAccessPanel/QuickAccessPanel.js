@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/auth/selectors';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import OutboxIcon from '@mui/icons-material/Outbox';
+import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 
 export const QuickAccessPanel = () => {
   const user = useSelector(selectUser);
@@ -26,6 +27,15 @@ export const QuickAccessPanel = () => {
                     <OutboxIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>For shipping</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') && (
+        <Link to="/inventory-check" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <AssignmentTurnedInOutlinedIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>Inventory check</p>
             </div>
         </Link>)}
     </div>

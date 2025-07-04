@@ -1,0 +1,145 @@
+import css from './InventoryCheckList.module.css';
+import { ClockLoader } from 'react-spinners';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { useEffect, useState } from 'react';
+import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
+import { selectActiveProduct } from '../../redux/products/selectors';
+import { clearActiveProduct } from '../../redux/products/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { PopUp } from '../PopUp/PopUp';
+
+export const InventoryCheckList = () => {
+    const dispatch = useDispatch();
+  const activeItem = useSelector(selectActiveProduct);
+  const [addMode, setAddMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [lastResult, setLastResult] = useState('');
+  const [count, setCount] = useState();
+  const [addItemsList, setAddItemsList] = useState([]);
+
+  const changeMode = () => {
+    addMode ? setAddMode(false) : setAddMode(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const addItemToList = () => {
+    setAddItemsList(prevState => [...prevState, {article: activeItem.article, count}])
+    setIsModalOpen(false);
+    setCount();
+    dispatch(clearActiveProduct());
+  }
+
+  const listDate = () => {
+    const now = new Date();
+    const today = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+    const month = now.getMonth() < 9 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
+    const year = now.getFullYear();
+
+    return (`${today}.${month}.${year}`)
+  }
+
+  const saveList = () => {
+    const check = {name: listDate(), items: addItemsList}
+    console.log(check)
+  }
+
+  useEffect(() => {
+    if (lastResult === '') return;
+
+    if (activeItem && activeItem.article) {
+      setIsModalOpen(true);
+    }
+    if (activeItem === null) {
+      setIsModalOpen(true);
+    }
+  }, [activeItem, lastResult]);
+
+  return (
+    <>
+      {!addMode && (
+        <>
+          <button className={css.addButton} onClick={changeMode}>
+            <AddCircleOutlineIcon fill="transparent" fontSize="large" />
+          </button>
+          <div className={css.listWrapper}>
+            <ClockLoader color="#c04545" />
+          </div>
+        </>
+      )}
+      {addMode && (
+        <>
+          <button
+            className={`${css.addButton} ${css.closeButton}`}
+            onClick={changeMode}
+          >
+            <HighlightOffIcon fill="transparent" fontSize="large" />
+          </button>
+          <div>
+            <BarcodeScanner setLastResult={setLastResult} />
+          </div>
+          {(activeItem && activeItem.article) && (<button className={css.button} onClick={() => setIsModalOpen(true)}>Last Scan</button>)}
+          {addItemsList?.length > 0 && (
+            <div className={css.addListArea}>
+                <p>{listDate()}</p>
+                <ul className={css.list}>
+                    {addItemsList.map((item, index) => (
+                        <li key={index} className={css.listItem}>
+                            <p>Артикул: {item.article}</p>
+                            <p className={css.count}>Кол-во: {item.count}шт.</p>
+                        </li>
+                    ))}
+                </ul>
+                <button className={css.button} onClick={saveList}>Apply</button>
+            </div>
+          )}
+          <PopUp
+            isOpen={isModalOpen}
+            close={closeModal}
+            body={
+              activeItem && activeItem.article ? (
+                <div className={css.modalArea}>
+                  {Array.isArray(activeItem.images) &&
+                  activeItem.images.length > 0 ? (
+                    <img
+                      className={css.modalImage}
+                      alt="scanned product"
+                      src={activeItem.images[0]}
+                    />
+                  ) : (
+                    <p>No image</p>
+                  )}
+                  <p>{`${activeItem.name?.UA || 'Без названия'} (${
+                    activeItem.article
+                  })`}</p>
+                  <p>
+                    {activeItem.price?.UAH
+                      ? `${activeItem.price.UAH} грн.`
+                      : 'Цена не указана'}
+                  </p>
+                  <div className={css.countArea}>
+                    <input
+                        placeholder='Сколько штук?' 
+                        onChange={e => setCount(e.target.value)}
+                        defaultValue={count}
+                        className={css.countInput}
+                    />
+                    <button className={css.countAddBtn} onClick={addItemToList}>Add</button>
+                  </div>
+                </div>
+              ) : activeItem === null ? (
+                <div>
+                  <p>Товар не найден!</p>
+                  <p>Штрихкод: {lastResult}</p>
+                </div>
+              ) : null
+            }
+          />
+        </>
+      )}
+    </>
+  );
+};

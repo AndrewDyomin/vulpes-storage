@@ -3,7 +3,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useAuth } from 'hooks';
 // import { useTranslation } from 'react-i18next';
 import css from './Footer.module.css';
-// import logo from '../../images/logo black.png'
+import logo from '../../images/vulpes_internet_magazyn 2.jpeg'
 
 export const Footer = () => {
   // const { t } = useTranslation();
@@ -20,7 +20,8 @@ export const Footer = () => {
         </div>
       )}
       <NavLink className={css.link} to="/">
-        {/* <img src={logo} alt='logo' className={css.logo}/> */}
+        <img src={logo} alt='logo' className={css.logo}/>
+        <p>Vulpes Moto™</p>
       </NavLink>
     </nav>
   );

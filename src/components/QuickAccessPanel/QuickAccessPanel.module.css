@@ -1,6 +1,7 @@
 .container {
     margin-top: 15px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
 
@@ -8,7 +9,7 @@
   text-decoration: none;
   color: inherit;
   display: block;
-  width: calc(50% - 2.5px)
+  box-sizing: border-box;
 }
 
 .linkCard {
