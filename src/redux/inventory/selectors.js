@@ -1,2 +1,2 @@
 export const selectAllInventoryChecks = state => state.inventory.items;
-export const isInventoryChecksLoading = state => state.inventory.isLoading;
+export const selectLoading = state => state.inventory.isLoading;

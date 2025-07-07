@@ -61,12 +61,17 @@
 .listItem {
     border: 1px solid #282727;
     border-radius: 4px;
-    padding: 5px 10px;
-    display: flex;
 }
 
 .listItem:nth-child(n+2) {
     margin-top: 10px;
+}
+
+.link {
+    text-decoration: none;
+    color: #000;
+    padding: 5px 10px;
+    display: flex;
 }
 
 .count {

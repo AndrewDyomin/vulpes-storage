@@ -5,17 +5,18 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useEffect, useState, useRef } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
 import { selectActiveProduct } from '../../redux/products/selectors';
-import { selectAllInventoryChecks, isInventoryChecksLoading } from '../../redux/inventory/selectors';
+import { selectAllInventoryChecks, selectLoading } from '../../redux/inventory/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
 import { addInventoryCheck, getAllInventoryChecks } from '../../redux/inventory/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { PopUp } from '../PopUp/PopUp';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 export const InventoryCheckList = () => {
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
-  const isLoading = useSelector(isInventoryChecksLoading);
+  const isLoading = useSelector(selectLoading);
   const allChecks = useSelector(selectAllInventoryChecks);
   const scannerRef = useRef();
   const [addMode, setAddMode] = useState(false);
@@ -100,8 +101,10 @@ export const InventoryCheckList = () => {
                 <ul className={css.list}>
                     {allChecks.map((check, index) => (
                         <li key={index} className={css.listItem}>
+                          <Link className={css.link} to={`/inventory-check/${check._id}`}>
                             <p>{check.name}</p>
                             <p className={css.count}>{calculatePcs(check.items)}шт.</p>
+                          </Link>
                         </li>
                     ))}
                 </ul>
