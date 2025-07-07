@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/vulpes-storage/static/css/main.084faccf.css",
-    "main.js": "/vulpes-storage/static/js/main.bf7df930.js",
+    "main.js": "/vulpes-storage/static/js/main.4e3cf877.js",
     "static/css/215.286c5222.chunk.css": "/vulpes-storage/static/css/215.286c5222.chunk.css",
-    "static/js/215.e263a90e.chunk.js": "/vulpes-storage/static/js/215.e263a90e.chunk.js",
+    "static/js/215.a10dc07e.chunk.js": "/vulpes-storage/static/js/215.a10dc07e.chunk.js",
     "static/css/40.28351077.chunk.css": "/vulpes-storage/static/css/40.28351077.chunk.css",
     "static/js/40.1be864e1.chunk.js": "/vulpes-storage/static/js/40.1be864e1.chunk.js",
     "static/css/635.191830c9.chunk.css": "/vulpes-storage/static/css/635.191830c9.chunk.css",
@@ -15,20 +15,22 @@
     "static/js/19.311c6b8d.chunk.js": "/vulpes-storage/static/js/19.311c6b8d.chunk.js",
     "static/css/270.31d6cfe0.chunk.css": "/vulpes-storage/static/css/270.31d6cfe0.chunk.css",
     "static/js/270.5b8faaf2.chunk.js": "/vulpes-storage/static/js/270.5b8faaf2.chunk.js",
-    "static/css/938.bce231cc.chunk.css": "/vulpes-storage/static/css/938.bce231cc.chunk.css",
-    "static/js/938.0a190720.chunk.js": "/vulpes-storage/static/js/938.0a190720.chunk.js",
+    "static/css/991.0269f16e.chunk.css": "/vulpes-storage/static/css/991.0269f16e.chunk.css",
+    "static/js/991.2914a762.chunk.js": "/vulpes-storage/static/js/991.2914a762.chunk.js",
+    "static/css/805.255dc878.chunk.css": "/vulpes-storage/static/css/805.255dc878.chunk.css",
+    "static/js/805.7d3c22dd.chunk.js": "/vulpes-storage/static/js/805.7d3c22dd.chunk.js",
     "static/js/50.4224b5d6.chunk.js": "/vulpes-storage/static/js/50.4224b5d6.chunk.js",
-    "static/js/89.7631a643.chunk.js": "/vulpes-storage/static/js/89.7631a643.chunk.js",
     "static/js/811.e07d034b.chunk.js": "/vulpes-storage/static/js/811.e07d034b.chunk.js",
+    "static/js/89.7631a643.chunk.js": "/vulpes-storage/static/js/89.7631a643.chunk.js",
     "static/media/hero-image.png": "/vulpes-storage/static/media/hero-image.873e7745cdef2668c766.png",
     "static/media/logo 2.png": "/vulpes-storage/static/media/logo 2.9d3429cefcdbfddf0e0b.png",
     "static/media/icons.svg": "/vulpes-storage/static/media/icons.ec3e48179206795402cc3ef5ff26775e.svg",
     "index.html": "/vulpes-storage/index.html",
     "static/media/getFetch.cjs": "/vulpes-storage/static/media/getFetch.40f37ddea2378391108f.cjs",
     "main.084faccf.css.map": "/vulpes-storage/static/css/main.084faccf.css.map",
-    "main.bf7df930.js.map": "/vulpes-storage/static/js/main.bf7df930.js.map",
+    "main.4e3cf877.js.map": "/vulpes-storage/static/js/main.4e3cf877.js.map",
     "215.286c5222.chunk.css.map": "/vulpes-storage/static/css/215.286c5222.chunk.css.map",
-    "215.e263a90e.chunk.js.map": "/vulpes-storage/static/js/215.e263a90e.chunk.js.map",
+    "215.a10dc07e.chunk.js.map": "/vulpes-storage/static/js/215.a10dc07e.chunk.js.map",
     "40.28351077.chunk.css.map": "/vulpes-storage/static/css/40.28351077.chunk.css.map",
     "40.1be864e1.chunk.js.map": "/vulpes-storage/static/js/40.1be864e1.chunk.js.map",
     "635.191830c9.chunk.css.map": "/vulpes-storage/static/css/635.191830c9.chunk.css.map",
@@ -39,14 +41,16 @@
     "19.8e8e8844.chunk.css.map": "/vulpes-storage/static/css/19.8e8e8844.chunk.css.map",
     "19.311c6b8d.chunk.js.map": "/vulpes-storage/static/js/19.311c6b8d.chunk.js.map",
     "270.5b8faaf2.chunk.js.map": "/vulpes-storage/static/js/270.5b8faaf2.chunk.js.map",
-    "938.bce231cc.chunk.css.map": "/vulpes-storage/static/css/938.bce231cc.chunk.css.map",
-    "938.0a190720.chunk.js.map": "/vulpes-storage/static/js/938.0a190720.chunk.js.map",
+    "991.0269f16e.chunk.css.map": "/vulpes-storage/static/css/991.0269f16e.chunk.css.map",
+    "991.2914a762.chunk.js.map": "/vulpes-storage/static/js/991.2914a762.chunk.js.map",
+    "805.255dc878.chunk.css.map": "/vulpes-storage/static/css/805.255dc878.chunk.css.map",
+    "805.7d3c22dd.chunk.js.map": "/vulpes-storage/static/js/805.7d3c22dd.chunk.js.map",
     "50.4224b5d6.chunk.js.map": "/vulpes-storage/static/js/50.4224b5d6.chunk.js.map",
-    "89.7631a643.chunk.js.map": "/vulpes-storage/static/js/89.7631a643.chunk.js.map",
-    "811.e07d034b.chunk.js.map": "/vulpes-storage/static/js/811.e07d034b.chunk.js.map"
+    "811.e07d034b.chunk.js.map": "/vulpes-storage/static/js/811.e07d034b.chunk.js.map",
+    "89.7631a643.chunk.js.map": "/vulpes-storage/static/js/89.7631a643.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.084faccf.css",
-    "static/js/main.bf7df930.js"
+    "static/js/main.4e3cf877.js"
   ]
 }
