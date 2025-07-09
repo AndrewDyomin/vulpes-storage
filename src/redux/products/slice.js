@@ -6,7 +6,8 @@ import {
   getProductByBarcode,
   setActiveProduct, 
   deleteProduct, 
-  updateProduct 
+  updateProduct,
+  searchProduct,
 } from './operations';
 
 const handlePending = state => {
@@ -64,6 +65,13 @@ const productsSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(updateProduct.rejected, handleRejected)
+      .addCase(searchProduct.pending, handlePending)
+      .addCase(searchProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items = action.payload;
+      })
+      .addCase(searchProduct.rejected, handleRejected)
       .addCase(deleteProduct.pending, handlePending)
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.isLoading = false;

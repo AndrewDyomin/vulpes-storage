@@ -1,3 +1,21 @@
+.searchArea {
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 3px 10px;
+    display: flex;
+    background-color: #ffffff;
+    height: 40px;
+    align-items: center;
+}
+
+.searchInput {
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    max-width: calc(100% - 50px);
+}
+
 .productList {
     margin: 0;
     padding: 0;
