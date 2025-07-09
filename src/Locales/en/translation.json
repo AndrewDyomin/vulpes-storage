@@ -84,5 +84,22 @@
   "or": "or",
   "download scheme": "Download scheme",
   "modules list": "Modules list",
-  "add module": "Add module"
+  "add module": "Add module",
+  "scanner": "Scanner",
+  "for shipping": "For shipping",
+  "inventory check": "Inventory check",
+  "start": "Start",
+  "reset": "Reset",
+  "change video source": "Change video source",
+  "last scan": "Last scan",
+  "article": "Article",
+  "count": "Count",
+  "pcs": "pcs",
+  "save": "Save",
+  "add": "Add",
+  "product not found": "Product not found",
+  "barcode": "Barcode",
+  "no name": "No name",
+  "items": "Items",
+  "scan": "Scan"
 }

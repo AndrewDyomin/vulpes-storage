@@ -4,8 +4,10 @@ import { BrowserMultiFormatReader } from '@zxing/library';
 import { getProductByBarcode } from '../../redux/products/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveProduct } from '../../redux/products/selectors';
+import { useTranslation } from 'react-i18next';
 
 export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
+  const { t } = useTranslation()
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
@@ -95,15 +97,15 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
 
       <div className={css.buttonsBlock}>
         <button className={css.button} onClick={startScan}>
-          Start
+          {t('start')}
         </button>
         <button className={css.button} onClick={stopScan}>
-          Reset
+          {t('reset')}
         </button>
       </div>
 
       <div className={css.scanBlock}>
-        <label htmlFor="sourceSelect">Change video source:</label>
+        <label htmlFor="sourceSelect">{t('change video source')}:</label>
         <select
           ref={selectRef}
           id="sourceSelect"

@@ -5,15 +5,23 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useEffect, useState, useRef } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
 import { selectActiveProduct } from '../../redux/products/selectors';
-import { selectAllInventoryChecks, selectLoading } from '../../redux/inventory/selectors';
+import {
+  selectAllInventoryChecks,
+  selectLoading,
+} from '../../redux/inventory/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
-import { addInventoryCheck, getAllInventoryChecks } from '../../redux/inventory/operations';
+import {
+  addInventoryCheck,
+  getAllInventoryChecks,
+} from '../../redux/inventory/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { PopUp } from '../PopUp/PopUp';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const InventoryCheckList = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
   const isLoading = useSelector(selectLoading);
@@ -24,7 +32,8 @@ export const InventoryCheckList = () => {
   const [lastResult, setLastResult] = useState('');
   const [count, setCount] = useState();
   const [addItemsList, setAddItemsList] = useState([]);
-  const [article, setArticle] = useState()
+  const [article, setArticle] = useState();
+  const [addArticleModal, setAddArticleModal] = useState();
 
   const changeMode = () => {
     addMode ? setAddMode(false) : setAddMode(true);
@@ -32,44 +41,60 @@ export const InventoryCheckList = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setAddArticleModal(false);
   };
 
   const addItemToList = () => {
-    setAddItemsList(prevState => [...prevState, {article: !article ? activeItem.article : article, count}])
-    setIsModalOpen(false);
+    setAddItemsList(prevState => [
+      ...prevState,
+      { article: !article ? activeItem.article : article, count },
+    ]);
+    closeModal();
     setArticle();
     setCount();
     dispatch(clearActiveProduct());
-    scannerRef.current?.startScan()
-  }
+    scannerRef.current?.startScan();
+  };
 
   const listDate = () => {
     const now = new Date();
     const today = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
-    const month = now.getMonth() < 9 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
+    const month =
+      now.getMonth() < 9 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
     const year = now.getFullYear();
+    const baseName = `${today}.${month}.${year}`;
 
-    return (`${today}.${month}.${year}`)
-  }
+    let suffix = 0;
+    let finalName = baseName;
+
+    const existingNames = allChecks.map(check => check.name);
+
+    while (existingNames.includes(finalName)) {
+      suffix += 1;
+      finalName = `${baseName} (${suffix})`;
+    }
+
+    return finalName;
+  };
 
   const saveList = () => {
-    const check = {name: listDate(), items: addItemsList}
+    const check = { name: listDate(), items: addItemsList };
     try {
-       dispatch(addInventoryCheck(check));
-       setAddMode(false);
-       setAddItemsList([])
-    } catch(err) {
-        toast.error(err)
+      dispatch(addInventoryCheck(check));
+      setAddMode(false);
+      setAddItemsList([]);
+    } catch (err) {
+      toast.error(err);
     }
-  }
+  };
 
-  const calculatePcs = (arr) => {
-    let i = 0
+  const calculatePcs = arr => {
+    let i = 0;
     for (const item of arr) {
-        i += Number(item.count)
+      i += Number(item.count);
     }
     return i;
-  }
+  };
 
   useEffect(() => {
     if (lastResult === '') return;
@@ -84,9 +109,9 @@ export const InventoryCheckList = () => {
 
   useEffect(() => {
     if (!addMode) {
-        dispatch(getAllInventoryChecks())
+      dispatch(getAllInventoryChecks());
     }
-  }, [addMode, dispatch])
+  }, [addMode, dispatch]);
 
   return (
     <>
@@ -97,17 +122,22 @@ export const InventoryCheckList = () => {
           </button>
           <div className={css.listWrapper}>
             {isLoading && <ClockLoader color="#c04545" />}
-            {(!isLoading && allChecks) && (
-                <ul className={css.list}>
-                    {allChecks.map((check, index) => (
-                        <li key={index} className={css.listItem}>
-                          <Link className={css.link} to={`/inventory-check/${check._id}`}>
-                            <p>{check.name}</p>
-                            <p className={css.count}>{calculatePcs(check.items)}шт.</p>
-                          </Link>
-                        </li>
-                    ))}
-                </ul>
+            {!isLoading && allChecks && (
+              <ul className={css.list}>
+                {allChecks.map((check, index) => (
+                  <li key={index} className={css.listItem}>
+                    <Link
+                      className={css.link}
+                      to={`/inventory-check/${check._id}`}
+                    >
+                      <p>{check.name}</p>
+                      <p className={css.count}>
+                        {calculatePcs(check.items)}{t('pcs')}.
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         </>
@@ -120,22 +150,34 @@ export const InventoryCheckList = () => {
           >
             <HighlightOffIcon fill="transparent" fontSize="large" />
           </button>
-          <div>
-            <BarcodeScanner setLastResult={setLastResult} ref={scannerRef}/>
+          <div className={css.controlArea}>
+            <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
+            <button
+              className={`${css.addButton} ${css.addArtBtn}`}
+              onClick={() => setAddArticleModal(true)}
+            >
+              <AddCircleOutlineIcon fill="transparent" fontSize="large" />
+            </button>
           </div>
-          {(activeItem && activeItem.article) && (<button className={css.button} onClick={() => setIsModalOpen(true)}>Last Scan</button>)}
+          {activeItem && activeItem.article && (
+            <button className={css.button} onClick={() => setIsModalOpen(true)}>
+              {t('last scan')}
+            </button>
+          )}
           {addItemsList?.length > 0 && (
             <div className={css.addListArea}>
-                <p>{listDate()}</p>
-                <ul className={css.list}>
-                    {addItemsList.map((item, index) => (
-                        <li key={index} className={css.listItem}>
-                            <p>Артикул: {item.article}</p>
-                            <p className={css.count}>Кол-во: {item.count}шт.</p>
-                        </li>
-                    ))}
-                </ul>
-                <button className={css.button} onClick={saveList}>Apply</button>
+              <p>{listDate()}</p>
+              <ul className={css.list}>
+                {addItemsList.map((item, index) => (
+                  <li key={index} className={css.listItem}>
+                    <p>{t('article')}: {item.article}</p>
+                    <p className={css.count}>{t('count')}: {item.count}{t('pcs')}.</p>
+                  </li>
+                ))}
+              </ul>
+              <button className={css.button} onClick={saveList}>
+                {t('save')}
+              </button>
             </div>
           )}
           <PopUp
@@ -154,7 +196,7 @@ export const InventoryCheckList = () => {
                   ) : (
                     <p>No image</p>
                   )}
-                  <p>{`${activeItem.name?.UA || 'Без названия'} (${
+                  <p>{`${activeItem.name?.UA || t('no name')} (${
                     activeItem.article
                   })`}</p>
                   <p>
@@ -164,35 +206,59 @@ export const InventoryCheckList = () => {
                   </p>
                   <div className={css.countArea}>
                     <input
-                        placeholder='Сколько штук?' 
-                        onChange={e => setCount(e.target.value)}
-                        defaultValue={count}
-                        className={css.countInput}
+                      placeholder={t('count')}
+                      onChange={e => setCount(e.target.value)}
+                      defaultValue={count}
+                      className={css.countInput}
                     />
-                    <button className={css.countAddBtn} onClick={addItemToList}>Add</button>
+                    <button className={css.countAddBtn} onClick={addItemToList}>
+                      {t('add')}
+                    </button>
                   </div>
                 </div>
               ) : activeItem === null ? (
                 <div>
-                  <p>Товар не найден!</p>
-                  <p>Штрихкод: {lastResult}</p>
+                  <p>{t('product not found')}!</p>
+                  <p>{('barcode')}: {lastResult}</p>
                   <div className={css.countArea}>
                     <input
-                        placeholder='Артикул' 
-                        onChange={e => setArticle(e.target.value)}
-                        defaultValue={article}
-                        className={css.countInput}
+                      placeholder={t('article')}
+                      onChange={e => setArticle(e.target.value)}
+                      defaultValue={article}
+                      className={css.countInput}
                     />
                     <input
-                        placeholder='Сколько штук?' 
-                        onChange={e => setCount(e.target.value)}
-                        defaultValue={count}
-                        className={css.countInput}
+                      placeholder={t('count')}
+                      onChange={e => setCount(e.target.value)}
+                      defaultValue={count}
+                      className={css.countInput}
                     />
-                    <button className={css.countAddBtn} onClick={addItemToList}>Add</button>
+                    <button className={css.countAddBtn} onClick={addItemToList}>
+                      {t('add')}
+                    </button>
                   </div>
                 </div>
               ) : null
+            }
+          />
+          <PopUp
+            isOpen={addArticleModal}
+            close={closeModal}
+            body={
+              <div className={`${css.countArea} ${css.notFoundArea}`}>
+                <input
+                  placeholder={t('article')}
+                  onChange={e => setArticle(e.target.value)}
+                  className={css.countInput}
+                />
+                <input
+                  placeholder={t('count')}
+                  onChange={e => setCount(e.target.value)}
+                  type='number'
+                  className={css.countInput}
+                />
+                <button className={css.countAddBtn} onClick={addItemToList}>{t('add')}</button>
+              </div>
             }
           />
         </>

@@ -83,13 +83,63 @@
     cursor: pointer;
 }
 
+.saveBtnWrapper {
+    display: flex;
+    gap: 10px;
+}
+
 .saveButton {
     background:#8a2313;
     padding: 10px 20px;
     color: #fff;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     margin-top: 20px;
     cursor: pointer;
     width: 50%;
+}
+
+.scanButton {
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+}
+
+.modalArea:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.modalImage {
+    width: 100%;
+}
+
+.countArea {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.countInput {
+    box-sizing: border-box;
+    width: calc(50% - 3px);
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.notFoundArea {
+    flex-direction: column;
+    align-items: center;
 }
