@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/vulpes-storage/static/css/main.084faccf.css",
-    "main.js": "/vulpes-storage/static/js/main.dd6da58a.js",
+    "main.js": "/vulpes-storage/static/js/main.20de57d6.js",
     "static/css/215.286c5222.chunk.css": "/vulpes-storage/static/css/215.286c5222.chunk.css",
     "static/js/215.d4127388.chunk.js": "/vulpes-storage/static/js/215.d4127388.chunk.js",
     "static/css/40.28351077.chunk.css": "/vulpes-storage/static/css/40.28351077.chunk.css",
     "static/js/40.1be864e1.chunk.js": "/vulpes-storage/static/js/40.1be864e1.chunk.js",
     "static/css/635.191830c9.chunk.css": "/vulpes-storage/static/css/635.191830c9.chunk.css",
     "static/js/635.5fadc71f.chunk.js": "/vulpes-storage/static/js/635.5fadc71f.chunk.js",
-    "static/css/207.df100a88.chunk.css": "/vulpes-storage/static/css/207.df100a88.chunk.css",
-    "static/js/207.b08e9192.chunk.js": "/vulpes-storage/static/js/207.b08e9192.chunk.js",
+    "static/css/207.2f765e42.chunk.css": "/vulpes-storage/static/css/207.2f765e42.chunk.css",
+    "static/js/207.cd12e184.chunk.js": "/vulpes-storage/static/js/207.cd12e184.chunk.js",
     "static/js/785.b8300f0a.chunk.js": "/vulpes-storage/static/js/785.b8300f0a.chunk.js",
     "static/css/19.8e8e8844.chunk.css": "/vulpes-storage/static/css/19.8e8e8844.chunk.css",
     "static/js/19.7017b47b.chunk.js": "/vulpes-storage/static/js/19.7017b47b.chunk.js",
@@ -28,15 +28,15 @@
     "index.html": "/vulpes-storage/index.html",
     "static/media/getFetch.cjs": "/vulpes-storage/static/media/getFetch.40f37ddea2378391108f.cjs",
     "main.084faccf.css.map": "/vulpes-storage/static/css/main.084faccf.css.map",
-    "main.dd6da58a.js.map": "/vulpes-storage/static/js/main.dd6da58a.js.map",
+    "main.20de57d6.js.map": "/vulpes-storage/static/js/main.20de57d6.js.map",
     "215.286c5222.chunk.css.map": "/vulpes-storage/static/css/215.286c5222.chunk.css.map",
     "215.d4127388.chunk.js.map": "/vulpes-storage/static/js/215.d4127388.chunk.js.map",
     "40.28351077.chunk.css.map": "/vulpes-storage/static/css/40.28351077.chunk.css.map",
     "40.1be864e1.chunk.js.map": "/vulpes-storage/static/js/40.1be864e1.chunk.js.map",
     "635.191830c9.chunk.css.map": "/vulpes-storage/static/css/635.191830c9.chunk.css.map",
     "635.5fadc71f.chunk.js.map": "/vulpes-storage/static/js/635.5fadc71f.chunk.js.map",
-    "207.df100a88.chunk.css.map": "/vulpes-storage/static/css/207.df100a88.chunk.css.map",
-    "207.b08e9192.chunk.js.map": "/vulpes-storage/static/js/207.b08e9192.chunk.js.map",
+    "207.2f765e42.chunk.css.map": "/vulpes-storage/static/css/207.2f765e42.chunk.css.map",
+    "207.cd12e184.chunk.js.map": "/vulpes-storage/static/js/207.cd12e184.chunk.js.map",
     "785.b8300f0a.chunk.js.map": "/vulpes-storage/static/js/785.b8300f0a.chunk.js.map",
     "19.8e8e8844.chunk.css.map": "/vulpes-storage/static/css/19.8e8e8844.chunk.css.map",
     "19.7017b47b.chunk.js.map": "/vulpes-storage/static/js/19.7017b47b.chunk.js.map",
@@ -51,6 +51,6 @@
   },
   "entrypoints": [
     "static/css/main.084faccf.css",
-    "static/js/main.dd6da58a.js"
+    "static/js/main.20de57d6.js"
   ]
 }
