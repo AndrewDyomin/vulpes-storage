@@ -16,7 +16,6 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { array } from 'yup';
 
 export const InventoryCheckList = () => {
   const { t } = useTranslation();

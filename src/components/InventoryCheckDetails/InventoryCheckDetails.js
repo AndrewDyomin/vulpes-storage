@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { selectAllInventoryChecks } from '../../redux/inventory/selectors';
 import { selectActiveProduct } from '../../redux/products/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
+import { selectUser } from '../../redux/auth/selectors';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import axios from 'axios';
@@ -19,6 +20,7 @@ export const InventoryCheckDetails = ({ id }) => {
   const activeItem = useSelector(selectActiveProduct);
   const scannerRef = useRef();
   const target = allChecks.find(check => check._id === id);
+  const user = useSelector(selectUser);
   const [activeItems, setActiveItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelModalOpen, setIsDelModalOpen] = useState(false);
@@ -105,6 +107,27 @@ export const InventoryCheckDetails = ({ id }) => {
       scannerRef.current?.startScan()
     }
 
+  const downloadXlsx = async () => {
+  try {
+    const response = await axios.post(
+      '/inventory-check/download',
+      { id },
+      { responseType: 'blob' }
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'inventory.xlsx');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    console.error('Ошибка при скачивании:', error.message);
+    toast.error(`Ошибка при скачивании: ${error.message}`);
+  }
+};
+
   useEffect(() => {
     if (!target || !target.items?.length) return;
 
@@ -184,6 +207,8 @@ export const InventoryCheckDetails = ({ id }) => {
           );
         })}
       </ul>
+      {user.role === 'owner' && 
+      <button className={css.downloadButton} onClick={downloadXlsx}>{t('download')} .xlsx</button>}
       {editMode && (
         <div className={css.editButtons}>
           <button className={css.addButton} onClick={handleAdd}>
