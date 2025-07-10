@@ -101,5 +101,6 @@
   "barcode": "Barcode",
   "no name": "No name",
   "items": "Items",
-  "scan": "Scan"
+  "scan": "Scan",
+  "combine": "Combine"
 }

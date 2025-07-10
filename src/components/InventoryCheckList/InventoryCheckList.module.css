@@ -3,6 +3,8 @@
     display: flex;
     gap: 5px;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .controlArea {
@@ -10,11 +12,25 @@
     flex-direction: column;
 }
 
+.modeButtons {
+    display: flex;
+    align-items: center;
+}
+
 .addButton {
     border: none;
     background-color: #ffffff00;
     color: #c04545;
     cursor: pointer;
+}
+
+.selectButton {
+    color: gray;
+    margin-left: auto;
+}
+
+.activeSelect {
+    color: green;
 }
 
 .addArtBtn {
@@ -82,6 +98,10 @@
     margin-top: 10px;
 }
 
+.selectedItem {
+    box-shadow: 0 2px 2px 2px #0370089e;
+}
+
 .link {
     text-decoration: none;
     color: #000;
@@ -106,4 +126,13 @@
 .notFoundArea {
     flex-direction: column;
     align-items: center;
+}
+
+.combineButton {
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
 }
