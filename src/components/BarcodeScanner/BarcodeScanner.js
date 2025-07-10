@@ -1,4 +1,10 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import css from './BarcodeScanner.module.css';
 import { BrowserMultiFormatReader } from '@zxing/library';
 import { getProductByBarcode } from '../../redux/products/operations';
@@ -7,7 +13,7 @@ import { selectActiveProduct } from '../../redux/products/selectors';
 import { useTranslation } from 'react-i18next';
 
 export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
@@ -23,7 +29,13 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
     const reader = codeReader.current;
 
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia({
+        video: {
+          facingMode: 'environment',
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+        },
+      })
       .then(() => {
         return reader.listVideoInputDevices();
       })
@@ -57,7 +69,6 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
       async (result, err) => {
         if (result) {
           try {
-
             if (result?.text[0] !== 'H') {
               setLastResult(result.text);
               dispatch(getProductByBarcode(result.text));
@@ -85,6 +96,13 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
       stopScan();
     }
   }, [activeItem, result]);
+
+  useEffect(() => {
+    if (activeScanner) {
+      stopScan();
+      startScan();
+    }
+  }, [selectedDeviceId]);
 
   return (
     <div className={css.container}>
@@ -121,4 +139,4 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
       </div>
     </div>
   );
-})
+});

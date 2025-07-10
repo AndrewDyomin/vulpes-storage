@@ -5,8 +5,12 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useEffect, useState, useRef } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
+import BarcodeScannerHtml5 from '../BarcodeScanner Html5/BarcodeScannerHtml5';
 import { selectActiveProduct } from '../../redux/products/selectors';
-import { selectAllReceives, selectLoading } from '../../redux/receives/selectors';
+import {
+  selectAllReceives,
+  selectLoading,
+} from '../../redux/receives/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
 import { selectUser } from '../../redux/auth/selectors';
 import { addReceive, getAllReceives } from '../../redux/receives/operations';
@@ -16,6 +20,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { getProductByBarcode } from '../../redux/products/operations';
 
 export const ReceiveProducts = () => {
   const { t } = useTranslation();
@@ -34,31 +39,38 @@ export const ReceiveProducts = () => {
   const [addItemsList, setAddItemsList] = useState([]);
   const [article, setArticle] = useState();
   const [addArticleModal, setAddArticleModal] = useState();
+  const [selectedScanner, setSelectedScanner] = useState('1');
 
-  const changeMode = (mode) => {
+  const changeMode = mode => {
     if (mode === 'add') {
       addMode ? setAddMode(false) : setAddMode(true);
     }
     if (mode === 'select') {
       selectMode ? setSelectMode(false) : setSelectMode(true);
-      setSelected([])
+      setSelected([]);
     }
   };
 
-  const selectItem = (index) => {
+  const changeScanner = () => {
+    selectedScanner === '1' ? setSelectedScanner('2') : setSelectedScanner('1');
+  };
+
+  const selectItem = index => {
     if (selected.includes(allReceives[index]._id)) {
-      setSelected(prev => [...prev.filter(id => id !== allReceives[index]._id)])
+      setSelected(prev => [
+        ...prev.filter(id => id !== allReceives[index]._id),
+      ]);
     }
     if (!selected.includes(allReceives[index]._id)) {
-      setSelected(prev => [...prev, allReceives[index]._id])
+      setSelected(prev => [...prev, allReceives[index]._id]);
     }
-  }
+  };
 
-  const combine = async() => {
+  const combine = async () => {
     await axios.post('/inventory-check/combine', { array: selected });
     changeMode('select');
     dispatch(getAllReceives());
-  }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -117,6 +129,15 @@ export const ReceiveProducts = () => {
     return i;
   };
 
+  const onNewScanResult = (decodedText, decodedResult) => {
+    console.log(decodedText);
+    console.log(decodedResult);
+    if (decodedText[0] !== 'H') {
+      setLastResult(decodedText);
+      dispatch(getProductByBarcode(decodedText));
+    }
+  };
+
   useEffect(() => {
     if (lastResult === '') return;
 
@@ -142,46 +163,71 @@ export const ReceiveProducts = () => {
             <button className={css.addButton} onClick={() => changeMode('add')}>
               <AddCircleOutlineIcon fill="transparent" fontSize="large" />
             </button>
-            {user.role === 'owner' && <button className={`${css.addButton} ${css.selectButton} ${selectMode && css.activeSelect}`} onClick={() => changeMode('select')}>
-              <CheckCircleOutlineIcon fill="transparent" fontSize="large" />
-            </button>}
+            {user.role === 'owner' && (
+              <button
+                className={`${css.addButton} ${css.selectButton} ${
+                  selectMode && css.activeSelect
+                }`}
+                onClick={() => changeMode('select')}
+              >
+                <CheckCircleOutlineIcon fill="transparent" fontSize="large" />
+              </button>
+            )}
           </div>
           <div>
-            {isLoading && 
+            {isLoading && (
               <div className={css.listWrapper}>
                 <ClockLoader color="#c04545" />
-              </div>}
+              </div>
+            )}
             {!isLoading && allReceives && (
               <div className={css.listWrapper}>
-              <ul className={css.list}>
-                {allReceives.map((receive, index) => (
-                  <li key={index} className={`${css.listItem} ${selected.includes(receive._id) && css.selectedItem}`}>
-                    {!selectMode ? 
-                    <Link
-                      className={css.link}
-                      to={`/get-products-in/${receive._id}`}
+                <ul className={css.list}>
+                  {allReceives.map((receive, index) => (
+                    <li
+                      key={index}
+                      className={`${css.listItem} ${
+                        selected.includes(receive._id) && css.selectedItem
+                      }`}
                     >
-                      <p>{receive.name}</p>
-                      <p className={css.count}>
-                        {calculatePcs(receive.items)}{t('pcs')}.
-                      </p>
-                    </Link> :
-                    <div
-                      className={css.link}
-                      onClick={() => selectItem(index)}
-                    >
-                      <p>{receive.name}</p>
-                      <p className={css.count}>
-                        {calculatePcs(receive.items)}{t('pcs')}.
-                      </p>
+                      {!selectMode ? (
+                        <Link
+                          className={css.link}
+                          to={`/get-products-in/${receive._id}`}
+                        >
+                          <p>{receive.name}</p>
+                          <p className={css.count}>
+                            {calculatePcs(receive.items)}
+                            {t('pcs')}.
+                          </p>
+                        </Link>
+                      ) : (
+                        <div
+                          className={css.link}
+                          onClick={() => selectItem(index)}
+                        >
+                          <p>{receive.name}</p>
+                          <p className={css.count}>
+                            {calculatePcs(receive.items)}
+                            {t('pcs')}.
+                          </p>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                {user.role === 'owner' &&
+                  selectMode &&
+                  selected?.length > 1 && (
+                    <div>
+                      <button
+                        onClick={combine}
+                        className={`${css.button} ${css.combineButton}`}
+                      >
+                        {t('combine')}
+                      </button>
                     </div>
-                    }
-                  </li>
-                ))}
-              </ul>
-              {(user.role === 'owner' && selectMode && selected?.length > 1) && (<div>
-                <button onClick={combine} className={`${css.button} ${css.combineButton}`}>{t('combine')}</button>
-              </div>)}
+                  )}
               </div>
             )}
           </div>
@@ -189,14 +235,29 @@ export const ReceiveProducts = () => {
       )}
       {addMode && (
         <>
-          <button
-            className={`${css.addButton} ${css.closeButton}`}
-            onClick={() => changeMode('add')}
-          >
-            <HighlightOffIcon fill="transparent" fontSize="large" />
-          </button>
+          <div className={css.modeButtons}>
+            <button
+              className={`${css.addButton} ${css.closeButton}`}
+              onClick={() => changeMode('add')}
+            >
+              <HighlightOffIcon fill="transparent" fontSize="large" />
+            </button>
+            <button onClick={changeScanner} className={css.selectButton}>
+              {selectedScanner}
+            </button>
+          </div>
           <div className={css.controlArea}>
-            <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
+            {selectedScanner === '1' && (
+              <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
+            )}
+            {selectedScanner === '2' && (
+              <BarcodeScannerHtml5
+                fps={10}
+                qrbox={250}
+                disableFlip={false}
+                qrCodeSuccessCallback={onNewScanResult}
+              />
+            )}
             <button
               className={`${css.addButton} ${css.addArtBtn}`}
               onClick={() => setAddArticleModal(true)}
@@ -215,8 +276,13 @@ export const ReceiveProducts = () => {
               <ul className={css.list}>
                 {addItemsList.map((item, index) => (
                   <li key={index} className={css.listItem}>
-                    <p>{t('article')}: {item.article}</p>
-                    <p className={css.count}>{t('count')}: {item.count}{t('pcs')}.</p>
+                    <p>
+                      {t('article')}: {item.article}
+                    </p>
+                    <p className={css.count}>
+                      {t('count')}: {item.count}
+                      {t('pcs')}.
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -264,7 +330,9 @@ export const ReceiveProducts = () => {
               ) : activeItem === null ? (
                 <div>
                   <p>{t('product not found')}!</p>
-                  <p>{('barcode')}: {lastResult}</p>
+                  <p>
+                    {'barcode'}: {lastResult}
+                  </p>
                   <div className={css.countArea}>
                     <input
                       placeholder={t('article')}
@@ -299,10 +367,12 @@ export const ReceiveProducts = () => {
                 <input
                   placeholder={t('count')}
                   onChange={e => setCount(e.target.value)}
-                  type='number'
+                  type="number"
                   className={css.countInput}
                 />
-                <button className={css.countAddBtn} onClick={addItemToList}>{t('add')}</button>
+                <button className={css.countAddBtn} onClick={addItemToList}>
+                  {t('add')}
+                </button>
               </div>
             }
           />
