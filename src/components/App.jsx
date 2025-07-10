@@ -16,7 +16,9 @@ const MyRoomPage = lazy(() => import('../pages/MyRoom'));
 const ScannerPage = lazy(() => import('../pages/Scanner'));
 const ShippingPage = lazy(() => import('../pages/Shipping'));
 const InventoryCheckPage = lazy(() => import('../pages/InventoryCheck'));
-const InventoryDetailsPage = lazy(() => import('../pages/InventoryDetails'))
+const InventoryDetailsPage = lazy(() => import('../pages/InventoryDetails'));
+const GetProductsInPage = lazy(() => import('../pages/GetProductsIn'));
+const ReceiveProductsDetailsPage = lazy(() => import('../pages/ReceiveProductsDetails'))
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -79,6 +81,24 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<InventoryDetailsPage />}
+              />
+            }
+          />
+          <Route
+            path="/get-products-in/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<GetProductsInPage />}
+              />
+            }
+          />
+          <Route
+            path="/get-products-in/:receiveId"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<ReceiveProductsDetailsPage />}
               />
             }
           />

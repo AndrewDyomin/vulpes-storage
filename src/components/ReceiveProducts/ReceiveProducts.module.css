@@ -1,0 +1,138 @@
+.listWrapper {
+    margin-top: 25px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.controlArea {
+    display: flex;
+    flex-direction: column;
+}
+
+.modeButtons {
+    display: flex;
+    align-items: center;
+}
+
+.addButton {
+    border: none;
+    background-color: #ffffff00;
+    color: #c04545;
+    cursor: pointer;
+}
+
+.selectButton {
+    color: gray;
+    margin-left: auto;
+}
+
+.activeSelect {
+    color: green;
+}
+
+.addArtBtn {
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.modalArea:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.modalImage {
+    width: 100%;
+}
+
+.button {
+    background:#8a2313;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    margin-top: 30px;
+    cursor: pointer;
+    min-width: 50%;
+}
+
+.countArea {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.countInput {
+    box-sizing: border-box;
+    width: calc(50% - 3px);
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+}
+
+.addListArea {
+    margin-top: 25px;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.listItem {
+    border: 1px solid #282727;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.listItem:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.selectedItem {
+    box-shadow: 0 2px 2px 2px #0370089e;
+}
+
+.link {
+    text-decoration: none;
+    color: #000;
+    padding: 5px 10px;
+    display: flex;
+}
+
+.count {
+    margin-left: auto;
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.notFoundArea {
+    flex-direction: column;
+    align-items: center;
+}
+
+.combineButton {
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+}

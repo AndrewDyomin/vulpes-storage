@@ -1,0 +1,156 @@
+.titleArea {
+    display: flex;
+    align-items: center;
+}
+
+.moreButton {
+    margin-left: auto;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.item {
+    width: 100%;
+    height: 20vw;
+    display: flex;
+    align-items: center;
+    border: 1px solid #282727;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.item:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.itemImage {
+    height: 100%;
+}
+
+.itemArticle {
+    max-width: 150px;
+}
+
+.itemCount {
+    margin-left: auto;
+}
+
+.itemCountInput {
+    width: 50px;
+}
+
+.moreModal {
+    padding-top: 20px;
+    display: flex;
+    gap: 6px;
+}
+
+.modalButton {
+    width: 100%;
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.delButton {
+    border: none;
+    background-color: chocolate;
+    color: #fff;
+}
+
+.editButtons {
+    display: flex;
+    flex-direction: column;
+}
+
+.addButton {
+    margin: 0 auto;
+    margin-top: 15px;
+    color: #8a2313;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.saveBtnWrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.saveButton {
+    background:#8a2313;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 50%;
+}
+
+.scanButton {
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+}
+
+.modalArea:nth-child(n+2) {
+    margin-top: 10px;
+}
+
+.modalImage {
+    width: 100%;
+}
+
+.countArea {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.countInput {
+    box-sizing: border-box;
+    width: calc(50% - 3px);
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.notFoundArea {
+    flex-direction: column;
+    align-items: center;
+}
+
+.downloadButton {
+    margin-top: 20px;
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}

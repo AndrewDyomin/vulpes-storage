@@ -12,7 +12,8 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { authReducer } from './auth/slice';
 import { productsReducer } from './products/slice';
-import { inventoryCheckReducer } from './inventory/slice'
+import { inventoryCheckReducer } from './inventory/slice';
+import { receivesReducer } from './receives/slice'
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 import { userReducer } from './user/slice';
 
@@ -34,11 +35,18 @@ const inventoryCheckPersistConfig = {
   whitelist: ['activeItem'],
 }
 
+const receiveProductsPersistConfig = {
+  key: 'receive',
+  storage,
+  whitelist: ['activeItem'],
+}
+
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
     products: persistReducer(productsPersistConfig, productsReducer),
     inventory: persistReducer(inventoryCheckPersistConfig, inventoryCheckReducer),
+    receive: persistReducer(receiveProductsPersistConfig, receivesReducer),
     user: userReducer,
   },
   middleware: getDefaultMiddleware =>

@@ -5,6 +5,7 @@ import { selectUser } from '../../redux/auth/selectors';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
 import { useTranslation } from 'react-i18next';
 
 export const QuickAccessPanel = () => {
@@ -38,6 +39,15 @@ export const QuickAccessPanel = () => {
                     <AssignmentTurnedInOutlinedIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>{t('inventory check')}</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner') && (
+        <Link to="/get-products-in" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <AddHomeWorkOutlinedIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('get in')} MOTEA</p>
             </div>
         </Link>)}
     </div>
