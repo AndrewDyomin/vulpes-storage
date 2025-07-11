@@ -140,14 +140,18 @@ export const InventoryCheckDetails = ({ id }) => {
     const fetchAllProducts = async () => {
       const results = [];
       for (const item of target.items) {
-        try {
-          const product = await fetchProductByArticle(item.article);
-          results.push(product);
-        } catch (err) {
-          console.error(
-            `Ошибка загрузки артикула ${item.article}:`,
-            err.message
-          );
+        if (item?.images?.length < 1) {
+          try {
+            const product = await fetchProductByArticle(item.article);
+            results.push(product);
+          } catch (err) {
+            console.error(
+              `Ошибка загрузки артикула ${item.article}:`,
+              err.message
+            );
+          }
+        } else {
+          results.push(item)
         }
       }
       setActiveItems(results);

@@ -1,10 +1,9 @@
-// file = Html5QrcodePlugin.jsx
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const qrcodeRegionId = "html5qr-code-full-region";
 
-// Creates the configuration object for Html5QrcodeScanner.
 const createConfig = (props) => {
     let config = {};
     if (props.fps) {
@@ -30,18 +29,18 @@ const Html5QrcodePlugin = (props) => {
         const verbose = props.verbose === true;
         // Suceess callback is required.
         if (!(props.qrCodeSuccessCallback)) {
-            throw "qrCodeSuccessCallback is required callback.";
+            toast.error("qrCodeSuccessCallback is required callback.");
         }
-        const html5QrcodeScanner = new Html5QrcodeScanner(qrcodeRegionId, config, verbose);
-        html5QrcodeScanner.render(props.qrCodeSuccessCallback, props.qrCodeErrorCallback);
+        const html5Scanner = new Html5QrcodeScanner(qrcodeRegionId, config, verbose);
+        html5Scanner.render(props.qrCodeSuccessCallback, props.qrCodeErrorCallback);
 
         // cleanup function when component will unmount
         return () => {
-            html5QrcodeScanner.clear().catch(error => {
+            html5Scanner.clear().catch(error => {
                 console.error("Failed to clear html5QrcodeScanner. ", error);
             });
         };
-    }, []);
+    }, [props]);
 
     return (
         <div id={qrcodeRegionId} />
