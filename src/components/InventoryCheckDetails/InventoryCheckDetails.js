@@ -108,6 +108,12 @@ export const InventoryCheckDetails = ({ id }) => {
     }
 
   const downloadXlsx = async () => {
+    const now = new Date();
+  const today = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
+  const month = now.getMonth() < 9 ? '0' + (now.getMonth() + 1) : (now.getMonth() + 1);
+  const year = now.getFullYear();
+  const hours = now.getHours() < 10 ? '0' + now.getHours() : now.getHours();
+  const minutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes();
   try {
     const response = await axios.post(
       '/inventory-check/download',
@@ -118,7 +124,7 @@ export const InventoryCheckDetails = ({ id }) => {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download');
+    link.setAttribute('download', `inventory-${year}.${month}.${today}_${hours}-${minutes}.xlsx`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
