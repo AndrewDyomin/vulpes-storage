@@ -27,6 +27,18 @@ export const fetchAllOrders = createAsyncThunk(
   }
 );
 
+export const fetchOrdersByFilter = createAsyncThunk(
+  'orders/fetchOrdersByFilter',
+  async (filter, thunkAPI) => {
+    try {
+      const res = await axios.post('/orders/by-filter', { filter });
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const setActiveOrder = createAsyncThunk(
   'orders/setActiveOrder',
   async (order, thunkAPI) => {

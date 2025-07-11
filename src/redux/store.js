@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { authReducer } from './auth/slice';
+import { ordersReducer } from './orders/slice'
 import { productsReducer } from './products/slice';
 import { inventoryCheckReducer } from './inventory/slice';
 import { receivesReducer } from './receives/slice'
@@ -41,12 +42,19 @@ const receiveProductsPersistConfig = {
   whitelist: ['activeItem'],
 }
 
+const ordersPersistConfig = {
+  key: 'orders',
+  storage,
+  whitelist: ['active'],
+}
+
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
     products: persistReducer(productsPersistConfig, productsReducer),
     inventory: persistReducer(inventoryCheckPersistConfig, inventoryCheckReducer),
     receive: persistReducer(receiveProductsPersistConfig, receivesReducer),
+    orders: persistReducer(ordersPersistConfig, ordersReducer),
     user: userReducer,
   },
   middleware: getDefaultMiddleware =>

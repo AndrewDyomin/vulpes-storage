@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { logOut } from '../auth/operations';
 import { 
   fetchAllOrders, 
+  fetchOrdersByFilter,
   getOrder,
   setActiveOrder,
 } from './operations';
@@ -37,6 +38,13 @@ const ordersSlice = createSlice({
         state.all = action.payload;
       })
       .addCase(fetchAllOrders.rejected, handleRejected)
+      .addCase(fetchOrdersByFilter.pending, handlePending)
+      .addCase(fetchOrdersByFilter.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.all = action.payload.data;
+      })
+      .addCase(fetchOrdersByFilter.rejected, handleRejected)
       .addCase(getOrder.pending, handlePending)
       .addCase(getOrder.fulfilled, (state, action) => {
         state.isLoading = false;
