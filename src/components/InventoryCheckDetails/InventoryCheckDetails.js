@@ -189,11 +189,11 @@ export const InventoryCheckDetails = ({ id }) => {
           const product = activeItems.find(p => p?.article === item.article);
           return (
             <li key={index} className={css.item}>
-              <img
+              {product?.images?.length > 0 && <img
                 className={css.itemImage}
                 alt={product?.name?.UA}
                 src={product?.images[0]}
-              />
+              />}
               {editMode && item.article === '' ? (
                 <input
                   id={`${index}Article`}
