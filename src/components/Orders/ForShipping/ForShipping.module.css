@@ -1,0 +1,52 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.ordersList {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ordersListItem {
+    border: 1px solid #000;
+    border-radius: 10px;
+    width: 100%;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.orderNumber {
+    margin: 0 auto;
+}
+
+.productsList {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modalProductsList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

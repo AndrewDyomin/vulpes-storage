@@ -154,6 +154,7 @@ export const InventoryCheckDetails = ({ id }) => {
           results.push(item)
         }
       }
+      results.sort((a, b) => a.article.localeCompare(b.article));
       setActiveItems(results);
     };
 
@@ -185,7 +186,7 @@ export const InventoryCheckDetails = ({ id }) => {
         </div>}
       <p>{t('items')}:</p>
       <ul className={css.list}>
-        {(editMode ? editableItems : target.items)?.map((item, index) => {
+        {(editMode ? editableItems : activeItems)?.map((item, index) => {
           const product = activeItems.find(p => p?.article === item.article);
           return (
             <li key={index} className={css.item}>

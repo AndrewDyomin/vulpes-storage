@@ -130,8 +130,6 @@ export const ReceiveProducts = () => {
   };
 
   const onNewScanResult = (decodedText, decodedResult) => {
-    console.log(decodedText);
-    console.log(decodedResult);
     if (decodedText[0] !== 'H') {
       setLastResult(decodedText);
       dispatch(getProductByBarcode(decodedText));
