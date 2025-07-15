@@ -75,11 +75,12 @@ export const ProductsList = () => {
                     }}
                     alt={product.name?.UA || 'Изображение'}
                   />
-                  <p>
+                  <p>{`(${product?.article}) `}
                     {product.name.UA !== '' && product.name.UA !== null
                       ? product.name.UA
                       : product.name.DE}
                   </p>
+                  <p>{t('quantity in stock')}: {product.quantityInStock}</p>
                 </div>
               </li>
             ))}
