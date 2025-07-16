@@ -18,7 +18,8 @@ const ShippingPage = lazy(() => import('../pages/Shipping'));
 const InventoryCheckPage = lazy(() => import('../pages/InventoryCheck'));
 const InventoryDetailsPage = lazy(() => import('../pages/InventoryDetails'));
 const GetProductsInPage = lazy(() => import('../pages/GetProductsIn'));
-const ReceiveProductsDetailsPage = lazy(() => import('../pages/ReceiveProductsDetails'))
+const ReceiveProductsDetailsPage = lazy(() => import('../pages/ReceiveProductsDetails'));
+const AutomaticActionsPage = lazy(() => import('../pages/AutomaticActions'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -99,6 +100,15 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<ReceiveProductsDetailsPage />}
+              />
+            }
+          />
+          <Route
+            path="/automatic-actions/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<AutomaticActionsPage />}
               />
             }
           />

@@ -6,6 +6,8 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import OutboxIcon from '@mui/icons-material/Outbox';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { useTranslation } from 'react-i18next';
 
 export const QuickAccessPanel = () => {
@@ -48,6 +50,24 @@ export const QuickAccessPanel = () => {
                     <AddHomeWorkOutlinedIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>{t('get in')} MOTEA</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner') && (
+        <Link to="/automatic-actions" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <AutoFixHighIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('actions')}</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner') && (
+        <Link to="/users" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <PeopleAltOutlinedIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('users')}</p>
             </div>
         </Link>)}
     </div>
