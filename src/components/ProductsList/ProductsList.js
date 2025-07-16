@@ -1,6 +1,7 @@
 import css from './ProductsList.module.css';
 // import { Link } from 'react-router-dom';
 import { selectAllProducts } from '../../redux/products/selectors';
+import { selectUser } from '../../redux/auth/selectors';
 import {
   fetchAllProducts,
   searchProduct,
@@ -17,6 +18,7 @@ function sleep(ms) {
 
 export const ProductsList = () => {
   const productsArray = useSelector(selectAllProducts)?.products;
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState('');
@@ -80,7 +82,12 @@ export const ProductsList = () => {
                       ? product.name.UA
                       : product.name.DE}
                   </p>
-                  <p>{t('quantity in stock')}: {product.quantityInStock}</p>
+                  {(user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') && (
+                    <div>
+                      <p>{t('quantity in stock')}: {product.quantityInStock}</p>
+                      <p>{t('availability in motea')}: {t(product.availabilityInMotea) || t('unknown')}</p>
+                    </div>
+                  )}
                 </div>
               </li>
             ))}

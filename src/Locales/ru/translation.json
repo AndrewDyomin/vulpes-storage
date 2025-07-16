@@ -108,5 +108,9 @@
   "delivery info": "Информация о доставке",
   "phone": "Телефон",
   "rest pay": "Осталось оплатить",
-  "quantity in stock": "Остаток на складе"
+  "quantity in stock": "Остаток на складе",
+  "availability in motea": "Наличие в МОТЕА",
+  "in stock": "В наличии",
+  "out of stock": "Распродано",
+  "unknown": "Неизвестно"
 }

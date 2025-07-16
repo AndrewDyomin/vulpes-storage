@@ -108,5 +108,9 @@
   "delivery info": "Інформація про доставку",
   "phone": "Телефон",
   "rest pay": "Залишилося сплатити",
-  "quantity in stock": "Залишок на складі"
+  "quantity in stock": "Залишок на складі",
+  "availability in motea": "Наявність у МОТЕА",
+  "in stock": "В наявності",
+  "out of stock": "Розпродано",
+  "unknown": "Невідомо"
 }
