@@ -82,7 +82,6 @@ export const ForShipping = () => {
   return (
     <div className={css.container}>
       <div className={css.wrapper}>
-        <p>Эта страница сейчас в разработке</p>
         {isLoading && <ClockLoader color="#c04545" />}
         {(allOrders?.length > 0) && 
         <ul className={css.ordersList}>
@@ -104,6 +103,7 @@ export const ForShipping = () => {
         close={closeModal}
         body={
         <div className={css.modalBody}>
+          {activeOrder?.ord_delivery_data[0]?.trackingNumber && <img alt={activeOrder?.ord_delivery_data[0]?.trackingNumber} src={activeOrder?.ord_delivery_data[0]?.marking} style={{ width: '100%', height: '60px' }} />}
           <h3>№ {activeOrder?.id}</h3>
           <ul className={css.modalProductsList}>
             {activeOrder?.products && 

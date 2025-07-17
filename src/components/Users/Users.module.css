@@ -1,0 +1,32 @@
+.usersList {
+    display: grid;
+    gap: 15px;
+}
+
+.userCard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 10px;
+}
+
+.title {
+    display: flex;
+    gap: 5px;
+}
+
+.name {
+    max-width: 50%;
+}
+
+.role {
+    min-width: 80px;
+    margin-left: auto;
+    text-align: right;
+}
+
+.saveBtn {
+    margin: 10px 10px 0 auto;
+    color: #319933;
+    cursor: pointer;
+}

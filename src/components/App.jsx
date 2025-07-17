@@ -20,6 +20,7 @@ const InventoryDetailsPage = lazy(() => import('../pages/InventoryDetails'));
 const GetProductsInPage = lazy(() => import('../pages/GetProductsIn'));
 const ReceiveProductsDetailsPage = lazy(() => import('../pages/ReceiveProductsDetails'));
 const AutomaticActionsPage = lazy(() => import('../pages/AutomaticActions'));
+const UsersPage = lazy(() => import('../pages/Users'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -109,6 +110,15 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<AutomaticActionsPage />}
+              />
+            }
+          />
+          <Route
+            path="/users/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<UsersPage />}
               />
             }
           />
