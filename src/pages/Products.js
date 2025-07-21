@@ -8,7 +8,7 @@ export default function Products() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllProducts());
+    dispatch(fetchAllProducts({page: 1, limit: 20}));
   }, [dispatch]);
 
   return (

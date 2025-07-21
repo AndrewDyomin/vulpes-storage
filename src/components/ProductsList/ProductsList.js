@@ -9,16 +9,16 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import logo from 'images/logo 2.png';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ClockLoader } from 'react-spinners';
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export const ProductsList = () => {
   const productsArray = useSelector(selectAllProducts)?.products;
   const user = useSelector(selectUser);
+  const searchAreaRef = useRef(null);
+  const pagination = useSelector(state => state.products.items.pagination);
+  const currentPage = pagination?.currentPage || 1;
+  const totalPages = pagination?.totalPages || 1;
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState('');
@@ -28,13 +28,12 @@ export const ProductsList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       setIsLoading(true);
-      await sleep(3000);
       if (searchValue === '' && productsArray?.length < 20) {
-        dispatch(fetchAllProducts());
+        dispatch(fetchAllProducts({page: 1, limit: 20}));
       }
 
       if (searchValue !== '' && searchValue !== prevSearchValue) {
-        dispatch(searchProduct(searchValue));
+        dispatch(searchProduct({value: searchValue, page: 1, limit: 20}));
         setPrevSearchValue(searchValue);
       }
       setIsLoading(false);
@@ -43,10 +42,21 @@ export const ProductsList = () => {
     fetchProducts();
   }, [searchValue, dispatch, prevSearchValue, productsArray]);
 
+  const changePage = async(query) => {
+    if (searchAreaRef.current) {
+      searchAreaRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (searchValue === '') {
+      dispatch(fetchAllProducts(query));
+    } else {
+      dispatch(searchProduct({ value: searchValue, ...query }));
+    }
+  }
+
   return (
     <div className={css.container}>
       <div className={css.wrapper}>
-        <div className={css.searchArea}>
+        <div className={css.searchArea} ref={searchAreaRef}>
           <input
             placeholder={`${t('search')}...`}
             defaultValue={searchValue}
@@ -66,9 +76,8 @@ export const ProductsList = () => {
             productsArray.map((product, index) => (
               <li
                 key={`${product.article}-${index}`}
-                className={css.productCard}
               >
-                <div>
+                <div className={css.productCard}>
                   <img
                     className={css.productImg}
                     src={product.images?.[0] || logo}
@@ -92,6 +101,18 @@ export const ProductsList = () => {
               </li>
             ))}
         </ul>
+        {(currentPage && currentPage > 1) ? 
+        (<div className={css.pagination}>
+          <button className={css.prevButton} onClick={() => changePage({page: currentPage - 1})}>{currentPage - 1}</button>
+          <button className={css.currentPage}>{currentPage}</button>
+          {currentPage < totalPages && 
+            <button className={css.nextButton} onClick={() => changePage({page: currentPage + 1})}>{currentPage + 1}</button>}
+        </div>) : 
+        (<div className={css.pagination}>
+          <button className={css.currentPage}>{currentPage}</button>
+          {currentPage < totalPages && 
+            <button className={css.nextButton} onClick={() => changePage({page: currentPage + 1})}>{currentPage + 1}</button>}
+        </div>)}
       </div>
     </div>
   );

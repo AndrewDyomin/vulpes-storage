@@ -17,9 +17,9 @@ export const getProduct = createAsyncThunk(
 
 export const searchProduct = createAsyncThunk(
   'products/searchProduct',
-  async (value, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
-      const res = await axios.post('/products/search', { value });
+      const res = await axios.post(`/products/search?page=${query?.page}&limit=${query?.limit}`, { value: query.value });
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -41,9 +41,9 @@ export const getProductByBarcode = createAsyncThunk(
 
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
-  async (_, thunkAPI) => {
+  async (query, thunkAPI) => {
     try {
-      const res = await axios.get('/products/all');
+      const res = await axios.get(`/products/all?page=${query?.page}&limit=${query?.limit}`);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
