@@ -41,3 +41,38 @@
 .emptyTd {
     border: none;
 }
+
+.description {
+  display: flex;
+  align-items: center;
+}
+
+.greensquere {
+  width: 30px;
+  height: 15px;
+  box-sizing: border-box;
+  border: 2px solid green;
+}
+
+.redsquere {
+  width: 30px;
+  height: 15px;
+  box-sizing: border-box;
+  border: 2px solid red;
+}
+
+.saveButton {
+  margin-top: 25px;
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  border: 2px solid #5e5e5ec3;
+  color: #5e5e5ec3;
+}
+
+.active {
+  border: 2px solid #8a2313;
+  color: #8a2313;
+  cursor: pointer;
+}

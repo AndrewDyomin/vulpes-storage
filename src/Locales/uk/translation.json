@@ -112,5 +112,11 @@
   "availability in motea": "Наявність у МОТЕА",
   "in stock": "В наявності",
   "out of stock": "Розпродано",
-  "unknown": "Невідомо"
+  "unknown": "Невідомо",
+  "create table for broker": "Зробити таблицю для брокера",
+  "this item is not found": "Цей товар не знайдено",
+  "articles list": "Список артикулів",
+  "download availability table": "Завантажити таблицю наявності товарів",
+  "actions": "Дії",
+  "users": "Користувачі"
 }

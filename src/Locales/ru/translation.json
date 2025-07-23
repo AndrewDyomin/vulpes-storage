@@ -112,5 +112,11 @@
   "availability in motea": "Наличие в МОТЕА",
   "in stock": "В наличии",
   "out of stock": "Распродано",
-  "unknown": "Неизвестно"
+  "unknown": "Неизвестно",
+  "create table for broker": "Сделать таблицу для брокера",
+  "this item is not found": "Этот товар не найден",
+  "articles list": "Список артикулов",
+  "download availability table": "Скачать таблицу наличия товаров",
+  "actions": "Действия",
+  "users": "Пользователи"
 }

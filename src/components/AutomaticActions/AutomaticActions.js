@@ -11,7 +11,7 @@ import { EditableTable } from '../EditableTable/EditableTable';
 export const AutomaticActions = () => {
   const { t } = useTranslation();
   const [isPending, setIsPending] = useState(false);
-  // const [articlesForBroker, setArticlesForBroker] = useState([]);
+  const [articlesSended, setArticlesSended] = useState(false);
   const [isBrokerTableOpen, setIsBrokerTableOpen] = useState(false);
 
   const closeModal = () => {
@@ -60,7 +60,7 @@ export const AutomaticActions = () => {
         close={closeModal}
         body={
           <>
-            <p className={css.tableTitle}>{t('table for broker')}</p>
+            <p className={css.tableTitle}>{t('articles list')}</p>
             <EditableTable send={sendTableValues}/>
           </>
         }

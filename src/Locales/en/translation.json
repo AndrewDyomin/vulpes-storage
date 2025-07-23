@@ -111,5 +111,11 @@
   "availability in motea": "Availability in motea",
   "in stock": "In stock",
   "out of stock": "Out of stock",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "create table for broker": "Create table for broker",
+  "this item is not found": "this item is not found",
+  "articles list": "Articles list",
+  "download availability table": "Download availability table",
+  "actions": "Actions",
+  "users": "Users"
 }

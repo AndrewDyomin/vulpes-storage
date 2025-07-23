@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import css from './EditableTable.module.css';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export const EditableTable = ({ send }) => {
+  const { t } = useTranslation();
   const [rows, setRows] = useState([{ article: '', count: '' }]);
 
   const handlePaste = e => {
@@ -63,8 +65,8 @@ export const EditableTable = ({ send }) => {
       <table className={css.table}>
         <thead>
           <tr>
-            <th>Артикул</th>
-            <th>Кол-во</th>
+            <th>{t('article')}</th>
+            <th>{t('count')}</th>
           </tr>
         </thead>
         <tbody onPaste={handlePaste}>
@@ -92,7 +94,11 @@ export const EditableTable = ({ send }) => {
           ))}
         </tbody>
       </table>
-      <button onClick={() => send(rows)}>send</button>
+      <div>
+          <p className={css.description}>*<span className={css.greensquere}></span> - ok.</p>
+          <p className={css.description}>*<span className={css.redsquere}></span> - {t('this item is not found')}.</p>
+      </div>
+      <button className={`${css.saveButton} ${rows?.length > 1 && css.active}`} onClick={() => {if(rows?.length > 1){send(rows)}}}>{t('send')}</button>
     </div>
   );
 };
