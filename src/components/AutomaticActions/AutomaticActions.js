@@ -11,7 +11,7 @@ import { EditableTable } from '../EditableTable/EditableTable';
 export const AutomaticActions = () => {
   const { t } = useTranslation();
   const [isPending, setIsPending] = useState(false);
-  const [articlesSended, setArticlesSended] = useState(false);
+  // const [articlesSended, setArticlesSended] = useState(false);
   const [isBrokerTableOpen, setIsBrokerTableOpen] = useState(false);
 
   const closeModal = () => {
@@ -27,8 +27,27 @@ export const AutomaticActions = () => {
     setIsPending(false);
   };
 
-  const sendTableValues = async (values) => {
-    console.log(values)
+  const sendTableValues = async (values, invoice) => {
+    const data = { values, invoiceName: invoice?.name || '' }
+    console.log(data)
+    try {
+      const response = await axios.post(
+        '/files/download-table-for-broker',
+        { data },
+        { responseType: 'blob' }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', "Zoll_Vulpes_Motea.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Ошибка при скачивании:', error.message);
+      toast.error(`Ошибка при скачивании: ${error.message}`);
+    }
   };
 
   return (

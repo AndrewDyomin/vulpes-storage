@@ -22,6 +22,12 @@
     font-size: 25px;
 }
 
+@media screen and (max-width: 430px) {
+    .heroTitle {
+        font-size: 17px;
+    }
+}
+
 .heroBtn {
     background:#8a2313;
     padding: 10px 20px;
@@ -31,4 +37,5 @@
     margin-top: 30px;
     cursor: pointer;
     min-width: 50%;
+    font-weight: bold;
 }
