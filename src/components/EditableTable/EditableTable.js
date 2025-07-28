@@ -11,29 +11,29 @@ export const EditableTable = ({ send }) => {
   const [filePending, setFilePending] = useState(false);
   const [invoice, setInvoice] = useState(null)
 
-  const checkProducts = async (data) => {
-    for (let i = 0; i < data.length; i++) {
-      const row = data[i];
-      if (row.article?.length > 1 && row.check === undefined) {
-        try {
-          const res = await axios.post('/products/byarticle', { article: row.article });
-          const check = res?.data?.product ? 1 : 0;
+  // const checkProducts = async (data) => {
+  //   for (let i = 0; i < data.length; i++) {
+  //     const row = data[i];
+  //     if (row.article?.length > 1 && row.check === undefined) {
+  //       try {
+  //         const res = await axios.post('/products/byarticle', { article: row.article });
+  //         const check = res?.data?.product ? 1 : 0;
 
-          setRows(prev => {
-            const newRows = [...prev];
-            newRows[i] = { ...newRows[i], check };
-            return newRows;
-          });
-        } catch {
-          setRows(prev => {
-            const newRows = [...prev];
-            newRows[i] = { ...newRows[i], check: 0 };
-            return newRows;
-          });
-        }
-      }
-    }
-  };
+  //         setRows(prev => {
+  //           const newRows = [...prev];
+  //           newRows[i] = { ...newRows[i], check };
+  //           return newRows;
+  //         });
+  //       } catch {
+  //         setRows(prev => {
+  //           const newRows = [...prev];
+  //           newRows[i] = { ...newRows[i], check: 0 };
+  //           return newRows;
+  //         });
+  //       }
+  //     }
+  //   }
+  // };
 
   const handlePaste = e => {
     const clipboard = e.clipboardData.getData('Text');
@@ -93,13 +93,13 @@ export const EditableTable = ({ send }) => {
       })
       const newRows = [...result, { article: '', count: '' }];
       setRows(newRows);
-      checkProducts(newRows);
+      // checkProducts(newRows);
     }
   }, [invoice])
 
-  useEffect(() => {
-    checkProducts(rows);
-  }, [rows]);
+  // useEffect(() => {
+  //   checkProducts(rows);
+  // }, [rows]);
 
   return (
     <div className={css.tableWrapper}>
@@ -123,9 +123,7 @@ export const EditableTable = ({ send }) => {
             <tr key={index}>
               <td>
                 <input
-                  className={`${css.tableInput} ${
-                    row?.check === 1 ? css.greenTd : css.redTd
-                  } ${row?.article === '' && css.emptyTd}`}
+                  className={`${css.tableInput} ${row?.article === '' && css.emptyTd}`}
                   type="text"
                   value={row.article}
                   onChange={e => handleChange(index, 'article', e.target.value)}
