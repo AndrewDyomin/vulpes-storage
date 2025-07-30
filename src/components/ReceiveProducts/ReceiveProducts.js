@@ -5,7 +5,6 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useEffect, useState, useRef } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
-import BarcodeScannerHtml5 from '../BarcodeScanner Html5/BarcodeScannerHtml5';
 import { selectActiveProduct } from '../../redux/products/selectors';
 import {
   selectAllReceives,
@@ -20,7 +19,6 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { getProductByBarcode } from '../../redux/products/operations';
 
 export const ReceiveProducts = () => {
   const { t } = useTranslation();
@@ -39,7 +37,6 @@ export const ReceiveProducts = () => {
   const [addItemsList, setAddItemsList] = useState([]);
   const [article, setArticle] = useState();
   const [addArticleModal, setAddArticleModal] = useState();
-  const [selectedScanner, setSelectedScanner] = useState('1');
 
   const changeMode = mode => {
     if (mode === 'add') {
@@ -49,10 +46,6 @@ export const ReceiveProducts = () => {
       selectMode ? setSelectMode(false) : setSelectMode(true);
       setSelected([]);
     }
-  };
-
-  const changeScanner = () => {
-    selectedScanner === '1' ? setSelectedScanner('2') : setSelectedScanner('1');
   };
 
   const selectItem = index => {
@@ -127,13 +120,6 @@ export const ReceiveProducts = () => {
       i += Number(item.count);
     }
     return i;
-  };
-
-  const onNewScanResult = (decodedText, decodedResult) => {
-    if (decodedText[0] !== 'H') {
-      setLastResult(decodedText);
-      dispatch(getProductByBarcode(decodedText));
-    }
   };
 
   useEffect(() => {
@@ -240,22 +226,9 @@ export const ReceiveProducts = () => {
             >
               <HighlightOffIcon fill="transparent" fontSize="large" />
             </button>
-            <button onClick={changeScanner} className={css.selectButton}>
-              {selectedScanner}
-            </button>
           </div>
           <div className={css.controlArea}>
-            {selectedScanner === '1' && (
               <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
-            )}
-            {selectedScanner === '2' && (
-              <BarcodeScannerHtml5
-                fps={10}
-                qrbox={250}
-                disableFlip={false}
-                qrCodeSuccessCallback={onNewScanResult}
-              />
-            )}
             <button
               className={`${css.addButton} ${css.addArtBtn}`}
               onClick={() => setAddArticleModal(true)}

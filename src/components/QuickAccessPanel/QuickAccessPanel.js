@@ -8,6 +8,7 @@ import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurned
 import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import { useTranslation } from 'react-i18next';
 
 export const QuickAccessPanel = () => {
@@ -68,6 +69,15 @@ export const QuickAccessPanel = () => {
                     <PeopleAltOutlinedIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>{t('users')}</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') && (
+        <Link to="/orders" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <ReceiptOutlinedIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('orders')}</p>
             </div>
         </Link>)}
     </div>
