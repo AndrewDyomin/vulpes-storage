@@ -102,7 +102,7 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
       stopScan();
       startScan();
     }
-  }, [selectedDeviceId]);
+  }, [selectedDeviceId, activeScanner]);
 
   return (
     <div className={css.container}>

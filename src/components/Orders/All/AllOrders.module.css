@@ -1,0 +1,29 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ordersListItem {
+    border: 1px solid #000;
+    border-radius: 10px;
+    width: 100%;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.orderTitle {
+    display: flex;
+}
+
+.orderStatus {
+    margin-left: auto;
+}

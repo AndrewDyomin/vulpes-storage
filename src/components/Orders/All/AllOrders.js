@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { fetchOrdersByFilter } from '../../../redux/orders/operations';
 import { selectAllOrders, selectIsLoading } from '../../../redux/orders/selectors';
 import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
 // import axios from 'axios';
 import { PopUp } from '../../PopUp/PopUp';
 
@@ -17,14 +18,39 @@ export const AllOrders = () => {
   const { t } = useTranslation();
   const [firstMounting, setFirstMounting] = useState(true);
   const [activeOrder, setActiveOrder] = useState(null);
-  const [orderModal, setOrderModal] = useState(false)
+  const [orderModal, setOrderModal] = useState(false);
+  const [filter, setFilter] = useState({value: 0, label: 'Все'});
+  const [lastResponse, setLastResponse] = useState(0)
+  const statusArray = [{value: 0, label: 'Все'}];
+  const filteredOrders = filter.value === 0 ? allOrders : allOrders.filter(order => order.statusId === filter.value)
 
   useEffect(() => {
     if (firstMounting) {
       dispatch(fetchOrdersByFilter(ordersFilter))
       setFirstMounting(false);
     }
-  }, [dispatch, firstMounting])
+  }, [dispatch, firstMounting]);
+
+  useEffect(() => {
+    if (!firstMounting && filter.value === 0 && lastResponse !== 0) {
+      dispatch(fetchOrdersByFilter(filter.value))
+      setLastResponse(filter.value)
+    }
+
+    if (filteredOrders && filteredOrders?.length < 25 && !firstMounting && filter.value !== lastResponse) {
+      dispatch(fetchOrdersByFilter(filter.value))
+      setLastResponse(filter.value)
+    }
+  }, [filteredOrders, dispatch, filter, firstMounting, lastResponse])
+
+  if (allOrders && allOrders?.length > 0) {
+    for (const order of allOrders) {
+      if (statusArray.some(obj => obj.value === order.statusId)) {
+        continue;
+      }
+      statusArray[order.statusId] = ({value: order.statusId, label: order.statusLabel})
+    }
+  }
 
   const openOrder = (order) => {
     setActiveOrder(order)
@@ -39,16 +65,25 @@ export const AllOrders = () => {
   return (
     <div className={css.container}>
       <div className={css.wrapper}>
+        <Select onChange={(e) => { setFilter(e)}} className={css.filter} options={statusArray} defaultValue={filter}/>
         {isLoading && <ClockLoader color="#c04545" />}
         {(allOrders?.length > 0) && 
         <ul className={css.ordersList}>
-          {allOrders.map((order, index) => (
+          {filteredOrders.map((order, index) => (
             <li key={index} className={css.ordersListItem} onClick={() => openOrder(order)}>
-              <p className={css.orderNumber}>№{order.id}</p>
-              <p>Status: {order.statusLabel}</p>
+              <div className={css.orderTitle}>
+                <p className={css.orderNumber}>№{order.id}</p>
+                <p className={css.orderStatus}>"{order.statusLabel}"</p>
+              </div>
               <div>
                 <p>{t('items')}:</p>
-
+                <ul className={css.productsList}>
+                  {order?.products && order.products.map(product => (
+                    <li key={product.productId}>
+                      <p>{`(${product.sku}) ${product.text}`}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </li>
           ))}
@@ -77,7 +112,7 @@ export const AllOrders = () => {
           <p>{t('adress')}: {activeOrder?.ord_delivery_data[0]?.cityName}, {activeOrder?.ord_delivery_data[0]?.address}</p>
           <p>{t('phone')}: +{activeOrder?.contacts[0]?.phone[0]}</p>
           <p>{t('rest pay')}: {activeOrder?.restPay}грн.</p>
-          <p>{activeOrder?.ord_delivery_data[0]?.payForDelivery === "Recipient" ? "*Доставку оплачивает получатель." : "*Доставку оплачивает отправитель."}</p>
+          <p>{activeOrder?.ord_delivery_data[0]?.payer === "Recipient" ? "*Доставку оплачивает получатель." : "*Доставку оплачивает отправитель."}</p>
         </div>}
       />
     </div>

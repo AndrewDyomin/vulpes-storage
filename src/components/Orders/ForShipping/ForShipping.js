@@ -120,7 +120,7 @@ export const ForShipping = () => {
           <p>{t('adress')}: {activeOrder?.ord_delivery_data[0]?.cityName}, {activeOrder?.ord_delivery_data[0]?.address}</p>
           <p>{t('phone')}: +{activeOrder?.contacts[0]?.phone[0]}</p>
           <p>{t('rest pay')}: {activeOrder?.restPay}грн.</p>
-          <p>{activeOrder?.ord_delivery_data[0]?.payForDelivery === "Recipient" ? "*Доставку оплачивает получатель." : "*Доставку оплачивает отправитель."}</p>
+          <p>{activeOrder?.ord_delivery_data[0]?.payer === "Recipient" ? "*Доставку оплачивает получатель." : "*Доставку оплачивает отправитель."}</p>
         </div>}
       />
     </div>

@@ -7,6 +7,7 @@ import { selectActiveProduct } from '../../../redux/products/selectors';
 // import { clearActiveProduct } from '../../../redux/products/slice';
 import { PopUp } from 'components/PopUp/PopUp';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 export const ProductByBarcode = () => {
   const { t } = useTranslation();
@@ -20,6 +21,7 @@ export const ProductByBarcode = () => {
   const [lastResult, setLastResult] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeScanner, setActiveScanner] = useState(false);
+  const [ordersWithArticle, setOrdersWithArticle] = useState(null);
 
   const codeReader = useRef(new BrowserMultiFormatReader());
 
@@ -98,15 +100,22 @@ export const ProductByBarcode = () => {
   };
 
   useEffect(() => {
+    const fetchOrders = async(article) => {
+      const targetOrders = await axios.post('/orders/by-article', { article: 'A085038' })
+      setOrdersWithArticle(targetOrders.data.result);
+    }
     if (activeItem && activeItem.article) {
       stopScan();
       setIsModalOpen(true);
+      fetchOrders(activeItem.article);
     }
     if (activeItem === null) {
       setIsModalOpen(true);
       stopScan();
     }
   }, [activeItem, result]);
+
+  console.log(ordersWithArticle)
 
   return (
     <div className={css.container}>
