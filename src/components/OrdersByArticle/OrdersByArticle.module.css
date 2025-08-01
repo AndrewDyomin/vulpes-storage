@@ -1,0 +1,19 @@
+.orderTitle {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.orderStatus {
+    margin-left: auto;
+}
+
+.orderItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.target {
+    border: 1px solid green;
+}

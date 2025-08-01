@@ -32,3 +32,7 @@
     cursor: pointer;
     min-width: 50%;
 }
+
+.inOrders {
+    margin-top: 20px;
+}
