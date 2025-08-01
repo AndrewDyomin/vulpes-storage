@@ -19,6 +19,7 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { OrdersByArticle } from '../OrdersByArticle/OrdersByArticle';
 
 export const ReceiveProducts = () => {
   const { t } = useTranslation();
@@ -296,6 +297,9 @@ export const ReceiveProducts = () => {
                     <button className={css.countAddBtn} onClick={addItemToList}>
                       {t('add')}
                     </button>
+                  </div>
+                  <div className={css.inOrders}>
+                    <OrdersByArticle />
                   </div>
                 </div>
               ) : activeItem === null ? (

@@ -23,41 +23,40 @@ export const OrdersByArticle = () => {
     }
   }, [activeItem]);
 
-const articlesToList = (list) => {
-  return (
-    <ul>
-      {list.map((art) => (
-        <li key={art.article} className={css.orderItem}>
-          <p
-            className={
-              art.article === activeItem.article
-                ? `${css.target} ${css.parent}`
-                : css.parent
-            }
-          >
-            {art.article}
-          </p>
-
-          <span>
-            (
-            {art.set.length > 0 &&
-              art.set.map((sku, index) => (
-                <span
-                  key={sku}
-                  className={sku === activeItem.article ? css.target : css.skuCild}
-                >
-                  {sku}
-                  {index < art.set.length - 1 && ", "}
-                </span>
-              ))}
-            )
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
-};
-
+  const articlesToList = list => {
+    return (
+      <ul>
+        {list.map(art => (
+          <li key={art.article} className={css.orderItem}>
+            <p
+              className={
+                art.article === activeItem.article
+                  ? `${css.target} ${css.parent}`
+                  : css.parent
+              }
+            >
+              {art.article}
+            </p>
+            {art.set.length > 0 && (
+              <span>{'('}
+                {art.set.map((sku, index) => (
+                  <span
+                    key={sku}
+                    className={
+                      sku === activeItem.article ? css.target : css.skuCild
+                    }
+                  >
+                    {sku}
+                    {index < art.set.length - 1 && ', '}
+                  </span>
+                ))}{')'}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   console.log(ordersWithArticle);
 
@@ -77,7 +76,7 @@ const articlesToList = (list) => {
           ))}
         </ul>
       ) : (
-        <p>not found</p>
+        <p>{t('not found')}</p>
       )}
     </>
   );

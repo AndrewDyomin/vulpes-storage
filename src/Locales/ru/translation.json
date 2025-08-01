@@ -118,5 +118,7 @@
   "articles list": "Список артикулов",
   "download availability table": "Скачать таблицу наличия товаров",
   "actions": "Действия",
-  "users": "Пользователи"
+  "users": "Пользователи",
+  "in orders": "В заказах",
+  "not found": "Не найдено"
 }

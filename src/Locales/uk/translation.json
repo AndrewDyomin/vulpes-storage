@@ -118,5 +118,7 @@
   "articles list": "Список артикулів",
   "download availability table": "Завантажити таблицю наявності товарів",
   "actions": "Дії",
-  "users": "Користувачі"
+  "users": "Користувачі",
+  "in orders": "У замовленнях",
+  "not found": "Не знайдено"
 }
