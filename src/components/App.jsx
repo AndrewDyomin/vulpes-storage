@@ -22,6 +22,7 @@ const ReceiveProductsDetailsPage = lazy(() => import('../pages/ReceiveProductsDe
 const AutomaticActionsPage = lazy(() => import('../pages/AutomaticActions'));
 const UsersPage = lazy(() => import('../pages/Users'));
 const AllOrdersPage = lazy(() => import('../pages/AllOrders'));
+const StatisticsPage = lazy(() => import('../pages/Statistic'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -129,6 +130,15 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<AllOrdersPage />}
+              />
+            }
+          />
+          <Route
+            path="/statistic/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<StatisticsPage />}
               />
             }
           />

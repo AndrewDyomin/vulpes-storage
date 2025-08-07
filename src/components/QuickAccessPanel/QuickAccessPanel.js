@@ -9,6 +9,7 @@ import AddHomeWorkOutlinedIcon from '@mui/icons-material/AddHomeWorkOutlined';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
+import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import { useTranslation } from 'react-i18next';
 
 export const QuickAccessPanel = () => {
@@ -78,6 +79,15 @@ export const QuickAccessPanel = () => {
                     <ReceiptOutlinedIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>{t('orders')}</p>
+            </div>
+        </Link>)}
+        {user.role === 'owner' && (
+        <Link to="/statistic" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <InsertChartOutlinedIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('statistic')}</p>
             </div>
         </Link>)}
     </div>
