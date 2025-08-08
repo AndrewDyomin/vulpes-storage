@@ -119,5 +119,8 @@
   "actions": "Actions",
   "users": "Users",
   "in orders": "In orders",
-  "not found": "Not found"
+  "not found": "Not found",
+  "statistic": "Statistic",
+  "from": "From",
+  "to": "To"
 }

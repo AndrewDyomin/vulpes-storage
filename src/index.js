@@ -50,8 +50,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter basename="/vulpes-storage">
-        {/* <BrowserRouter > */}
+        {/* <BrowserRouter basename="/vulpes-storage"> */}
+        <BrowserRouter >
           <I18nextProvider i18n={i18n}>
             <App />
           </I18nextProvider>

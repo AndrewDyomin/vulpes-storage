@@ -1,4 +1,4 @@
-import { RoiStat } from '../components/RoiStat/RoiStat';
+import { RoasStat } from '../components/RoasStat/RoasStat';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
   
   export default function Shipping() {
@@ -9,7 +9,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
         <Helmet>
           <title>Statistic</title>
         </Helmet>
-        <RoiStat />
+        <RoasStat />
       </div>
     </HelmetProvider>
     );

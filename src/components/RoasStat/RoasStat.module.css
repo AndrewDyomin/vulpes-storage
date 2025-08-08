@@ -1,0 +1,85 @@
+.campaignList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.campaignStatArea {
+    display: flex;
+    height: 100px;
+    min-width: 100%;
+    border: 1px solid #000;
+    border-radius: 10px;
+    gap: 3px;
+    padding: 5px;
+    align-items: flex-end;
+    position: relative;
+}
+
+.weekRoas {
+    width: 100%;
+    background-color: blueviolet;
+    border-radius: 7px;
+    max-height: 100%;
+    min-height: 2px;
+    position: relative;
+}
+
+.active {
+    background-color: rgb(199, 151, 243);
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  color: white;
+  padding: 4px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+.activeTooltip {
+    font-size: small;
+    position: absolute;
+    top: 0;
+    left: 40%;
+    transform: translateX(-50%);
+    background: #fff;
+}
+
+.roasValue {
+    position: absolute;
+    top: -15px;
+    right: 15px;
+    font-size: x-large;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+.green {
+    color: green;
+}
+
+.yellow {
+    color: orange;
+}
+
+.red {
+    color: red;
+}
+
+.dateFilter {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter {
+    min-width: 30%;
+}
