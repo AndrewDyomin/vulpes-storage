@@ -8,6 +8,7 @@ import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
 import { selectActiveProduct } from '../../redux/products/selectors';
 import { selectAllInventoryChecks, selectLoading } from '../../redux/inventory/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
+import { setDraft } from '../../redux/inventory/slice';
 import { addInventoryCheck, getAllInventoryChecks } from '../../redux/inventory/operations';
 import { selectUser } from '../../redux/auth/selectors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,6 +25,7 @@ export const InventoryCheckList = () => {
   const user = useSelector(selectUser);
   const isLoading = useSelector(selectLoading);
   const allChecks = useSelector(selectAllInventoryChecks);
+  const draft = useSelector(state => state.inventory.draft);
   const scannerRef = useRef();
   const [addMode, setAddMode] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
@@ -34,6 +36,7 @@ export const InventoryCheckList = () => {
   const [addItemsList, setAddItemsList] = useState([]);
   const [article, setArticle] = useState();
   const [addArticleModal, setAddArticleModal] = useState();
+  const [draftLoaded, setDraftLoaded] = useState(false);
 
   const changeMode = (mode) => {
     if (mode === 'add') {
@@ -66,10 +69,12 @@ export const InventoryCheckList = () => {
   };
 
   const addItemToList = () => {
-    setAddItemsList(prevState => [
-      ...prevState,
+    const newList = [
+      ...addItemsList,
       { article: !article ? activeItem.article : article, count },
-    ]);
+    ];
+    setAddItemsList(newList);
+    dispatch(setDraft({ name: listDate(), items: newList }));
     closeModal();
     setArticle();
     setCount();
@@ -98,10 +103,10 @@ export const InventoryCheckList = () => {
     return finalName;
   };
 
-  const saveList = () => {
+  const saveList = async() => {
     const check = { name: listDate(), items: addItemsList };
     try {
-      dispatch(addInventoryCheck(check));
+      await dispatch(addInventoryCheck(check));
       setAddMode(false);
       setAddItemsList([]);
     } catch (err) {
@@ -133,6 +138,14 @@ export const InventoryCheckList = () => {
       dispatch(getAllInventoryChecks());
     }
   }, [addMode, dispatch]);
+
+  useEffect(() => {
+    if (!draftLoaded && draft) {
+      setAddMode(true);
+      setAddItemsList(draft.items || []);
+      setDraftLoaded(true);
+    }
+  }, [draft, draftLoaded]);
 
   return (
     <>

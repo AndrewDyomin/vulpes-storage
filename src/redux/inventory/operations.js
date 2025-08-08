@@ -30,7 +30,7 @@ export const addInventoryCheck = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await axios.post('/inventory-check/add', { ...data });
-      return JSON.parse(res.data);
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

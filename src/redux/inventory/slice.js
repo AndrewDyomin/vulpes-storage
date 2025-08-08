@@ -19,8 +19,17 @@ const InventoryCheckSlice = createSlice({
   initialState: {
     items: [],
     activeItem: {},
+    draft: null,
     isLoading: false,
     error: null,
+  },
+  reducers: {
+    setDraft(state, action) {
+      state.draft = action.payload;
+    },
+    clearDraft(state) {
+      state.draft = null;
+    },
   },
   extraReducers: builder => {
     builder
@@ -42,9 +51,11 @@ const InventoryCheckSlice = createSlice({
       .addCase(addInventoryCheck.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
+        state.draft = null;
       })
       .addCase(addInventoryCheck.rejected, handleRejected);
   },
 });
 
+export const { setDraft, clearDraft } = InventoryCheckSlice.actions;
 export const inventoryCheckReducer = InventoryCheckSlice.reducer;

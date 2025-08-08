@@ -13,6 +13,7 @@ import {
 import { clearActiveProduct } from '../../redux/products/slice';
 import { selectUser } from '../../redux/auth/selectors';
 import { addReceive, getAllReceives } from '../../redux/receives/operations';
+import { setDraft } from '../../redux/receives/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { PopUp } from '../PopUp/PopUp';
 import toast from 'react-hot-toast';
@@ -28,6 +29,7 @@ export const ReceiveProducts = () => {
   const user = useSelector(selectUser);
   const isLoading = useSelector(selectLoading);
   const allReceives = useSelector(selectAllReceives);
+  const draft = useSelector(state => state.receive.draft);
   const scannerRef = useRef();
   const [addMode, setAddMode] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
@@ -38,6 +40,7 @@ export const ReceiveProducts = () => {
   const [addItemsList, setAddItemsList] = useState([]);
   const [article, setArticle] = useState();
   const [addArticleModal, setAddArticleModal] = useState();
+  const [draftLoaded, setDraftLoaded] = useState(false);
 
   const changeMode = mode => {
     if (mode === 'add') {
@@ -72,10 +75,12 @@ export const ReceiveProducts = () => {
   };
 
   const addItemToList = () => {
-    setAddItemsList(prevState => [
-      ...prevState,
+    const newList = [
+      ...addItemsList,
       { article: !article ? activeItem.article : article, count },
-    ]);
+    ];
+    setAddItemsList(newList);
+    dispatch(setDraft({ name: listDate(), items: newList }));
     closeModal();
     setArticle();
     setCount();
@@ -104,10 +109,10 @@ export const ReceiveProducts = () => {
     return finalName;
   };
 
-  const saveList = () => {
+  const saveList = async () => {
     const check = { name: listDate(), items: addItemsList };
     try {
-      dispatch(addReceive(check));
+      await dispatch(addReceive(check));
       setAddMode(false);
       setAddItemsList([]);
     } catch (err) {
@@ -139,6 +144,14 @@ export const ReceiveProducts = () => {
       dispatch(getAllReceives());
     }
   }, [addMode, dispatch]);
+
+  useEffect(() => {
+    if (!draftLoaded && draft) {
+      setAddMode(true);
+      setAddItemsList(draft.items || []);
+      setDraftLoaded(true);
+    }
+  }, [draft, draftLoaded]);
 
   return (
     <>

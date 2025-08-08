@@ -30,7 +30,8 @@ export const addReceive = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await axios.post('/receive-products/add', { ...data });
-      return JSON.parse(res.data);
+      console.log(res.data)
+      return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

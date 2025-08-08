@@ -19,8 +19,17 @@ const ReceiveSlice = createSlice({
   initialState: {
     items: [],
     activeItem: {},
+    draft: null,
     isLoading: false,
     error: null,
+  },
+  reducers: {
+    setDraft(state, action) {
+      state.draft = action.payload;
+    },
+    clearDraft(state) {
+      state.draft = null;
+    },
   },
   extraReducers: builder => {
     builder
@@ -41,10 +50,12 @@ const ReceiveSlice = createSlice({
       .addCase(addReceive.pending, handlePending)
       .addCase(addReceive.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.draft = null;
         state.error = null;
       })
       .addCase(addReceive.rejected, handleRejected);
   },
 });
 
+export const { setDraft, clearDraft } = ReceiveSlice.actions;
 export const receivesReducer = ReceiveSlice.reducer;

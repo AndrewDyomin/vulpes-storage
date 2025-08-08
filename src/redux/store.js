@@ -33,13 +33,13 @@ const productsPersistConfig = {
 const inventoryCheckPersistConfig = {
   key: 'inventory',
   storage,
-  whitelist: ['activeItem'],
+  whitelist: ['activeItem', 'draft'],
 }
 
 const receiveProductsPersistConfig = {
   key: 'receive',
   storage,
-  whitelist: ['activeItem'],
+  whitelist: ['activeItem', 'draft'],
 }
 
 const ordersPersistConfig = {
