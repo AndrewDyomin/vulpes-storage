@@ -122,5 +122,8 @@
   "not found": "Not found",
   "statistic": "Statistic",
   "from": "From",
-  "to": "To"
+  "to": "To",
+  "total roas": "Total ROAS",
+  "total ad cash": "Total ad cash",
+  "total ad cost": "Total ad cost"
 }

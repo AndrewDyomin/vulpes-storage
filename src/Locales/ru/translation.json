@@ -123,5 +123,8 @@
   "not found": "Не найдено",
   "statistic": "Статистика",
   "from": "От",
-  "to": "До"
+  "to": "До",
+  "total roas": "Общий ROAS",
+  "total ad cash": "Общий доход от рекламы",
+  "total ad cost": "Общие затраты на рекламу"
 }
