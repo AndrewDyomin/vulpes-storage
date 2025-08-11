@@ -61,6 +61,11 @@
     background-color: #fff;
 }
 
+.totalRoasValue {
+    font-size: x-large;
+    font-weight: bold;
+}
+
 .green {
     color: green;
 }
@@ -82,4 +87,8 @@
 
 .filter {
     min-width: 30%;
+}
+
+.totalValues {
+    margin-top: 15px;
 }

@@ -15,6 +15,7 @@ export const RoasStat = () => {
   const [weekStart, setWeekStart] = useState([]);
   const [weekEnd, setWeekEnd] = useState([]);
   const [activeTooltip, setActiveTooltip] = useState(null);
+  const [totalRoas, setTotalRoas] = useState({totalCash: 0, totalCost: 0, totalRoas: 0});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -131,6 +132,56 @@ export const RoasStat = () => {
     );
   };
 
+  useEffect(() => {
+  if (campaignsInfo.length === 0) return;
+
+  if (!filter.from || !filter.to) {
+    let cash = 0;
+    let cost = 0;
+
+    for (const campaign of campaignsInfo) {
+      for (const week of campaign) {
+        cash += week.cash;
+        cost += week.cost;
+      }
+    }
+    const roas = cost > 0 ? cash / cost : 0;
+
+    setTotalRoas({
+      totalCash: Number(cash.toFixed(2)),
+      totalCost: Number(cost.toFixed(2)),
+      totalRoas: Number(roas.toFixed(2)),
+    });
+    return;
+  }
+
+  const fromDate = new Date(filter.from);
+  const toDate = new Date(filter.to);
+
+  let filteredCash = 0;
+  let filteredCost = 0;
+
+  for (const campaign of campaignsInfo) {
+    for (const week of campaign) {
+      const startDate = new Date(week.startDate);
+      const endDate = new Date(week.endDate);
+
+      if (startDate >= fromDate && endDate <= toDate) {
+        filteredCash += week.cash;
+        filteredCost += week.cost;
+      }
+    }
+  }
+
+  const filteredRoas = filteredCost > 0 ? filteredCash / filteredCost : 0;
+
+  setTotalRoas({
+    totalCash: Number(filteredCash.toFixed(2)),
+    totalCost: Number(filteredCost.toFixed(2)),
+    totalRoas: Number(filteredRoas.toFixed(2)),
+  });
+}, [filter, campaignsInfo]);
+
   return (
     <>
       <h2>ROAS</h2>
@@ -163,6 +214,11 @@ export const RoasStat = () => {
               </li>
             ))}
         </ul>
+      </div>
+      <div className={css.totalValues}>
+        <p>{t('total roas')}: <span className={`${css.totalRoasValue} ${totalRoas.totalRoas === 5 ? css.yellow : totalRoas.totalRoas < 5 ? css.red : css.green}`}>{totalRoas.totalRoas}грн.</span></p>
+        <p>{t('total ad cash')}: {totalRoas.totalCash}грн.</p>
+        <p>{t('total ad cost')}: {totalRoas.totalCost}грн.</p>
       </div>
     </>
   );
