@@ -62,6 +62,8 @@ export const AllOrders = () => {
     setActiveOrder(null)
   }
 
+  console.log(activeOrder)
+
   return (
     <div className={css.container}>
       <div className={css.wrapper}>
@@ -112,7 +114,6 @@ export const AllOrders = () => {
           <p>{t('adress')}: {activeOrder?.ord_delivery_data[0]?.cityName}, {activeOrder?.ord_delivery_data[0]?.address}</p>
           <p>{t('phone')}: +{activeOrder?.contacts[0]?.phone[0]}</p>
           <p>{t('rest pay')}: {activeOrder?.restPay}грн.</p>
-          <p>{activeOrder?.ord_delivery_data[0]?.payer === "Recipient" ? "*Доставку оплачивает получатель." : "*Доставку оплачивает отправитель."}</p>
         </div>}
       />
     </div>
