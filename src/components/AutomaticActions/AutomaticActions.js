@@ -50,6 +50,16 @@ export const AutomaticActions = () => {
     }
   };
 
+  const updatePromTableHandler = async () => {
+    setIsPending(true);
+    toast.success("Это может занять несколько минут");
+    await axios
+      .post('/products/update-prom-base')
+      .then(response => toast.success(t(response.data.message)))
+      .catch(response => toast.error(t(response.data.message)));
+    setIsPending(false);
+  }
+
   return (
     <>
       <div className={css.buttonsArea}>
@@ -70,6 +80,16 @@ export const AutomaticActions = () => {
             <>
               <BackupTableOutlinedIcon />
               <p>{t('create table for broker')}</p>
+            </>
+          )}
+        </div>
+        <div className={css.button} onClick={updatePromTableHandler}>
+          {isPending ? (
+            <ClockLoader color="#c04545" />
+          ) : (
+            <>
+              <BackupTableOutlinedIcon />
+              <p>{t('update prom table')}</p>
             </>
           )}
         </div>
