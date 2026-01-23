@@ -41,11 +41,12 @@ export const ListOfProducts = ({ products }) => {
     fetchSetItems();
   }, [products]);
 
+  console.log(resolvedProducts)
   return (
     <ul className={css.productsList}>
       {resolvedProducts.map((sku, index) => (
         <li key={`${sku}-${index}`}>
-          <p>{sku};</p>
+          <p>{sku.sku} - {sku.count}шт.;</p>
         </li>
       ))}
     </ul>
