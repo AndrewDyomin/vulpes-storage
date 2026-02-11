@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  text-align: center;
+}
+
+.cell {
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
+}
+
+.skuSell {
+  cursor: pointer;
+}
+
+.loaderCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bestandBtn {
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  padding: 3px 10px;
+  font-weight: 700;
+}
+
+.buttonsArea {
+  margin-top: 20px;
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.btn {
+  background-color: transparent;
+  color: #c04545;
+  border: 3px solid #c04545;
+  border-radius: 30px;
+  padding: 5px 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.greenBtn {
+  color: #3f8e3a;
+  border-color: #3f8e3a;
+}
+
+.btn:hover {
+  background-color: #c04545;
+  color: #fff;
+}
+
+.greenBtn:hover {
+  background-color: #3f8e3a;
+}
+
+@media screen and (max-width: 520px) {
+    .table {
+        font-size: 12px; 
+    }
+}

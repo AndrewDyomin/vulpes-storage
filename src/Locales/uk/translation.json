@@ -127,5 +127,18 @@
   "total roas": "Загальний ROAS",
   "total ad cash": "Загальний прибуток від реклами",
   "total ad cost": "Загальні витрати на рекламу",
-  "update prom table": "Оновити таблицю Прома"
+  "update prom table": "Оновити таблицю Прома",
+  "send order to": "Замовити в",
+  "order template": "Шаблон замовлення",
+  "sending orders": "Відправка замовлень...",
+  "statuses changed": "Статуси змінені.",
+  "statuses not changed, try again for a minute": "Статуси не змінені, спробуйте знову через хвилину!",
+  "sku copied": "SKU скопійовано!",
+  "reload": "Перезавантажити",
+  "change status": "Змінити статуси",
+  "cancel status": "Скасувати статуси",
+  "recalc": "Перерахувати",
+  "recalc orders": "Перерахунок замовлень...",
+  "orders recalculated": "Замовлення перераховані.",
+  "error, try again for a minute": "Помилка, спробуйте ще раз за хвилину!"
 }

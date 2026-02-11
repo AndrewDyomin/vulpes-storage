@@ -11,6 +11,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import { useTranslation } from 'react-i18next';
+import moteaLogo from '../../images/motea_logo_no_claim.png'
 
 export const QuickAccessPanel = () => {
   const user = useSelector(selectUser);
@@ -52,6 +53,15 @@ export const QuickAccessPanel = () => {
                     <AddHomeWorkOutlinedIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>{t('get in')} MOTEA</p>
+            </div>
+        </Link>)}
+        {user.role === 'owner' && (
+        <Link to="/send-order-to-motea" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <img src={moteaLogo} alt='motea logo' className={css.moteaIcon}/>
+                </div>
+                <p className={css.linkCardTitle}>{t('send order to')} MOTEA</p>
             </div>
         </Link>)}
         {(user.role === 'owner') && (

@@ -23,6 +23,7 @@ const AutomaticActionsPage = lazy(() => import('../pages/AutomaticActions'));
 const UsersPage = lazy(() => import('../pages/Users'));
 const AllOrdersPage = lazy(() => import('../pages/AllOrders'));
 const StatisticsPage = lazy(() => import('../pages/Statistic'));
+const SendOrderToMotea = lazy(() => import('../pages/SendOrderToMotea'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -139,6 +140,15 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<StatisticsPage />}
+              />
+            }
+          />
+          <Route
+            path="/send-order-to-motea/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<SendOrderToMotea />}
               />
             }
           />

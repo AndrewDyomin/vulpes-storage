@@ -126,5 +126,18 @@
   "total roas": "Total ROAS",
   "total ad cash": "Total ad cash",
   "total ad cost": "Total ad cost",
-  "update prom table": "Update Prom table"
+  "update prom table": "Update Prom table",
+  "send order to": "Send an order to",
+  "order template": "Order template",
+  "sending orders": "Sending orders...",
+  "statuses changed": "Statuses changed.",
+  "statuses not changed, try again for a minute": "Statuses not changed, try again for a minute!",
+  "sku copied": "SKU copied!",
+  "reload": "Reload",
+  "change status": "Change status",
+  "cancel status": "Cancel status",
+  "recalc": "Recalculate",
+  "recalc orders": "Recalculating orders...",
+  "orders recalculated": "Orders recalculated.",
+  "error, try again for a minute": "Error, try again for a minute!"
 }
