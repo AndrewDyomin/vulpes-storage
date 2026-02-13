@@ -41,7 +41,6 @@ export const ListOfProducts = ({ products }) => {
     fetchSetItems();
   }, [products]);
 
-  console.log(resolvedProducts)
   return (
     <ul className={css.productsList}>
       {resolvedProducts.map((sku, index) => (

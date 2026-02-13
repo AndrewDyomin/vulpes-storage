@@ -1,0 +1,20 @@
+import { PuigApiHome } from 'components/PuigApi/PuigApi';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+
+
+export default function PuigApi() {
+
+  return (
+    <HelmetProvider>
+      <div>
+        <Helmet>
+          <title>Puig API</title>
+        </Helmet>
+        <div>
+          <p>Эта страница сейчас в разработке</p>
+          <PuigApiHome />
+        </div>
+      </div>
+    </HelmetProvider>
+  );
+}

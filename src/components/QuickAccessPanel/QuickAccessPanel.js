@@ -11,7 +11,8 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import { useTranslation } from 'react-i18next';
-import moteaLogo from '../../images/motea_logo_no_claim.png'
+import moteaLogo from '../../images/motea_logo_no_claim.png';
+import puigLogo from '../../images/puig.png'
 
 export const QuickAccessPanel = () => {
   const user = useSelector(selectUser);
@@ -62,6 +63,15 @@ export const QuickAccessPanel = () => {
                     <img src={moteaLogo} alt='motea logo' className={css.moteaIcon}/>
                 </div>
                 <p className={css.linkCardTitle}>{t('send order to')} MOTEA</p>
+            </div>
+        </Link>)}
+        {user.role === 'owner' && (
+        <Link to="/puig-api" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <img src={puigLogo} alt='puig logo' className={css.moteaIcon}/>
+                </div>
+                <p className={css.linkCardTitle}>Puig API</p>
             </div>
         </Link>)}
         {(user.role === 'owner') && (

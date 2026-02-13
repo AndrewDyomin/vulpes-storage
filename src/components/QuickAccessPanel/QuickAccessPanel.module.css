@@ -27,6 +27,31 @@
     text-align: center;
 }
 
+.iconArea {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .moteaIcon {
     max-height: 39px;
+    max-width: 190px;
+}
+
+@media screen and (max-width: 450px) {
+    .moteaIcon {
+        max-width: 100px;
+    }
+}
+
+@media screen and (min-width: 780px) {
+    .container {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .container {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }
