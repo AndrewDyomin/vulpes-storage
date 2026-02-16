@@ -25,6 +25,8 @@ const AllOrdersPage = lazy(() => import('../pages/AllOrders'));
 const StatisticsPage = lazy(() => import('../pages/Statistic'));
 const SendOrderToMotea = lazy(() => import('../pages/SendOrderToMotea'));
 const PuigApi = lazy(() => import('../pages/PuigApi'));
+const PuigCategoryPage = lazy(() => import('../pages/PuigCategory'));
+const PuigProductPage = lazy(() => import('../pages/PuigProduct'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -159,6 +161,24 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<PuigApi />}
+              />
+            }
+          />
+          <Route
+            path="/puig-api/category/:categoryId"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<PuigCategoryPage />}
+              />
+            }
+          />
+          <Route
+            path="/puig-api/product/:productId"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<PuigProductPage />}
               />
             }
           />

@@ -1,0 +1,80 @@
+.categoryInfo {
+  display: flex;
+}
+
+.editBtn {
+  margin-left: auto;
+  border: none;
+  background-color: transparent;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.modalLabel {
+  margin-top: 15px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.modalInput {
+  margin-left: auto;
+  padding: 3px 5px;
+}
+
+.modalButton {
+  margin-top: 20px;
+  background-color: transparent;
+  color: #c04545;
+  border: 3px solid #c04545;
+  border-radius: 30px;
+  padding: 5px 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.modalButton:hover {
+  background-color: #c04545;
+  color: #fff;
+}
+
+.productsList {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.productCard {
+    position: relative;
+    border: 2px solid #505050;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    text-decoration: none;
+    color: #333333;
+    font-weight: 700;
+    overflow: hidden;
+}
+
+.productImage {
+    min-height: 50px;
+    width: 100%;
+    display: flex;
+    margin: auto;
+}
+
+.productName {
+    position: absolute;
+    bottom: 0;
+    background-color: #ffffffd4;
+    width: 100%;
+    padding-bottom: 5px;
+}
