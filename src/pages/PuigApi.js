@@ -11,7 +11,6 @@ export default function PuigApi() {
           <title>Puig API</title>
         </Helmet>
         <div>
-          <p>Эта страница сейчас в разработке</p>
           <PuigApiHome />
         </div>
       </div>

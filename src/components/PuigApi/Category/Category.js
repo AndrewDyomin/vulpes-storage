@@ -35,12 +35,36 @@ export const CategoryInfo = ({ id }) => {
 
   const name =
     currentLang === 'uk'
-      ? category?.title_uk
+      ? category?.titleUk
       : currentLang === 'ru'
-        ? category?.title_ru
+        ? category?.titleRu
         : category?.title;
 
+  const title = category?.title;
+  const titleRu = category?.titleRu;
+  const titleUk = category?.titleUk;
+
   const finalName = name || `{${category?.title}*}`;
+
+  async function translate(string) {
+    const response = await axios.post('/puig-api/translate', { string });
+    return response.data;
+  }
+
+  useEffect(() => {
+    if (!category || !editModal) return;
+
+    const needsTitleTranslate = title && (titleRu === '' || titleUk === '');
+
+    if (!needsTitleTranslate) return;
+
+    const run = async () => {
+      const titleTr = await translate(title);
+      setCategory(prev => ({ ...prev, titleRu: titleTr[0], titleUk: titleTr[1] }))
+    }
+
+    run();
+  }, [category, title, titleRu, titleUk, editModal])
 
   async function saveCategoryChanges() {
     try {
@@ -65,7 +89,13 @@ export const CategoryInfo = ({ id }) => {
           <li key={p.id}>
             <Link to={`/puig-api/product/${p.id}`} className={css.productCard}>
               <img src={!p?.images || p.images?.length < 1 ? puigLogo : p.images[0]} alt='' className={css.productImage}/>
-              <p className={css.productName}>{p.title}</p>
+              <p className={css.productName}>
+                {currentLang === 'uk' && p?.titleUk !== ''
+                ? p?.titleUk
+                : currentLang === 'ru' && p?.titleRu !== ''
+                  ? p?.titleRu
+                  : p?.title}
+              </p>
             </Link>
           </li>
         ))}
@@ -82,7 +112,7 @@ export const CategoryInfo = ({ id }) => {
                   en
                   <input
                     className={css.modalInput}
-                    defaultValue={category?.title}
+                    value={category?.title}
                     disabled
                   />
                 </label>
@@ -90,11 +120,11 @@ export const CategoryInfo = ({ id }) => {
                   ru
                   <input
                     className={css.modalInput}
-                    defaultValue={category?.title_ru}
+                    value={category?.titleRu}
                     onChange={e =>
                       setCategory(prev => ({
                         ...prev,
-                        title_ru: e.target.value,
+                        titleRu: e.target.value,
                       }))
                     }
                   />
@@ -103,11 +133,11 @@ export const CategoryInfo = ({ id }) => {
                   uk
                   <input
                     className={css.modalInput}
-                    defaultValue={category?.title_uk}
+                    value={category?.titleUk}
                     onChange={e =>
                       setCategory(prev => ({
                         ...prev,
-                        title_uk: e.target.value,
+                        titleUk: e.target.value,
                       }))
                     }
                   />

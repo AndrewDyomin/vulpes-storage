@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 export const PuigApiHome = () => {
   const [categ, setCateg] = useState([]);
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const currentLang = i18n.language;
 
   useEffect(() => {
@@ -25,9 +25,9 @@ export const PuigApiHome = () => {
   function getName(category) {
     const name =
     currentLang === "uk"
-      ? category?.title_uk
+      ? category?.titleUk
       : currentLang === "ru"
-      ? category?.title_ru
+      ? category?.titleRu
       : category?.title;
 
     const finalName = name || `{${category?.title}*}`;
