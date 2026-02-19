@@ -7,6 +7,11 @@
   left: -120%;
 }
 
+.startLoader {
+  display: flex;
+  margin: auto auto;
+}
+
 .paperCard {
   padding: 10px;
   display: flex;

@@ -23,7 +23,7 @@ export const CategoryInfo = ({ id }) => {
     }
     async function getProducts() {
       const catInfo = await axios.get(`/puig-api/products-by-category/${id}`);
-      setProductsArray(catInfo.data);
+      setProductsArray(() => (catInfo?.data && catInfo?.data.length > 0 ? catInfo.data : [{}]));
     }
     if (!category) {
       getCategory();
@@ -84,6 +84,7 @@ export const CategoryInfo = ({ id }) => {
           <MoreHorizIcon fontSize="large" />
         </button>
       </div>
+      {productsArray.length > 0 && productsArray[0]?.id ? 
       <ul className={css.productsList}>
         {productsArray.map(p => (
           <li key={p.id}>
@@ -100,6 +101,7 @@ export const CategoryInfo = ({ id }) => {
           </li>
         ))}
       </ul>
+      : <p>No products</p>}
       <div>
         <PopUp
           isOpen={editModal}

@@ -23,6 +23,7 @@ export const ProductInfo = ({ id }) => {
     },
   });
   const [saving, setSaving] = useState(true);
+  const [pending, setPending] = useState(true);
 
   const title = product?.title;
   const titleRu = product?.titleRu;
@@ -40,6 +41,7 @@ export const ProductInfo = ({ id }) => {
     async function getProduct() {
       const response = await axios.get(`/puig-api/product-by-id/${id}`);
       setProduct(response.data);
+      setPending(false);
     }
 
     getProduct();
@@ -146,6 +148,9 @@ export const ProductInfo = ({ id }) => {
 
   return (
     <>
+      {pending &&
+      <ClockLoader size={50} color="#c04545" className={css.startLoader} />
+      }
       {product && (
         <div>
           <div className={css.topArea}>
