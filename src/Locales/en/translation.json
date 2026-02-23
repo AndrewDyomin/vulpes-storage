@@ -139,5 +139,7 @@
   "recalc": "Recalculate",
   "recalc orders": "Recalculating orders...",
   "orders recalculated": "Orders recalculated.",
-  "error, try again for a minute": "Error, try again for a minute!"
+  "error, try again for a minute": "Error, try again for a minute!",
+  "categories": "Categories",
+  "invoices": "Invoices"
 }

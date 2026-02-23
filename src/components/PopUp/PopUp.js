@@ -15,6 +15,7 @@ export const PopUp = ({ isOpen, close, body }) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            zIndex: 2,
         },
         content: {
             position: 'relative',

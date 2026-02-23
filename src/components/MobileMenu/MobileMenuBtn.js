@@ -24,6 +24,7 @@ export const MobileMenuBtn = () => {
         overlay: { 
             backgroundColor: 'rgba(9, 9, 9, 0.75)',
             position: 'fixed',
+            zIndex: 2,
         },
         content: {
           top: '60px',

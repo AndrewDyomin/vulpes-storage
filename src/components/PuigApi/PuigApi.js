@@ -6,10 +6,14 @@ import puigLogo from '../../images/puig.png'
 import css from './PuigApi.module.css'
 import { Link } from 'react-router-dom';
 import { Paper, Tabs, Tab, Box } from '@mui/material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { PopUp } from 'components/PopUp/PopUp';
+import toast from 'react-hot-toast';
 
 export const PuigApiHome = () => {
   const [categ, setCateg] = useState([]);
   const [tab, setTab] = useState(0); 
+  const [catMenuOpen, setCatMenuOpen] = useState(false);
   const { i18n, t } = useTranslation();
   const currentLang = i18n.language;
 
@@ -36,6 +40,13 @@ export const PuigApiHome = () => {
     return finalName;
   }
 
+  async function startCheckUpdates() {
+    setCatMenuOpen(false);
+    const response = await axios.get('/puig-api/check-articles-updates')
+    
+    return response.data
+  }
+
   return (
     <>
       <div className={css.heroArea}>
@@ -60,7 +71,6 @@ export const PuigApiHome = () => {
               width: '100%',
               height: '2px',
               backgroundColor: '#8f8f8f',
-              zIndex: 0,
             },
 
             '& .MuiTab-root': {
@@ -72,17 +82,16 @@ export const PuigApiHome = () => {
               border: '1px solid #8f8f8f',
               borderBottomWidth: '2px',
               position: 'relative',
-              zIndex: 1,
               transition: 'transform 0.25s ease, background-color 0.2s ease',
             },
 
             '& .Mui-selected': {
               backgroundColor: '#fff',
               fontWeight: 600,
-              color: '#626262',
+              color: '#818181',
               transform: 'translateY(5px)',
               borderBottom: 'none',
-              zIndex: 2,
+              zIndex: 1,
             },
 
             '& .MuiTabs-indicator': {
@@ -90,9 +99,9 @@ export const PuigApiHome = () => {
             },
           }}
         >
-          <Tab label={t("Categories")} />
-          <Tab label="Orders" />
-          <Tab label="Invoices" />
+          <Tab label={t("categories")} />
+          <Tab label={t("orders")} />
+          <Tab label={t("invoices")} />
         </Tabs>
 
         <Box
@@ -112,19 +121,34 @@ export const PuigApiHome = () => {
           }}
         >
           {tab === 0 && 
-            <ul className={css.categoriesList}>
-              {categ.map(i => (
-                <li key={i.id}>
-                  <Link
-                    to={`category/${i.id}`}
-                    className={css.categoryCard}
-                  >
-                    <img src={!i.image || i.image === '' ? puigLogo : i.image} alt='category' className={css.categoryImage}/>
-                    <p className={css.categoryName}>{getName(i)}</p>
-                  </Link>
-                </li>
-              ))}
-            </ul>}
+            <div>
+              <button className={css.catMenuBtn} onClick={() => setCatMenuOpen(true)}>
+                <MoreHorizIcon />
+              </button>
+              <ul className={css.categoriesList}>
+                {categ.map(i => (
+                  <li key={i.id}>
+                    <Link
+                      to={`category/${i.id}`}
+                      className={css.categoryCard}
+                    >
+                      <img src={!i.image || i.image === '' ? puigLogo : i.image} alt='category' className={css.categoryImage}/>
+                      <p className={css.categoryName}>{getName(i)}</p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <PopUp 
+                isOpen={catMenuOpen}
+                close={() => setCatMenuOpen(false)}
+                body={
+                  <div className={css.catMenu}>
+                    <button onClick={() => toast.promise(startCheckUpdates(), { loading: 'loading...', success: (data) => data.message, error: 'Error: try again later.' })} className={css.btn}>Update items from Puig</button>
+                    <button className={css.btn}>Download products table</button>
+                  </div>
+                }
+              />
+            </div>}
           {tab === 1 && <div>Orders content</div>}
           {tab === 2 && <div>Invoices content</div>}
         </Box>

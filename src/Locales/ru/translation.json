@@ -140,5 +140,7 @@
   "recalc": "Пересчитать",
   "recalc orders": "Пересчет заказов...",
   "orders recalculated": "Заказы пересчитаны.",
-  "error, try again for a minute": "Ошибка, попробуйте еще раз через минуту!"
+  "error, try again for a minute": "Ошибка, попробуйте еще раз через минуту!",
+  "categories": "Категории",
+  "invoices": "Счета"
 }

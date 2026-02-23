@@ -140,5 +140,7 @@
   "recalc": "Перерахувати",
   "recalc orders": "Перерахунок замовлень...",
   "orders recalculated": "Замовлення перераховані.",
-  "error, try again for a minute": "Помилка, спробуйте ще раз за хвилину!"
+  "error, try again for a minute": "Помилка, спробуйте ще раз за хвилину!",
+  "categories": "Категорії",
+  "invoices": "Рахунки"
 }
