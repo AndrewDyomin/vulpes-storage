@@ -59,8 +59,8 @@ export const ProductInfo = ({ id }) => {
         ...prev,
         title: {
           ru: { ...prev.title.ru, pending: true },
-          uk: { ...prev.title.uk, pending: true }
-        }
+          uk: { ...prev.title.uk, pending: true },
+        },
       }));
 
       const titleTr = await translate(title);
@@ -75,8 +75,8 @@ export const ProductInfo = ({ id }) => {
         ...prev,
         title: {
           ru: { translated: true, pending: false },
-          uk: { translated: true, pending: false }
-        }
+          uk: { translated: true, pending: false },
+        },
       }));
     };
 
@@ -87,7 +87,8 @@ export const ProductInfo = ({ id }) => {
   useEffect(() => {
     if (!description || titleRu === '' || titleUk === '') return;
 
-    const needsToTranslate = description && (descriptionRu === '' || descriptionUk === '');
+    const needsToTranslate =
+      description && (descriptionRu === '' || descriptionUk === '');
 
     if (!needsToTranslate) return;
 
@@ -96,37 +97,41 @@ export const ProductInfo = ({ id }) => {
         ...prev,
         description: {
           ru: { ...prev.description.ru, pending: true },
-          uk: { ...prev.description.uk, pending: true }
-        }
+          uk: { ...prev.description.uk, pending: true },
+        },
       }));
 
       const descriptionTr = await translate(description);
 
       setProduct(prev => ({
         ...prev,
-        descriptionRu: prev.descriptionRu === '' ? descriptionTr[0] : prev.descriptionRu,
-        descriptionUk: prev.descriptionUk === '' ? descriptionTr[1] : prev.descriptionUk,
+        descriptionRu:
+          prev.descriptionRu === '' ? descriptionTr[0] : prev.descriptionRu,
+        descriptionUk:
+          prev.descriptionUk === '' ? descriptionTr[1] : prev.descriptionUk,
       }));
 
       setTranslated(prev => ({
         ...prev,
         description: {
           ru: { translated: true, pending: false },
-          uk: { translated: true, pending: false }
-        }
+          uk: { translated: true, pending: false },
+        },
       }));
     };
 
     run();
-    setSaving(false)
+    setSaving(false);
   }, [titleRu, titleUk, description, descriptionRu, descriptionUk]);
 
-  const fallbackImage = puigLogo;
+  let fallbackImage = product?.images?.[0] || puigLogo;
 
   const imageCandidates = [
     product?.images?.[0],
-    ...(product?.articles?.map(a => a.images?.[0]).filter(Boolean) || []),
+    ...(product?.articles?.map(a => a.images?.[0]) || []),
   ];
+
+  console.log(product?.articles)
 
   const handleImageError = () => {
     if (imageIndex < imageCandidates.length - 1) {
@@ -139,7 +144,9 @@ export const ProductInfo = ({ id }) => {
   async function saveChanges() {
     setSaving(true);
     try {
-      const response = await axios.post('/puig-api/update-product', { ...product });
+      const response = await axios.post('/puig-api/update-product', {
+        ...product,
+      });
       return response;
     } finally {
       setSaving(false);
@@ -148,16 +155,18 @@ export const ProductInfo = ({ id }) => {
 
   return (
     <>
-      {pending &&
-      <ClockLoader size={50} color="#c04545" className={css.startLoader} />
-      }
+      {pending && (
+        <ClockLoader size={50} color="#c04545" className={css.startLoader} />
+      )}
       {product && (
         <div>
           <div className={css.topArea}>
             <div className={css.imageWrapper}>
               <img
                 src={
-                  imageIndex !== null ? imageCandidates[imageIndex] : fallbackImage
+                  imageIndex !== null
+                    ? imageCandidates[imageIndex]
+                    : fallbackImage
                 }
                 alt={product.title}
                 className={css.productImage}
@@ -167,35 +176,51 @@ export const ProductInfo = ({ id }) => {
             </div>
             <div>
               <Paper className={css.paperCard} elevation={10}>
-              <p className={css.paperTitle}>{t('title')}</p>
-              <p>{product.title}</p>
-              <label className={css.paperLabel}>
-                ru:
-                <input
-                  className={translated.title.ru.translated ? `${css.paperInput} ${css.greenBorder}` : css.paperInput}
-                  value={product.titleRu}
-                  onChange={e =>
-                    setProduct(prev => ({ ...prev, titleRu: e.target.value }))
-                  }
-                />
-                {translated.title.ru.pending && (
-                  <ClockLoader size={25} color="#c04545" className={css.loader} />
-                )}
-              </label>
-              <label className={css.paperLabel}>
-                uk:
-                <input
-                  className={translated.title.uk.translated ? `${css.paperInput} ${css.greenBorder}` : css.paperInput}
-                  value={product.titleUk}
-                  onChange={e =>
-                    setProduct(prev => ({ ...prev, titleUk: e.target.value }))
-                  }
-                />
-                {translated.title.uk.pending && (
-                  <ClockLoader size={25} color="#c04545" className={css.loader} />
-                )}
-              </label>
-            </Paper>
+                <p className={css.paperTitle}>{t('title')}</p>
+                <p>{product.title}</p>
+                <label className={css.paperLabel}>
+                  ru:
+                  <input
+                    className={
+                      translated.title.ru.translated
+                        ? `${css.paperInput} ${css.greenBorder}`
+                        : css.paperInput
+                    }
+                    value={product.titleRu}
+                    onChange={e =>
+                      setProduct(prev => ({ ...prev, titleRu: e.target.value }))
+                    }
+                  />
+                  {translated.title.ru.pending && (
+                    <ClockLoader
+                      size={25}
+                      color="#c04545"
+                      className={css.loader}
+                    />
+                  )}
+                </label>
+                <label className={css.paperLabel}>
+                  uk:
+                  <input
+                    className={
+                      translated.title.uk.translated
+                        ? `${css.paperInput} ${css.greenBorder}`
+                        : css.paperInput
+                    }
+                    value={product.titleUk}
+                    onChange={e =>
+                      setProduct(prev => ({ ...prev, titleUk: e.target.value }))
+                    }
+                  />
+                  {translated.title.uk.pending && (
+                    <ClockLoader
+                      size={25}
+                      color="#c04545"
+                      className={css.loader}
+                    />
+                  )}
+                </label>
+              </Paper>
               <div className={css.articlesWrapper}>
                 {product.articles.map((art, index) => (
                   <div
@@ -228,29 +253,52 @@ export const ProductInfo = ({ id }) => {
                     `prevision: ${product.articles[activeArticle].stock_prevision}`}
                 </p>
                 <p>self price: €{product.articles[activeArticle].pvp}</p>
-                <p>recommended price: €{product.articles[activeArticle].pvp_recommended}</p>
+                <p>
+                  recommended price: €
+                  {product.articles[activeArticle].pvp_recommended}
+                </p>
                 <p>
                   Measures:{' '}
-                  {product.articles[activeArticle].mesures.packaging.width || 0}x
-                  {product.articles[activeArticle].mesures.packaging.height || 0}x
-                  {product.articles[activeArticle].mesures.packaging.depth || 0} -{' '}
-                  {product.articles[activeArticle].mesures.packaging.weight || 0}
+                  {product.articles[activeArticle].mesures.packaging.width || 0}
+                  x
+                  {product.articles[activeArticle].mesures.packaging.height ||
+                    0}
+                  x
+                  {product.articles[activeArticle].mesures.packaging.depth || 0}{' '}
+                  -{' '}
+                  {product.articles[activeArticle].mesures.packaging.weight ||
+                    0}
                   kg
                 </p>
                 <div className={css.priceUahArea}>
                   <p>{t('price')}:</p>
                   <input
                     value={product.articles[activeArticle].priceUAH || ''}
-                    onChange={(e) => {setProduct(prev => ({ ...prev, articles: [ ...prev.articles.map((a, index) => (index === activeArticle ? { ...a, priceUAH: e.target.value } : a)) ] })); setSaving(false)}}
+                    onChange={e => {
+                      setProduct(prev => ({
+                        ...prev,
+                        articles: [
+                          ...prev.articles.map((a, index) =>
+                            index === activeArticle
+                              ? { ...a, priceUAH: e.target.value }
+                              : a
+                          ),
+                        ],
+                      }));
+                      setSaving(false);
+                    }}
                     className={css.priceField}
-                    size={(product.articles[activeArticle].priceUAH || '').length || 1}
+                    size={
+                      (product.articles[activeArticle].priceUAH || '').length ||
+                      1
+                    }
                   />
                   грн.
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div>
             <Paper className={css.paperCard} elevation={10}>
               <p>{t('description')}:</p>
@@ -259,42 +307,63 @@ export const ProductInfo = ({ id }) => {
                 ru:
                 <textarea
                   rows={7}
-                  className={translated.description.ru.translated ? `${css.paperInput} ${css.greenBorder}` : css.paperInput}
+                  className={
+                    translated.description.ru.translated
+                      ? `${css.paperInput} ${css.greenBorder}`
+                      : css.paperInput
+                  }
                   value={product.descriptionRu}
                   onChange={e =>
-                    setProduct(prev => ({ ...prev, descriptionRu: e.target.value }))
+                    setProduct(prev => ({
+                      ...prev,
+                      descriptionRu: e.target.value,
+                    }))
                   }
                 />
                 {translated.description.ru.pending && (
-                  <ClockLoader size={25} color="#c04545" className={css.loader} />
+                  <ClockLoader
+                    size={25}
+                    color="#c04545"
+                    className={css.loader}
+                  />
                 )}
               </label>
               <label className={css.paperLabel}>
                 uk:
                 <textarea
                   rows={7}
-                  className={translated.description.uk.translated ? `${css.paperInput} ${css.greenBorder}` : css.paperInput}
+                  className={
+                    translated.description.uk.translated
+                      ? `${css.paperInput} ${css.greenBorder}`
+                      : css.paperInput
+                  }
                   value={product.descriptionUk}
                   onChange={e =>
-                    setProduct(prev => ({ ...prev, descriptionUk: e.target.value }))
+                    setProduct(prev => ({
+                      ...prev,
+                      descriptionUk: e.target.value,
+                    }))
                   }
                 />
                 {translated.description.uk.pending && (
-                  <ClockLoader size={25} color="#c04545" className={css.loader} />
+                  <ClockLoader
+                    size={25}
+                    color="#c04545"
+                    className={css.loader}
+                  />
                 )}
               </label>
             </Paper>
           </div>
-          <button 
+          <button
             className={saving ? `${css.btn} ${css.grayBtn}` : css.btn}
-            onClick={() => toast.promise(
-              saveChanges(),
-              {
+            onClick={() =>
+              toast.promise(saveChanges(), {
                 loading: t('sending product'),
                 success: <b>{t('product saved')}</b>,
                 error: <b>{t('ERROR. Product not saved')}</b>,
-              }
-            )}
+              })
+            }
             disabled={saving}
           >
             {t('save')}
