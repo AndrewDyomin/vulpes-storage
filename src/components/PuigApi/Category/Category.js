@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import css from './Category.module.css';
 import { useTranslation } from 'react-i18next';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ReportIcon from '@mui/icons-material/Report';
 import { PopUp } from 'components/PopUp/PopUp';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
@@ -97,6 +98,7 @@ export const CategoryInfo = ({ id }) => {
                   ? p?.titleRu
                   : p?.title}
               </p>
+              {p.warning && <ReportIcon fontSize='large' className={css.warningIcon}/>}
             </Link>
           </li>
         ))}

@@ -4,8 +4,14 @@ import css from './PuigProduct.module.css';
 import puigLogo from '../../../images/puig.png';
 import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
+import ClearIcon from '@mui/icons-material/Clear';
+import BeenhereIcon from '@mui/icons-material/Beenhere';
+import BackspaceIcon from '@mui/icons-material/Backspace';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import CachedIcon from '@mui/icons-material/Cached';
 import { ClockLoader } from 'react-spinners';
 import toast from 'react-hot-toast';
+import Select from 'react-select';
 
 export const ProductInfo = ({ id }) => {
   const { t } = useTranslation();
@@ -24,6 +30,10 @@ export const ProductInfo = ({ id }) => {
   });
   const [saving, setSaving] = useState(true);
   const [pending, setPending] = useState(true);
+  const [horoshopStatus, setHoroshopStatus] = useState('left');
+  const [bikesLoading, setBikesLoading] = useState(false);
+  const [bikeModelsList, setBikeModelsList] = useState([{ value: '-', label: '-' }]);
+  const [activeBikeBrand, setActiveBikeBrand] = useState(null);
 
   const title = product?.title;
   const titleRu = product?.titleRu;
@@ -43,7 +53,6 @@ export const ProductInfo = ({ id }) => {
       setProduct(response.data);
       setPending(false);
     }
-
     getProduct();
   }, [id]);
 
@@ -124,14 +133,25 @@ export const ProductInfo = ({ id }) => {
     setSaving(false);
   }, [titleRu, titleUk, description, descriptionRu, descriptionUk]);
 
+  useEffect(()=>{
+    if (product?.articles[activeArticle]?.horoshopStatus === 'on') {
+      setHoroshopStatus('right')
+    } else {
+      setHoroshopStatus('left')
+    }
+    if (product?.articles[activeArticle]?.bikesArray?.length > 0) {
+      setBikeModelsList([ ...product.articles[activeArticle].bikesArray.map((b, i) => ({ value: i, label: b.brand })) ])
+    } else {
+      setBikeModelsList([{ value: '-', label: '-' }]);
+    }
+  }, [activeArticle, product?.articles])
+
   let fallbackImage = product?.images?.[0] || puigLogo;
 
   const imageCandidates = [
     product?.images?.[0],
     ...(product?.articles?.map(a => a.images?.[0]) || []),
   ];
-
-  console.log(product?.articles)
 
   const handleImageError = () => {
     if (imageIndex < imageCandidates.length - 1) {
@@ -150,6 +170,75 @@ export const ProductInfo = ({ id }) => {
       return response;
     } finally {
       setSaving(false);
+      setTranslated({
+        title: {
+          ru: { translated: false, pending: false },
+          uk: { translated: false, pending: false },
+        },
+        description: {
+          ru: { translated: false, pending: false },
+          uk: { translated: false, pending: false },
+        },
+      });
+    }
+  }
+
+  async function toggleHoroshop() {
+    if (horoshopStatus === 'left') {
+      if (translated.title.ru.translated) {
+        toast.error('save the translation first');
+        return;
+      } else if (!product.articles[activeArticle].priceUAH || product.articles[activeArticle].priceUAH === '') {
+        toast.error('save your price first');
+        return;
+      }
+      try {
+        setHoroshopStatus('middle');
+        const response = await axios.get(`puig-api/horoshop/${product?.articles[activeArticle]?.code}/${product?.articles[activeArticle]?.colour.code}/on`)
+        setProduct(prev => ({ ...prev, articles: prev.articles.map((a, index) => (index === activeArticle ? { ...a, horoshopStatus: 'on' } : a)) }))
+        toast.success(response.data.message)
+        setHoroshopStatus('right');
+      } catch(err) {
+        toast.error(err)
+        setHoroshopStatus('left');
+      }
+    } else if (horoshopStatus === 'right') {
+      try {
+        const response = await axios.get(`puig-api/horoshop/${product?.articles[activeArticle]?.code}/${product?.articles[activeArticle]?.colour.code}/off`)
+        setProduct(prev => ({ ...prev, articles: prev.articles.map((a, index) => (index === activeArticle ? { ...a, horoshopStatus: 'off' } : a)) }))
+        toast.success(response.data.message)
+        setHoroshopStatus('left');
+      } catch(err) {
+        toast.error(err)
+      }
+    } else {
+      toast.error('error! reload page...')
+    }
+  }
+
+  async function toggleSplitting() {
+    if (product?.enableSplitting) {
+      setProduct(prev => ({ ...prev, enableSplitting: false }))
+    } else {
+      setProduct(prev => ({ ...prev, enableSplitting: true }))
+    }
+  }
+  
+  async function reloadBikes() {
+    if (!bikesLoading) {
+      setBikesLoading(true)
+      try {
+        const response = await axios.post('/puig-api/update-bikes-by-article', { code: product.articles[activeArticle].code, link: product.articles[activeArticle].bikes })
+        setProduct(prev => ({ ...prev, articles: [ ...prev.articles.map((a, i) => (i === activeArticle ? { ...a, bikesArray: response.data } : a)) ] }))
+        setBikeModelsList([ ...response.data.map((b, i) => ({ value: i, label: b.brand })) ])
+        setBikesLoading(false);
+        setSaving(false);
+      } catch(err) {
+        toast.error(err)
+        setBikesLoading(false) 
+      }
+    } else {
+      toast.error('Please, wait.')
     }
   }
 
@@ -220,6 +309,10 @@ export const ProductInfo = ({ id }) => {
                     />
                   )}
                 </label>
+                <div className={css.splitting}>
+                  Enable splitting:
+                  <AddBoxIcon onClick={() => toggleSplitting()} className={`${css.plusIcon} ${product.enableSplitting && css.plusActive}`}/>
+                </div>
               </Paper>
               <div className={css.articlesWrapper}>
                 {product.articles.map((art, index) => (
@@ -243,14 +336,17 @@ export const ProductInfo = ({ id }) => {
                     )}
                     <p>{art.code + art.colour.code}</p>
                     <p>{art.colour.description}</p>
+                    {art.outdated === 1 && <ClearIcon fontSize='large' className={css.outdated}/>}
+                    {art.horoshopStatus === 'on' && <BeenhereIcon fontSize='medium' className={css.horoshopOk}/>}
+                    {art.horoshopStatus === 'canceled' && <BackspaceIcon fontSize='medium' className={css.horoshopCancel}/>}
                   </div>
                 ))}
               </div>
               <div className={css.stockInfoWrapper}>
                 <p>
                   stock: {product.articles[activeArticle].stock}.{' '}
-                  {product.articles[activeArticle].stock === 'no' &&
-                    `prevision: ${product.articles[activeArticle].stock_prevision}`}
+                  {product.articles[activeArticle].stock_prevision !== '' &&
+                    `${product.articles[activeArticle].stock_prevision}`}
                 </p>
                 <p>self price: €{product.articles[activeArticle].pvp}</p>
                 <p>
@@ -355,19 +451,54 @@ export const ProductInfo = ({ id }) => {
               </label>
             </Paper>
           </div>
-          <button
-            className={saving ? `${css.btn} ${css.grayBtn}` : css.btn}
-            onClick={() =>
-              toast.promise(saveChanges(), {
-                loading: t('sending product'),
-                success: <b>{t('product saved')}</b>,
-                error: <b>{t('ERROR. Product not saved')}</b>,
-              })
-            }
-            disabled={saving}
-          >
-            {t('save')}
-          </button>
+          <div className={css.buttons}>
+            <div className={css.horoshopWrapper} onClick={() => toggleHoroshop()}>
+              ХОРОШОП
+              <div className={css.progress}>
+                <div className={css.progressLine}>
+                  <div className={`${css.progressPoint} ${horoshopStatus === 'middle' && css.progressMiddlePoint} ${horoshopStatus === 'right' && css.progressRightPoint}`}></div>
+                </div>
+              </div>
+            </div>
+            <button
+              className={saving ? `${css.btn} ${css.grayBtn}` : css.btn}
+              onClick={() =>
+                toast.promise(saveChanges(), {
+                  loading: t('sending product'),
+                  success: <b>{t('product saved')}</b>,
+                  error: <b>{t('ERROR. Product not saved')}</b>,
+                })
+              }
+              disabled={saving}
+            >
+              {t('save')}
+            </button>
+          </div>
+          <Paper className={css.paperCard} elevation={10}>
+            <div className={css.bikesHeader}>
+              Bikes:
+              <CachedIcon className={`${css.reloadIcon} ${bikesLoading && css.reloadActive}`} onClick={() => reloadBikes()}/>
+            </div>
+            <div className={css.bikesList}>
+              {product?.articles[activeArticle]?.bikesArray?.length > 0 && 
+                <Select 
+                  name='brand' 
+                  onChange={(e) => setActiveBikeBrand(e.value)}
+                  placeholder={bikeModelsList[0].label}
+                  options={bikeModelsList}
+                />
+              }
+              {activeBikeBrand !== null && 
+                <ul className={css.modelsList}>
+                  {product?.articles[activeArticle]?.bikesArray[activeBikeBrand]?.models.map((m, i) => (
+                    <li key={`${m.model}${i}`} className={css.modelCard}>
+                      <p>{m.model}: {m.year.join(', ')}</p>
+                    </li>
+                  ))}
+                </ul>
+              }
+            </div>
+          </Paper>
         </div>
       )}
     </>
