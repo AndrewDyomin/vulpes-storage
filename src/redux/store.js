@@ -27,7 +27,7 @@ const authPersistConfig = {
 const productsPersistConfig = {
   key: 'products',
   storage,
-  whitelist: ['activeItem'],
+  whitelist: ['activeItem', 'barcodes'],
 }
 
 const inventoryCheckPersistConfig = {
@@ -60,8 +60,13 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
+        warnAfter: 128,
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredPaths: ['products.barcodes']
       },
+      immutableCheck: {
+        ignoredPaths: ['products.barcodes.map'],
+      }
     }).concat(refreshTokenMiddleware),
   devTools: process.env.NODE_ENV === 'development',
 });

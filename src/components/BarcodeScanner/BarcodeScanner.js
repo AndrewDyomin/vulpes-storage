@@ -7,14 +7,15 @@ import {
 } from 'react';
 import css from './BarcodeScanner.module.css';
 import { BrowserMultiFormatReader } from '@zxing/library';
-import { getProductByBarcode } from '../../redux/products/operations';
+import { setActiveProduct } from '../../redux/products/operations';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveProduct } from '../../redux/products/selectors';
+import { selectActiveProduct, selectProductsBarcodes } from '../../redux/products/selectors';
 import { useTranslation } from 'react-i18next';
 
 export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const barMemory = useSelector(selectProductsBarcodes);
   const activeItem = useSelector(selectActiveProduct);
   const videoRef = useRef(null);
   const selectRef = useRef(null);
@@ -71,7 +72,12 @@ export const BarcodeScanner = forwardRef(({ setLastResult }, ref) => {
           try {
             if (result?.text[0] !== 'H') {
               setLastResult(result.text);
-              dispatch(getProductByBarcode(result.text));
+              
+              const target = barMemory?.map[result.text];
+              
+              if (target) {
+                dispatch(setActiveProduct(target))
+              }
             }
           } catch (error) {
             console.error(error);

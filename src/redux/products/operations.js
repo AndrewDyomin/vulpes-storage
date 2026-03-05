@@ -51,6 +51,33 @@ export const fetchAllProducts = createAsyncThunk(
   }
 );
 
+export const fetchProductsBarcodes = createAsyncThunk(
+  'products/fetchProductsBarcodes',
+  async (_, thunkAPI) => {
+    try {
+      let page = 1;
+      const result = { date: Date.now(), map: {} }
+      const products = [];
+      while (true) {
+        const res = await axios.get(`/products/all-barcodes?page=${page}&limit=1000`);
+        products.push(...res.data.products);
+        page ++;
+        if (res.data.products.length < 1000) break;
+      }
+
+      products.forEach(p => {
+        if (p.barcode !== '') {
+          result.map[p.barcode] = p;
+        }
+      })
+      
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const setActiveProduct = createAsyncThunk(
   'products/setActiveProduct',
   async (product, thunkAPI) => {

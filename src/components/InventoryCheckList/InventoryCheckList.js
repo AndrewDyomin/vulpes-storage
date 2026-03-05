@@ -71,7 +71,7 @@ export const InventoryCheckList = () => {
   const addItemToList = () => {
     const newList = [
       ...addItemsList,
-      { article: !article ? activeItem.article : article, count },
+      { article: !article ? activeItem.article : article, count, barcode: activeItem.barcode },
     ];
     setAddItemsList(newList);
     dispatch(setDraft({ name: listDate(), items: newList }));
@@ -244,7 +244,7 @@ export const InventoryCheckList = () => {
             body={
               activeItem && activeItem.article ? (
                 <div className={css.modalArea}>
-                  {Array.isArray(activeItem.images) &&
+                  {/* {Array.isArray(activeItem.images) &&
                   activeItem.images.length > 0 ? (
                     <img
                       className={css.modalImage}
@@ -253,15 +253,15 @@ export const InventoryCheckList = () => {
                     />
                   ) : (
                     <p>No image</p>
-                  )}
-                  <p>{`${activeItem.name?.UA || t('no name')} (${
+                  )} */}
+                  <p>{`${activeItem.name?.UA || t('article')} (${
                     activeItem.article
                   })`}</p>
-                  <p>
+                  {/* <p>
                     {activeItem.price?.UAH
                       ? `${activeItem.price.UAH} грн.`
                       : 'Цена не указана'}
-                  </p>
+                  </p> */}
                   <div className={css.countArea}>
                     <input
                       placeholder={t('count')}

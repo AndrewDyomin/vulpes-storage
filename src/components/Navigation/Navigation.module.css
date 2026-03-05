@@ -24,3 +24,7 @@
   max-height: 50px;
   max-width: 100%;
 }
+
+.loader {
+  margin-left: 20px;
+}
