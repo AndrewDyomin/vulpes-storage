@@ -17,6 +17,11 @@
     width: 100%;
 }
 
+.catMenuWrapper {
+    display: flex;
+    align-items: center;
+}
+
 .catMenuBtn {
     display: flex;
     margin: 0 5px 0 auto;

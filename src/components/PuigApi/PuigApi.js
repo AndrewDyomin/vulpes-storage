@@ -9,6 +9,7 @@ import { Paper, Tabs, Tab, Box } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { PopUp } from 'components/PopUp/PopUp';
 import toast from 'react-hot-toast';
+import { Search } from './Search/Search';
 
 export const PuigApiHome = () => {
   const [categ, setCateg] = useState([]);
@@ -122,9 +123,12 @@ export const PuigApiHome = () => {
         >
           {tab === 0 && 
             <div>
-              <button className={css.catMenuBtn} onClick={() => setCatMenuOpen(true)}>
-                <MoreHorizIcon />
-              </button>
+              <div className={css.catMenuWrapper}>
+                <Search />
+                <button className={css.catMenuBtn} onClick={() => setCatMenuOpen(true)}>
+                  <MoreHorizIcon />
+                </button>
+              </div>
               <ul className={css.categoriesList}>
                 {categ.map(i => (
                   <li key={i.id}>
