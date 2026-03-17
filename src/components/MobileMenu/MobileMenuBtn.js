@@ -1,16 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from 'hooks';
 import Modal from 'react-modal';
 import svgIcons from '../../images/icons.svg';
 import css from './MobileMenuBtn.module.css';
 import { UserMenu } from '../UserMenu/UserMenu';
 import { AuthNav } from '../AuthNav/AuthNav';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCurrency } from '../../redux/currency/operations';
+import { useSelector } from 'react-redux';
 import { selectEUR, selectUSD } from '../../redux/currency/selectors';
 
 export const MobileMenuBtn = () => {
-    const dispatch = useDispatch();
     const USD = useSelector(selectUSD);
     const EUR = useSelector(selectEUR);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,10 +46,6 @@ export const MobileMenuBtn = () => {
           position: 'absolute',
         },
     };
-
-    useEffect(() => {
-        dispatch(fetchCurrency());
-    });
 
     return (
         <>

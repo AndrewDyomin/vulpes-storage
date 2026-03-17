@@ -9,6 +9,7 @@ import logo from '../../images/logo 2.png'
 import { selectProductsBarcodes, selectProductsLoading } from '../../redux/products/selectors';
 import { useEffect } from 'react';
 import { fetchProductsBarcodes } from '../../redux/products/operations';
+import { fetchCurrency } from '../../redux/currency/operations';
 
 export const Navigation = () => {
   const { t } = useTranslation();
@@ -26,6 +27,10 @@ export const Navigation = () => {
       dispatch(fetchProductsBarcodes());
     }
   }, [lastBarcodes, dispatch, now, isLoggedIn, isProductsLoading])
+
+  useEffect(() => {
+    dispatch(fetchCurrency());
+  });
 
   return (
     <nav className={css.navBlock}>
