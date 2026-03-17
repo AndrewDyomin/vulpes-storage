@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
@@ -19,7 +20,7 @@ export const searchProduct = createAsyncThunk(
   'products/searchProduct',
   async (query, thunkAPI) => {
     try {
-      const res = await axios.post(`/products/search?page=${query?.page}&limit=${query?.limit}`, { value: query.value });
+      const res = await axios.post(`/products/search?page=${query?.page}&limit=${query?.limit}`, { value: query.value, filter: query.filter });
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -43,7 +44,7 @@ export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (query, thunkAPI) => {
     try {
-      const res = await axios.get(`/products/all?page=${query?.page}&limit=${query?.limit}`);
+      const res = await axios.get(`/products/all?page=${query?.page}&limit=${query?.limit}&stockfilter=${query?.filter.inStock}`);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -107,19 +108,31 @@ export const deleteProduct = createAsyncThunk(
 );
 
 export const updateProduct = createAsyncThunk(
-  // 'products/updateProduct',
-  // async (credentials, thunkAPI) => {
-  //   try {
-  //     const updated = await axios.post('/collections/update', {
-  //       data: credentials,
-  //       headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }});
-  //     thunkAPI.dispatch(setActiveProduct(updated.data));
-  //     const res = thunkAPI.dispatch(fetchAllProducts());
-  //     return res;
-  //   } catch(error) {
-  //     return thunkAPI.rejectWithValue(error.message);
-  //   }
-  // }
+  'products/updateProduct',
+  async (data, thunkAPI) => {
+    try {
+      const res = await axios.post('/products/update', { data });
+
+      toast.success(`${res.data.message}`);
+
+      return res.data.update;
+    } catch(error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getTranslate = createAsyncThunk(
+  'products/getTranslate',
+  async (data, thunkAPI) => {
+    try {
+      const res = await axios.post('/products/get-translate', data);
+
+      toast.success(`${res.data?.message}`);
+
+      return res.data.product;
+    } catch(error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
 );

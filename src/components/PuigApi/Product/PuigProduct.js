@@ -12,9 +12,12 @@ import CachedIcon from '@mui/icons-material/Cached';
 import { ClockLoader } from 'react-spinners';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
+import { useSelector } from 'react-redux';
+import { selectEUR } from '../../../redux/currency/selectors';
 
 export const ProductInfo = ({ id }) => {
   const { t } = useTranslation();
+  const { sell } = useSelector(selectEUR)
   const [product, setProduct] = useState(null);
   const [activeArticle, setActiveArticle] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
@@ -351,7 +354,7 @@ export const ProductInfo = ({ id }) => {
                 <p>self price: €{product.articles[activeArticle].pvp}</p>
                 <p>
                   recommended price: €
-                  {product.articles[activeArticle].pvp_recommended}
+                  {product.articles[activeArticle].pvp_recommended} {`(${Math.round(product.articles[activeArticle].pvp_recommended * sell)}грн.)`}
                 </p>
                 <p>
                   Measures:{' '}

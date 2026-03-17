@@ -18,7 +18,6 @@ export default function Products() {
           <title>Products</title>
         </Helmet>
         <div>
-          <p>Эта страница сейчас в разработке</p>
           <ProductsList />
         </div>
       </div>

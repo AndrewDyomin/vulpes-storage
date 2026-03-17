@@ -22,7 +22,7 @@ export const Navigation = () => {
   // 86400000
 
   useEffect(() => {
-    if (!isProductsLoading && isLoggedIn && (!lastBarcodes || now - lastBarcodes?.date > 20000)) {
+    if (!isProductsLoading && isLoggedIn && (!lastBarcodes || now - lastBarcodes?.date > 86400000)) {
       dispatch(fetchProductsBarcodes());
     }
   }, [lastBarcodes, dispatch, now, isLoggedIn, isProductsLoading])

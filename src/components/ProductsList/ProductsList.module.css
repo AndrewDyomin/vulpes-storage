@@ -1,78 +1,183 @@
 .searchArea {
-    margin-top: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 3px 10px;
-    display: flex;
-    background-color: #ffffff;
-    height: 40px;
-    align-items: center;
+  margin-top: 10px;
+  display: flex;
+  background-color: #ffffff;
+  height: 40px;
+  align-items: center;
 }
 
 .searchInput {
-    border: none;
-    background-color: transparent;
-    height: 100%;
-    max-width: calc(100% - 50px);
+  background-color: transparent;
+  height: 100%;
+  max-width: calc(100% - 70px);
+  width: 50%;
+  min-width: 100px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 3px 10px;
+}
+
+.limitInput {
+  background-color: transparent;
+  height: 100%;
+  min-width: 50px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-left: 10px;
 }
 
 .productList {
-    margin: 0;
-    padding: 0;
-    margin-top: 10px;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
 }
 
 .productCard {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #000;
-    border-radius: 10px;
-    padding: 10px;
-    align-items: center;
-    justify-content: center;
-    min-height: 320px;
-}
-
-li:nth-child(n+2) {
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
 }
 
 .productImg {
-    max-height: 280px;
-    max-width: 100%;
-    margin: auto;
+  max-height: 280px;
+  max-width: 100%;
+  margin: auto;
 }
 
 .pagination {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
 
 .currentPage {
-    border: 2px solid #8a2313;
-    border-radius: 5px;
-    box-sizing: border-box;
-    padding: 5px 10px;
-    min-width: 50px;
-    min-height: 35px;
-    text-align: center;
-    font-weight: bold;
-    background-color: transparent;
+  border: 2px solid #8a2313;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  min-width: 50px;
+  min-height: 35px;
+  text-align: center;
+  font-weight: bold;
+  background-color: transparent;
 }
 
-.prevButton, .nextButton {
-    border: none;
-    border-radius: 5px;
-    box-sizing: border-box;
-    padding: 5px 10px;
-    min-width: 50px;
-    min-height: 35px;
-    text-align: center;
-    font-weight: bold;
-    background-color: #8a2313;
-    color: #fff;
+.prevButton,
+.nextButton {
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  min-width: 50px;
+  min-height: 35px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #8a2313;
+  color: #fff;
+}
+
+.btn {
+  border: 2px solid #8a2313;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  margin-left: auto;
+  background: transparent;
+  color: #8a2313;
+  font-weight: 700;
+}
+
+.btn:hover {
+  border-color: #8a2313a4;
+  color: #8a2313a4;
+}
+
+.filterBlock {
+  opacity: 0;
+  max-height: 0;
+  pointer-events: none;
+
+  transition: opacity 0.2s ease, max-height 0.3s ease, margin-top 0.3s ease, padding 0.3s ease;
+}
+
+.open {
+  opacity: 1;
+  box-sizing: border-box;
+  margin-top: 10px;
+  max-height: 100px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+  pointer-events: auto;
+  display: flex;
+  gap: 20px;
+}
+
+.filterLabel {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.filterCheck {
+    color: #cacaca;
+    font-size: 20px;
+    transition: font-size 0.2s ease, transform 0.2s ease;
+}
+
+.checked {
+    color: #29c10a;
+    font-size: 28px;
+    transform: translateX(-4px);
+}
+
+@media screen and (max-width: 405px) {
+  .listItem:nth-child(n + 2) {
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 406px) {
+  .productList {
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .listItem {
+    max-width: calc((100% - 10px) / 2);
+  }
+}
+
+
+
+@media screen and (min-width: 787px) {
+  .listItem {
+    max-width: calc((100% - 20px) / 3);
+  }
+
+  .productCard {
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .listItem {
+    max-width: calc((100% - 30px) / 4);
+  }
 }

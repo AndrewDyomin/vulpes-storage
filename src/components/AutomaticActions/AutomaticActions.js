@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ClockLoader } from 'react-spinners';
 import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
+import UpdateIcon from '@mui/icons-material/Update';
 import { PopUp } from '../PopUp/PopUp';
 import { EditableTable } from '../EditableTable/EditableTable';
 
@@ -60,6 +61,19 @@ export const AutomaticActions = () => {
     setIsPending(false);
   }
 
+  const updateZakupkaXmlHandler = async () => {
+    setIsPending(true);
+    try {
+      await axios.get('/files/update-zakupka');
+      toast.success('XML file to Zakupka.com updated.')
+      
+    } catch (err) {
+      toast.error('Error! Please try again later...');
+    }
+    
+    setIsPending(false);
+  }
+
   return (
     <>
       <div className={css.buttonsArea}>
@@ -90,6 +104,16 @@ export const AutomaticActions = () => {
             <>
               <BackupTableOutlinedIcon />
               <p>{t('update prom table')}</p>
+            </>
+          )}
+        </div>
+        <div className={css.button} onClick={updateZakupkaXmlHandler}>
+          {isPending ? (
+            <ClockLoader color="#c04545" />
+          ) : (
+            <>
+              <UpdateIcon />
+              <p>{t('update zakupka xml')}</p>
             </>
           )}
         </div>

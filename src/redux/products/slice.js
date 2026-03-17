@@ -9,6 +9,7 @@ import {
   updateProduct,
   searchProduct,
   fetchProductsBarcodes,
+  getTranslate,
 } from './operations';
 
 const handlePending = state => {
@@ -23,7 +24,7 @@ const handleRejected = (state, action) => {
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
-    items: [],
+    items: { products: [], pagination: [] },
     activeItem: {},
     barcodes: null,
     isLoading: false,
@@ -33,6 +34,16 @@ const productsSlice = createSlice({
     clearActiveProduct: (state) => {
       state.activeItem = {};
     },
+    updateProductField: (state, action) => {
+        const { path, value } = action.payload;
+        let obj = state.activeItem;
+
+        for (let i = 0; i < path.length - 1; i++) {
+          obj = obj[path[i]];
+        }
+
+        obj[path[path.length - 1]] = value;
+    }
   },
   extraReducers: builder => {
     builder
@@ -71,7 +82,13 @@ const productsSlice = createSlice({
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.items = action.payload;
+        const updatedProduct = action.payload;
+        const index = state.items.products.findIndex(
+          item => item._id === updatedProduct._id
+        );
+        if (index !== -1) {
+          state.items.products[index] = updatedProduct;
+        }
       })
       .addCase(updateProduct.rejected, handleRejected)
       .addCase(searchProduct.pending, handlePending)
@@ -88,6 +105,16 @@ const productsSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(deleteProduct.rejected, handleRejected)
+      .addCase(getTranslate.pending, handlePending)
+      .addCase(getTranslate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.activeItem.name.translatedRU = action.payload.name.RU;
+        state.activeItem.name.translatedUA = action.payload.name.UA;
+        state.activeItem.description.translatedRU = action.payload.description.RU;
+        state.activeItem.description.translatedUA = action.payload.description.UA;
+      })
+      .addCase(getTranslate.rejected, handleRejected)
       .addCase(logOut.fulfilled, state => {
         state.items = [];
         state.activeItem = {};
@@ -98,4 +125,4 @@ const productsSlice = createSlice({
 });
 
 export const productsReducer = productsSlice.reducer;
-export const { clearActiveProduct } = productsSlice.actions;
+export const { clearActiveProduct, updateProductField } = productsSlice.actions;

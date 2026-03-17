@@ -24,7 +24,7 @@ export const PopUp = ({ isOpen, close, body }) => {
             right: 'auto',
             bottom: 'auto',
             minWidth: '300px',
-            maxWidth: '80%',
+            maxWidth: '90%',
             width: 'auto',
             maxHeight: '80%',
             padding: '50px 20px',
@@ -41,6 +41,7 @@ export const PopUp = ({ isOpen, close, body }) => {
             onRequestClose={close}
             style={customStyles}
             ariaHideApp={false}
+            bodyOpenClassName="modal-open"
         >
             <button className={css.modalCloseButton} type="button" onClick={close}>
                 <svg className={css.menuIcon}>

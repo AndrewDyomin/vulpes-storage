@@ -17,6 +17,7 @@ import { inventoryCheckReducer } from './inventory/slice';
 import { receivesReducer } from './receives/slice'
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 import { userReducer } from './user/slice';
+import { currencyReducer } from './currency/slice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -48,6 +49,12 @@ const ordersPersistConfig = {
   whitelist: ['active'],
 }
 
+const currencyPersistConfig = {
+  key: 'currency',
+  storage,
+  whitelist: ['rates', 'lastUpdate'],
+}
+
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
@@ -56,6 +63,7 @@ export const store = configureStore({
     receive: persistReducer(receiveProductsPersistConfig, receivesReducer),
     orders: persistReducer(ordersPersistConfig, ordersReducer),
     user: userReducer,
+    currency: persistReducer(currencyPersistConfig, currencyReducer),
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -1,0 +1,183 @@
+.container {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.article {
+  font-size: 19px;
+  font-weight: 700;
+  position: absolute;
+  top: -28px;
+  left: 5px;
+}
+
+.imageWrapper {
+  max-width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+}
+
+.imgBtn {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  padding: 12px 7px;
+  border: 1px solid #848484;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffffc1;
+  cursor: pointer;
+}
+
+.leftBtn {
+  left: 10px;
+}
+
+.rightBtn {
+  right: 10px;
+}
+
+.paramsBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.paramsBlock textarea, .descriptionEditor textarea {
+    width: 100%;
+    resize: none;
+    height: auto;
+}
+
+.price {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.description, .descriptionEditor {
+  margin-top: 20px;
+}
+
+.descriptionEditor label{
+  position: relative;
+}
+
+.translateBtn {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  color: #c04545;
+  background-color: transparent;
+  border: none;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.btn {
+  border: 3px solid #c04545;
+  border-radius: 20px;
+  color: #c04545;
+  background: transparent;
+  padding: 5px 10px;
+  font-weight: 700;
+  min-width: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn:hover {
+    border-color: #c04545ba;
+    color: #c04545ba;
+}
+
+.hidden {
+  display: none;
+}
+
+.save {
+    color: #64c045;
+    border-color: #64c045;
+}
+
+.save:hover {
+    color: #64c045ba;
+    border-color: #64c045ba;
+}
+
+.horoshopWrapper {
+  width: 180px;
+  font-weight: 900;
+  background-color: #b3b3b3;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.progress {
+  margin-left: auto;
+}
+
+.progressLine {
+  position: relative;
+  background-color: #fff;
+  width: 60px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.progressPoint {
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #d87c7c;
+
+  transform: translate(0, -50%);
+  transition: left 0.5s, background-color 0.4s ease;
+}
+
+.progressMiddlePoint {
+  left: 24px;
+  background-color: #737373;
+}
+
+.progressRightPoint {
+  left: 46px;
+  background-color: #0bf122;
+}
+
+.green {
+  color: green;
+}
+
+@media screen and (min-width: 787px) {
+  .infoBlock {
+    display: flex;
+    gap: 10px;
+  }
+
+  .paramsBlock {
+    min-width: 40%;
+  }
+}
