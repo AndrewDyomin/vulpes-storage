@@ -100,7 +100,7 @@ export const ActiveProductDetails = ({ editMode, setEditMode, setDetailsModal, u
                             <p>{t('quantity in stock')}: {product.quantityInStock}</p>
                             <p>{t('params')}:</p>
                             {product?.color && <p>{t('color')}: {product?.color}</p>}
-                            <p>{t('price in Motea')}: {product.moteaPrice.UAH}грн {product?.availabilityInMotea ? '('+product?.availabilityInMotea+')' : '('+t('unknown')+')'}</p>
+                            <p>{t('price in Motea')}: {product?.moteaPrice?.UAH}грн {product?.availabilityInMotea ? '('+product?.availabilityInMotea+')' : '('+t('unknown')+')'}</p>
                             <p>{t('vendor price')}: {Math.round(product?.vendorprice)}грн</p>
                             <p>{t('keywords')}: {currentLang === 'ru' ? product.metaKeywords.RU : product.metaKeywords.UA}</p>
                             <p>{t('dimensions')}:</p>
