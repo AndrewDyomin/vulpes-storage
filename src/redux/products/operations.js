@@ -20,7 +20,7 @@ export const searchProduct = createAsyncThunk(
   'products/searchProduct',
   async (query, thunkAPI) => {
     try {
-      const res = await axios.post(`/products/search?page=${query?.page}&limit=${query?.limit}`, { value: query.value, filter: query.filter });
+      const res = await axios.post(`/products/search?page=${query?.page}&limit=${query?.limit}`, { value: query.value, filter: query.filter, sort: query.sort });
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -44,7 +44,7 @@ export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
   async (query, thunkAPI) => {
     try {
-      const res = await axios.get(`/products/all?page=${query?.page}&limit=${query?.limit}&stockfilter=${query?.filter.inStock}`);
+      const res = await axios.get(`/products/all?page=${query?.page}&limit=${query?.limit}&stockfilter=${query?.filter.inStock}&sort=${query.sort}`);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

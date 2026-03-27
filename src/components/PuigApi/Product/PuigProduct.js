@@ -168,7 +168,7 @@ export const ProductInfo = ({ id }) => {
     setSaving(true);
     try {
       const response = await axios.post('/puig-api/update-product', {
-        ...product,
+        ...product, articles: [ product.articles[activeArticle] ]
       });
       return response;
     } finally {

@@ -29,7 +29,7 @@ export const ProductsList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [detailsModal, setDetailsModal] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const [query, setQuery] = useState({ search: "", page: 1, limit: 20, inStock: false });
+  const [query, setQuery] = useState({ search: "", page: 1, limit: 20, inStock: false, sort: 'null' });
   const [editMode, setEditMode] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [next, setNext] = useState(false);
@@ -38,6 +38,10 @@ export const ProductsList = () => {
     { value: 20, label: '20' },
     { value: 80, label: '80' },
     { value: 160, label: '160' }
+  ];
+  const sortList = [
+    { value: 'null', label: t('default') },
+    { value: 'availability', label: t('availability') },
   ];
   let access = false;
   if (user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') {
@@ -51,9 +55,9 @@ export const ProductsList = () => {
   useEffect(() => {
     async function getProducts() {
       if (query.search === '') {
-        await dispatch(fetchAllProducts({page: query.page, limit: query.limit, filter: { inStock: query.inStock }}));
+        await dispatch(fetchAllProducts({page: query.page, limit: query.limit, filter: { inStock: query.inStock }, sort: query.sort}));
       } else {
-        await dispatch(searchProduct({value: query.search, page: query.page, limit: query.limit, filter: { inStock: query.inStock }}));
+        await dispatch(searchProduct({value: query.search, page: query.page, limit: query.limit, filter: { inStock: query.inStock }, sort: query.sort}));
       }
     }
     setIsLoading(true);
@@ -169,6 +173,14 @@ export const ProductsList = () => {
             {t('streaming editing')}
             <CheckCircleOutlineIcon className={`${css.filterCheck} ${streaming && css.checked}`}/>
           </label>}
+          <Select 
+            name='sort' 
+            options={sortList}
+            placeholder={t('sort')}
+            value={query.sort}
+            onChange={e => setQuery(prev => ({ ...prev, sort: e.value}))}
+            className={css.limitInput}
+          />
         </div>
 
         <ul className={css.productList}>
