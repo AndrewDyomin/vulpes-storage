@@ -132,6 +132,7 @@ export const ActiveProductDetails = ({ editMode, setEditMode, setDetailsModal, u
                         <label>
                             RU
                             <textarea
+                                className={`${(!product.description.RU || product.description.RU === '') && css.green}`}
                                 onChange={(e) => {
                                     e.target.style.height = "auto";
                                     e.target.style.height = e.target.scrollHeight + "px";
@@ -141,7 +142,7 @@ export const ActiveProductDetails = ({ editMode, setEditMode, setDetailsModal, u
                                     }));
                                     setUpdated(prev => ({ ...prev, "name.RU": e.target.value }))
                                 }} 
-                                value={product.name.RU}
+                                value={(!product.name?.RU || product.name.RU === '') ? product.name.translatedRU : product.name.RU}
                             />
                             {product.name.RU === '' && !isLoading &&
                             <button 
@@ -154,6 +155,7 @@ export const ActiveProductDetails = ({ editMode, setEditMode, setDetailsModal, u
                         <label>
                             UA
                             <textarea
+                                className={`${(!product.description.UA || product.description.UA === '') && css.green}`}
                                 onChange={(e) => {
                                     e.target.style.height = "auto";
                                     e.target.style.height = e.target.scrollHeight + "px";
@@ -163,7 +165,7 @@ export const ActiveProductDetails = ({ editMode, setEditMode, setDetailsModal, u
                                     }));
                                     setUpdated(prev => ({ ...prev, "name.UA": e.target.value }))
                                 }} 
-                                value={product.name.UA}
+                                value={(!product.name?.UA || product.name.UA === '') ? product.name.translatedUA : product.name.UA}
                             />
                         </label>
                         <div className={css.paramsWrapper}>

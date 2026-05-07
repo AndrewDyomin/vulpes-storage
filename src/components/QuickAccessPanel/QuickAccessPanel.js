@@ -10,6 +10,7 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useTranslation } from 'react-i18next';
 import moteaLogo from '../../images/motea_logo_no_claim.png';
 import puigLogo from '../../images/puig.png'
@@ -47,7 +48,7 @@ export const QuickAccessPanel = () => {
                 <p className={css.linkCardTitle}>{t('inventory check')}</p>
             </div>
         </Link>)}
-        {(user.role === 'owner') && (
+        {(user.role === 'owner' || user.role === 'administrator') && (
         <Link to="/get-products-in" className={css.link}>
             <div className={css.linkCard}>
                 <div className={css.iconArea}>
@@ -72,6 +73,15 @@ export const QuickAccessPanel = () => {
                     <img src={puigLogo} alt='puig logo' className={css.moteaIcon}/>
                 </div>
                 <p className={css.linkCardTitle}>Puig API</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner') && (
+        <Link to="/marketplaces" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <StorefrontIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('marketplaces')}</p>
             </div>
         </Link>)}
         {(user.role === 'owner') && (

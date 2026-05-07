@@ -142,5 +142,12 @@
   "orders recalculated": "Заказы пересчитаны.",
   "error, try again for a minute": "Ошибка, попробуйте еще раз через минуту!",
   "categories": "Категории",
-  "invoices": "Счета"
+  "invoices": "Счета",
+  "marketplaces": "Маркетплейсы",
+  "streaming editing": "Потоковая обработка",
+  "default": "По умолчанию",
+  "availability": "По количеству",
+  "make": "Марка",
+  "model": "Модель",
+  "year": "Год"
 }

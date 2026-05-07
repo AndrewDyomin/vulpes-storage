@@ -1,4 +1,5 @@
 import css from './ProductsList.module.css';
+import axios from 'axios';
 import { selectAllProducts } from '../../redux/products/selectors';
 import { selectUser } from '../../redux/auth/selectors';
 import {
@@ -33,6 +34,10 @@ export const ProductsList = () => {
   const [editMode, setEditMode] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [next, setNext] = useState(false);
+  const [bikeBrands, setBikeBrands] = useState([{value: '', label: 'Brand'}]);
+  const [bikeModelsArray, setBikeModelsArray] = useState([]);
+  const [bikeModels, setBikeModels] = useState([{value: '', label: 'Model'}]);
+  const [bikeYear, setBikeYear] = useState([{value: '', label: 'Year'}]);
 
   const limitList = [
     { value: 20, label: '20' },
@@ -55,15 +60,35 @@ export const ProductsList = () => {
   useEffect(() => {
     async function getProducts() {
       if (query.search === '') {
-        await dispatch(fetchAllProducts({page: query.page, limit: query.limit, filter: { inStock: query.inStock }, sort: query.sort}));
+        await dispatch(fetchAllProducts({ filter: { inStock: query.inStock }, ...query }));
       } else {
-        await dispatch(searchProduct({value: query.search, page: query.page, limit: query.limit, filter: { inStock: query.inStock }, sort: query.sort}));
+        await dispatch(searchProduct({value: query.search, filter: { inStock: query.inStock }, ...query }));
+      }
+    }
+    async function getBikes() {
+      if (bikeModelsArray.length === 0) {
+        if (!query.brand || query.brand === '') {
+          const res = await axios.get("/products/bikes");
+          if (res?.data.length > 0) {
+            setBikeBrands([ ...res?.data.map(b => ({ value: b, label: b.toUpperCase() })) ]);
+          }
+        } else if (query.brand && query.brand !== '') {
+          const res = await axios.get(`/products/bikes?brand=${query.brand}`);
+          if (res?.data.length > 0) {
+            setBikeModelsArray(res?.data);
+            setBikeModels([ ...res?.data.map(m => ({ value: m.name, label: m.name.toUpperCase() })) ])
+          }
+        }
+      } else if (query?.model && query.model !== '') {
+        const targetModel = bikeModelsArray.find(m => m.name === query.model);
+        setBikeYear([ ...targetModel.years.map(y => ({ value: y, label: y })) ]);
       }
     }
     setIsLoading(true);
     getProducts();
+    getBikes();
     setIsLoading(false);
-  }, [query, dispatch]);
+  }, [query, bikeModelsArray, dispatch]);
 
   useEffect(() => {
     if (!streaming) return;
@@ -159,28 +184,62 @@ export const ProductsList = () => {
         </div>
         {/* FILTER */}
         <div className={`${css.filterBlock} ${openFilter ? css.open : ""}`}>
-          <label 
-            className={css.filterLabel}
-            onClick={() => toggleInStock()}
-          >
-            {t('in stock')}
-            <CheckCircleOutlineIcon className={`${css.filterCheck} ${query.inStock && css.checked}`}/>
-          </label>
-          {access && <label 
-            className={css.filterLabel}
-            onClick={() => {setStreaming(prev => !prev); setNext(true)}}
-          >
-            {t('streaming editing')}
-            <CheckCircleOutlineIcon className={`${css.filterCheck} ${streaming && css.checked}`}/>
-          </label>}
-          <Select 
-            name='sort' 
-            options={sortList}
-            placeholder={t('sort')}
-            value={query.sort}
-            onChange={e => setQuery(prev => ({ ...prev, sort: e.value}))}
-            className={css.limitInput}
-          />
+          <div className={css.filterRow}>
+            <label 
+              className={css.filterLabel}
+              onClick={() => toggleInStock()}
+            >
+              {t('in stock')}
+              <CheckCircleOutlineIcon className={`${css.filterCheck} ${query.inStock && css.checked}`}/>
+            </label>
+            {access && <label 
+              className={css.filterLabel}
+              onClick={() => {setStreaming(prev => !prev); setNext(true)}}
+            >
+              {t('streaming editing')}
+              <CheckCircleOutlineIcon className={`${css.filterCheck} ${streaming && css.checked}`}/>
+            </label>}
+            <Select 
+              name='sort' 
+              options={sortList}
+              onChange={e => setQuery(prev => ({ ...prev, sort: e.value}))}
+              className={css.sortInput}
+            />
+          </div>
+          <div className={css.modelFilter}>
+            <div className={css.modelItem}>
+              <span className={css.modelLabel}>
+                {t('make')}
+              </span>
+              <Select 
+                name='brand' 
+                options={bikeBrands}
+                onChange={(e) => {setBikeModelsArray([]); setQuery(prev => ({ ...prev, brand: e.value, model: null, year: null}))}}
+              />
+            </div>
+            <div className={css.modelItem}>
+              <span className={css.modelLabel}>
+                {t('model')}
+              </span>
+              <Select 
+                name='model' 
+                options={bikeModels}
+                onChange={e => setQuery(prev => ({ ...prev, model: e.value}))}
+                isDisabled={bikeModels[0].value === '' ? true : false}
+              />
+            </div>
+            <div className={css.modelItem}>
+              <span className={css.modelLabel}>
+                {t('year')}
+              </span>
+              <Select 
+                name='year' 
+                options={bikeYear}
+                onChange={e => setQuery(prev => ({ ...prev, year: e.value}))}
+                isDisabled={bikeYear[0].value === '' ? true : false}
+              />
+            </div>
+          </div>
         </div>
 
         <ul className={css.productList}>

@@ -110,16 +110,44 @@
   transition: opacity 0.2s ease, max-height 0.3s ease, margin-top 0.3s ease, padding 0.3s ease;
 }
 
+.filterRow {
+  display: flex;
+  gap: 20px;
+}
+
+.sortInput {
+  z-index: 2;
+}
+
+.modelFilter {
+  display: flex;
+  gap: 20px;
+}
+
+.modelItem {
+  position: relative;
+}
+
+.modelLabel {
+  position: absolute;
+  top: -25%;
+  left: 10px;
+  z-index: 1;
+  background-color: #fff;
+  padding: 0 5px;
+}
+
 .open {
   opacity: 1;
   box-sizing: border-box;
   margin-top: 10px;
-  max-height: 100px;
+  max-height: 150px;
   border: 1px solid #000;
   border-radius: 5px;
   padding: 10px;
   pointer-events: auto;
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 

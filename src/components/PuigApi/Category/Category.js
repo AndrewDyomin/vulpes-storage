@@ -6,12 +6,17 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ReportIcon from '@mui/icons-material/Report';
 import { PopUp } from 'components/PopUp/PopUp';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import puigLogo from '../../../images/puig.png';
 
 export const CategoryInfo = ({ id }) => {
   const { i18n, t } = useTranslation();
   const currentLang = i18n.language;
+  const [searchParams] = useSearchParams();
+
+  const make = searchParams.get('make');
+  const model = searchParams.get('model');
+  const year = searchParams.get('year');
   const [category, setCategory] = useState(null);
   const [productsArray, setProductsArray] = useState([]);
   const [editModal, setEditModal] = useState(false);
@@ -23,7 +28,12 @@ export const CategoryInfo = ({ id }) => {
       setCategory(catInfo.data);
     }
     async function getProducts() {
-      const catInfo = await axios.get(`/puig-api/products-by-category/${id}`);
+      let catInfo;
+      if (!make && !model && !year) {
+        catInfo = await axios.get(`/puig-api/products-by-category/${id}`);
+      } else {
+        catInfo = await axios.get(`/puig-api/products-by-category/${id}?make=${make}&model=${model}&year=${year}`);
+      }
       setProductsArray(() => (catInfo?.data && catInfo?.data.length > 0 ? catInfo.data : [{}]));
     }
     if (!category) {
@@ -32,7 +42,7 @@ export const CategoryInfo = ({ id }) => {
     if (category && productsArray.length < 1) {
       getProducts();
     }
-  }, [id, category, productsArray]);
+  }, [id, category, productsArray, make, model, year]);
 
   const name =
     currentLang === 'uk'
@@ -89,7 +99,7 @@ export const CategoryInfo = ({ id }) => {
       <ul className={css.productsList}>
         {productsArray.map(p => (
           <li key={p.id}>
-            <Link to={`/puig-api/product/${p.id}`} className={css.productCard}>
+            <Link to={year ? `/puig-api/product/${p.id}?make=${make}&model=${model}&year=${year}` : `/puig-api/product/${p.id}`} className={css.productCard}>
               <img src={!p?.images || p.images?.length < 1 ? puigLogo : p.images[0]} alt='' className={css.productImage}/>
               <p className={css.productName}>
                 {currentLang === 'uk' && p?.titleUk !== ''

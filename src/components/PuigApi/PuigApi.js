@@ -9,25 +9,77 @@ import { Paper, Tabs, Tab, Box } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { PopUp } from 'components/PopUp/PopUp';
 import toast from 'react-hot-toast';
+import Select from 'react-select';
 import { Search } from './Search/Search';
+import { ClipLoader } from 'react-spinners';
 
 export const PuigApiHome = () => {
   const [categ, setCateg] = useState([]);
   const [tab, setTab] = useState(0); 
   const [catMenuOpen, setCatMenuOpen] = useState(false);
+  const [bike, setBike] = useState({ make: null, model: null, year: null })
+  const [bikeBrands, setBikeBrands] = useState([{value: '', label: 'Brand'}]);
+  const [bikeModelsArray, setBikeModelsArray] = useState([]);
+  const [bikeModels, setBikeModels] = useState([{value: '', label: 'Model'}]);
+  const [bikeYear, setBikeYear] = useState([{value: '', label: 'Year'}]);
+  const [pending, setPending] = useState(false);
+  const [prevBike, setPrevBike] = useState(null)
   const { i18n, t } = useTranslation();
   const currentLang = i18n.language;
 
   useEffect(() => {
-    async function getCateg() {
-      const categArray = await axios.get('/puig-api/categories');
-      setCateg(categArray.data);
+    let isBike = false
+    if (bike?.year && JSON.stringify(bike) !== JSON.stringify(prevBike)) {
+      isBike = true;
     }
 
-    if (categ.length === 0) {
+    async function getCateg() {
+      setPending(true)
+      const categArray = await axios.get('/puig-api/categories');
+      setCateg(categArray.data);
+      setPending(false)
+    }
+    async function getCategByBike() {
+      setPending(true)
+      const categByBike = await axios.get(`/puig-api/categories?make=${bike.make}&model=${bike.model}&year=${bike.year}`);
+      setCateg(categByBike.data)
+      setPrevBike(bike)
+      setPending(false)
+    }
+
+    if (categ.length === 0 && !isBike) {
       getCateg();
     }
-  }, [categ]);
+    if (isBike) {
+      getCategByBike();
+    }
+  }, [categ, bike, prevBike]);
+
+  useEffect(() => {
+    async function getBikeBrands() {
+      setPending(true)
+      const res = await axios.get('/puig-api/bike-brands');
+      setBikeBrands([ ...res?.data.map(b => ({ value: b, label: b })) ]);
+      setPending(false)
+    }
+
+    async function getBikeModels() {
+      setPending(true)
+      const res = await axios.get(`/puig-api/bike-models?brand=${bike.make}`);
+      setBikeModelsArray(res?.data);
+      setBikeModels([ ...res?.data.map(b => ({ value: b.model, label: b.model })) ]);
+      setPending(false)
+    }
+
+    if (bikeBrands[0].value === '') {
+      getBikeBrands();
+    } else if (bike?.make && !bike.model && !bike.year && !bikeModelsArray.length) {
+      getBikeModels();
+    } else if (bike?.make && bike?.model && !bike?.year) {
+      const targetModel = bikeModelsArray.find(m => m.model === bike.model);
+      setBikeYear([ ...targetModel.years.map(m => ({ value: m, label: m })) ]);
+    }
+  }, [bike, bikeBrands, bikeModelsArray]);
 
   function getName(category) {
     const name =
@@ -129,11 +181,46 @@ export const PuigApiHome = () => {
                   <MoreHorizIcon />
                 </button>
               </div>
+              <div className={css.modelFilter}>
+                <div className={css.modelItem}>
+                  <span className={css.modelLabel}>
+                    {t('make')}
+                  </span>
+                  <Select 
+                    name='brand' 
+                    options={bikeBrands}
+                    onChange={(e) => {setBike({ make: e.value, model: null, year: null }); setBikeModelsArray([])}}
+                  />
+                </div>
+                <div className={css.modelItem}>
+                  <span className={css.modelLabel}>
+                    {t('model')}
+                  </span>
+                  <Select 
+                    name='model' 
+                    options={bikeModels}
+                    value={bikeModels.find(i => i.value === bike.model) || null}
+                    onChange={(e) => {setBike(prev => ({ ...prev, model: e.value, year: null }))}}
+                  />
+                </div>
+                <div className={css.modelItem}>
+                  <span className={css.modelLabel}>
+                    {t('year')}
+                  </span>
+                  <Select 
+                    name='year' 
+                    options={bikeYear}
+                    value={bikeYear.find(i => i.value === bike.year) || null}
+                    onChange={(e) => {setBike(prev => ({ ...prev, year: e.value }))}}
+                  />
+                </div>
+                {pending && <ClipLoader color="#c04545" size="30px" className={css.loader}/>}
+              </div>
               <ul className={css.categoriesList}>
                 {categ.map(i => (
                   <li key={i.id}>
                     <Link
-                      to={`category/${i.id}`}
+                      to={bike.year ? `category/${i.id}?make=${bike.make}&model=${bike.model}&year=${bike.year}` : `category/${i.id}`}
                       className={css.categoryCard}
                     >
                       <img src={!i.image || i.image === '' ? puigLogo : i.image} alt='category' className={css.categoryImage}/>
@@ -148,7 +235,7 @@ export const PuigApiHome = () => {
                 body={
                   <div className={css.catMenu}>
                     <button onClick={() => toast.promise(startCheckUpdates(), { loading: 'loading...', success: (data) => data.message, error: 'Error: try again later.' })} className={css.btn}>Update items from Puig</button>
-                    <button className={css.btn}>Download products table</button>
+                    {/* <button className={css.btn}>Download products table</button> */}
                   </div>
                 }
               />

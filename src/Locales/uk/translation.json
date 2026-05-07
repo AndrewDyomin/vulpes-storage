@@ -142,5 +142,12 @@
   "orders recalculated": "Замовлення перераховані.",
   "error, try again for a minute": "Помилка, спробуйте ще раз за хвилину!",
   "categories": "Категорії",
-  "invoices": "Рахунки"
+  "invoices": "Рахунки",
+  "marketplaces": "Маркетплейси",
+  "streaming editing": "Потокова обробка",
+  "default": "За замовчуванням",
+  "availability": "За кількістю",
+  "make": "Марка",
+  "model": "Модель",
+  "year": "Рік"
 }

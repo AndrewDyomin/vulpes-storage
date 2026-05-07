@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import css from './PuigProduct.module.css';
 import puigLogo from '../../../images/puig.png';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +18,7 @@ import { selectEUR } from '../../../redux/currency/selectors';
 
 export const ProductInfo = ({ id }) => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const { sell } = useSelector(selectEUR)
   const [product, setProduct] = useState(null);
   const [activeArticle, setActiveArticle] = useState(0);
@@ -38,6 +40,9 @@ export const ProductInfo = ({ id }) => {
   const [bikeModelsList, setBikeModelsList] = useState([{ value: '-', label: '-' }]);
   const [activeBikeBrand, setActiveBikeBrand] = useState(null);
 
+  const make = searchParams.get('make');
+  const model = searchParams.get('model');
+  const year = searchParams.get('year');
   const title = product?.title;
   const titleRu = product?.titleRu;
   const titleUk = product?.titleUk;
@@ -52,12 +57,18 @@ export const ProductInfo = ({ id }) => {
 
   useEffect(() => {
     async function getProduct() {
-      const response = await axios.get(`/puig-api/product-by-id/${id}`);
+      let response;
+      if (!year) {
+        response = await axios.get(`/puig-api/product-by-id/${id}`);
+      } else {
+        response = await axios.get(`/puig-api/product-by-id/${id}?make=${make}&model=${model}&year=${year}`);
+      }
+      
       setProduct(response.data);
       setPending(false);
     }
     getProduct();
-  }, [id]);
+  }, [id, make, model, year]);
 
   useEffect(() => {
     if (!title) return;

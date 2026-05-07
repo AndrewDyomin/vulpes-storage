@@ -141,5 +141,12 @@
   "orders recalculated": "Orders recalculated.",
   "error, try again for a minute": "Error, try again for a minute!",
   "categories": "Categories",
-  "invoices": "Invoices"
+  "invoices": "Invoices",
+  "marketplaces": "Marketplaces",
+  "streaming editing": "Streaming editing",
+  "default": "By default",
+  "availability": "By availability",
+  "make": "Make",
+  "model": "Model",
+  "year": "Year"
 }
