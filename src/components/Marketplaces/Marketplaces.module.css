@@ -34,6 +34,12 @@
     margin-top: 20px;
 }
 
+.firstStage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
 .button {
   margin-top: 20px;
   background-color: transparent;
@@ -81,4 +87,67 @@
 
 .down {
     color: red;
+}
+
+.outdatedList {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 100%;
+}
+
+.outdatedItem {
+    width: calc((100% / 3) - 15px);
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+}
+
+.itemImage {
+    max-width: 100%;
+}
+
+.itemArticle {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #fff9;
+    padding: 0 3px;
+    font-weight: 700;
+}
+
+.imageOk {
+    position: absolute;
+    top: -1px;
+    right: 5px;
+    background-color: #4da228;
+    padding-top: 10px;
+    border-radius: 0 0 5px 5px;
+    cursor: pointer;
+}
+
+@media screen and (width < 425px) {
+    .outdatedItem {
+        width: calc((100% / 2) - 10px);
+    }
+}
+
+@media screen and (width > 570px) {
+    .outdatedItem {
+        width: calc((100% / 4) - 15px);
+    }
+}
+
+@media screen and (width > 700px) {
+    .outdatedItem {
+        width: calc((100% / 5) - 15px);
+    }
+}
+
+@media screen and (width > 1100px) {
+    .outdatedItem {
+        width: calc((100% / 6) - 15px);
+    }
 }

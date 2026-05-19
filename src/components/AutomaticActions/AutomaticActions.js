@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ClockLoader } from 'react-spinners';
 import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
-import UpdateIcon from '@mui/icons-material/Update';
+// import UpdateIcon from '@mui/icons-material/Update';
 import { PopUp } from '../PopUp/PopUp';
 import { EditableTable } from '../EditableTable/EditableTable';
 
@@ -51,28 +51,28 @@ export const AutomaticActions = () => {
     }
   };
 
-  const updatePromTableHandler = async () => {
-    setIsPending(true);
-    toast.success("Это может занять несколько минут");
-    await axios
-      .post('/products/update-prom-base')
-      .then(response => toast.success(t(response.data.message)))
-      .catch(response => toast.error(t(response.data.message)));
-    setIsPending(false);
-  }
+  // const updatePromTableHandler = async () => {
+  //   setIsPending(true);
+  //   toast.success("Это может занять несколько минут");
+  //   await axios
+  //     .post('/products/update-prom-base')
+  //     .then(response => toast.success(t(response.data.message)))
+  //     .catch(response => toast.error(t(response.data.message)));
+  //   setIsPending(false);
+  // }
 
-  const updateZakupkaXmlHandler = async () => {
-    setIsPending(true);
-    try {
-      await axios.get('/files/update-zakupka');
-      toast.success('XML file to Zakupka.com updated.')
+  // const updateZakupkaXmlHandler = async () => {
+  //   setIsPending(true);
+  //   try {
+  //     await axios.get('/files/update-zakupka');
+  //     toast.success('XML file to Zakupka.com updated.')
       
-    } catch (err) {
-      toast.error('Error! Please try again later...');
-    }
+  //   } catch (err) {
+  //     toast.error('Error! Please try again later...');
+  //   }
     
-    setIsPending(false);
-  }
+  //   setIsPending(false);
+  // }
 
   return (
     <>
@@ -97,7 +97,7 @@ export const AutomaticActions = () => {
             </>
           )}
         </div>
-        <div className={css.button} onClick={updatePromTableHandler}>
+        {/* <div className={css.button} onClick={updatePromTableHandler}>
           {isPending ? (
             <ClockLoader color="#c04545" />
           ) : (
@@ -106,8 +106,8 @@ export const AutomaticActions = () => {
               <p>{t('update prom table')}</p>
             </>
           )}
-        </div>
-        <div className={css.button} onClick={updateZakupkaXmlHandler}>
+        </div> */}
+        {/* <div className={css.button} onClick={updateZakupkaXmlHandler}>
           {isPending ? (
             <ClockLoader color="#c04545" />
           ) : (
@@ -116,7 +116,7 @@ export const AutomaticActions = () => {
               <p>{t('update zakupka xml')}</p>
             </>
           )}
-        </div>
+        </div> */}
       </div>
       <PopUp
         isOpen={isBrokerTableOpen}
