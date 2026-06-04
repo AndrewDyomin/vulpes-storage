@@ -18,16 +18,16 @@ export const ListOfProducts = ({ products }) => {
 
       for (const product of products) {
         try {
-          const { sku } = product;
+          const { sku, amount } = product;
           const res = await axios.post('/products/byarticle', { article: sku });
           const dbProduct = res.data.product;
 
-          if (dbProduct?.isSet?.length > 0) {
+          if (dbProduct?.isSet?.length > 0 && dbProduct?.isSet[0] !== null) {
             for (const setItem of dbProduct.isSet) {
-              result.push(setItem ?? sku); 
+              result.push({ sku: setItem.sku, amount: Number(setItem.count)*Number(amount) }); 
             }
           } else {
-            result.push(sku);
+            result.push({sku, amount});
           }
         } catch (err) {
           console.error('Ошибка при получении продукта:', err.message);
@@ -45,7 +45,7 @@ export const ListOfProducts = ({ products }) => {
     <ul className={css.productsList}>
       {resolvedProducts.map((sku, index) => (
         <li key={`${sku}-${index}`}>
-          <p>{sku.sku} - {sku.count}шт.;</p>
+          <p>{sku.sku} - {sku.amount}шт.;</p>
         </li>
       ))}
     </ul>
@@ -103,7 +103,7 @@ export const ForShipping = () => {
         close={closeModal}
         body={
         <div className={css.modalBody}>
-          {activeOrder?.ord_delivery_data[0]?.trackingNumber && <img alt={activeOrder?.ord_delivery_data[0]?.trackingNumber} src={activeOrder?.ord_delivery_data[0]?.marking} style={{ width: '100%', height: '60px' }} />}
+          {activeOrder?.ord_delivery_data[0]?.trackingNumber && <img alt={activeOrder?.ord_delivery_data[0]?.trackingNumber} src={activeOrder?.ord_delivery_data[0]?.marking} className={css.barcode} />}
           <h3>№ {activeOrder?.id}</h3>
           <ul className={css.modalProductsList}>
             {activeOrder?.products && 

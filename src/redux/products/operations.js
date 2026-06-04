@@ -129,7 +129,6 @@ export const getTranslate = createAsyncThunk(
       const res = await axios.post('/products/get-translate', data);
 
       toast.success(`${res.data?.message}`);
-      console.log(res.data.product)
 
       return res.data.product;
     } catch(error) {

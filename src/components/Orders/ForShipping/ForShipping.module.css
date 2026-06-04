@@ -50,3 +50,8 @@
     flex-direction: column;
     gap: 5px;
 }
+
+.barcode {
+    width: 100%;
+    height: 60px;
+}

@@ -30,7 +30,18 @@ export const addReceive = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const res = await axios.post('/receive-products/add', { ...data });
-      console.log(res.data)
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getAllInvoices = createAsyncThunk(
+  'Receive/getAllInvoices',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get('/receive-products/all-invoices');
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

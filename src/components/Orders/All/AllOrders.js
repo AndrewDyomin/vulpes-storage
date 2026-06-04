@@ -62,8 +62,6 @@ export const AllOrders = () => {
     setActiveOrder(null)
   }
 
-  console.log(activeOrder)
-
   return (
     <div className={css.container}>
       <div className={css.wrapper}>

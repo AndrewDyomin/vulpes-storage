@@ -30,7 +30,6 @@ export const AutomaticActions = () => {
 
   const sendTableValues = async (values, invoice) => {
     const data = { values, invoiceName: invoice?.name || '' }
-    console.log(data)
     try {
       const response = await axios.post(
         '/files/download-table-for-broker',

@@ -23,7 +23,6 @@ export const Search = () => {
       setResult('');
 
       const res = await axios.get(`/puig-api/search-product/${phrase}`);
-      console.log(res);
 
       if (res.status !== 200) {
         setResult('No data found');

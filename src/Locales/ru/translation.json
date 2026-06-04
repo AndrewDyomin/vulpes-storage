@@ -149,5 +149,9 @@
   "availability": "По количеству",
   "make": "Марка",
   "model": "Модель",
-  "year": "Год"
+  "year": "Год",
+  "select invoice": "Выбрать счет",
+  "result": "Результат",
+  "not enough": "Не хватает",
+  "extra products": "Лишние товары"
 }

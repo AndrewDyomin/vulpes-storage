@@ -17,9 +17,11 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: 10px;
 }
 
 .item {
+    position: relative;
     width: 100%;
     height: 20vw;
     display: flex;
@@ -27,10 +29,6 @@
     border: 1px solid #282727;
     border-radius: 4px;
     padding: 5px;
-}
-
-.item:nth-child(n+2) {
-    margin-top: 10px;
 }
 
 .itemImage {
@@ -43,6 +41,10 @@
 
 .itemCount {
     margin-left: auto;
+    background: #ffffffd4;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
 }
 
 .itemCountInput {
@@ -144,8 +146,14 @@
     align-items: center;
 }
 
-.downloadButton {
+.finalButtons {
     margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.downloadButton {
     background: transparent;
     border: 2px solid #8a2313;
     color: #8a2313;
@@ -153,4 +161,104 @@
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.reportButton {
+    background: transparent;
+    border: 2px solid #138a39;
+    color: #138a39;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.invSelect, .invList {
+    margin-top: 15px;
+}
+
+.miniSaveBtn {
+    display: flex;
+    margin-left: auto;
+    color: #03730a;
+    cursor: pointer;
+}
+
+.miniRemoveBtn {
+    color: #881212;
+    border: none;
+}
+
+.checkWrapper {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+}
+
+.invoiceGreen {
+    font-weight: 700;
+    background-color: #ffffffa5;
+    color: green;
+}
+
+.invoiceRed {
+    font-weight: 700;
+    background-color: #ffffffa5;
+    color: red;
+}
+
+.resultTitle {
+    margin-top: 20px;
+}
+
+.resultWrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.resultColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.resultItem {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: 20px;
+    margin-bottom: auto;
+}
+
+@media screen and (width >= 834px) {
+    .list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+    }
+
+    .item {
+        height: 170px;
+        width: 100%;
+    }
+
+    .itemArticle {
+        position: absolute;
+        bottom: 3px;
+        left: 3px;
+        background-color: #ffffffd4;
+    }
+
+    /* .itemCount {
+        background: #ffffffd4;
+        position: absolute;
+        bottom: 3px;
+        right: 3px;
+    } */
+}
+
+@media screen and (width >= 1100px) {
+    .list {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }

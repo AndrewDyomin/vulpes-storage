@@ -149,5 +149,9 @@
   "availability": "За кількістю",
   "make": "Марка",
   "model": "Модель",
-  "year": "Рік"
+  "year": "Рік",
+  "select invoice": "Обрати рахунок",
+  "result": "Результат",
+  "not enough": "Не вистачає",
+  "extra products": "Зайві товарі"
 }

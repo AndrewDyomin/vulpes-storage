@@ -3,6 +3,7 @@ import {
   getReceive, 
   getAllReceives,
   addReceive,
+  getAllInvoices,
 } from './operations';
 
 const handlePending = state => {
@@ -18,6 +19,7 @@ const ReceiveSlice = createSlice({
   name: 'receive',
   initialState: {
     items: [],
+    invoices: null,
     activeItem: {},
     draft: null,
     isLoading: false,
@@ -30,6 +32,15 @@ const ReceiveSlice = createSlice({
     clearDraft(state) {
       state.draft = null;
     },
+    updateInvoices(state, action) {
+      const { _id, invoices } = action.payload;
+      const receive = state.items.find(
+        item => item._id === _id
+      );
+      if (receive) {
+        receive.invoices = invoices;
+      }
+    } 
   },
   extraReducers: builder => {
     builder
@@ -53,9 +64,16 @@ const ReceiveSlice = createSlice({
         state.draft = null;
         state.error = null;
       })
-      .addCase(addReceive.rejected, handleRejected);
+      .addCase(addReceive.rejected, handleRejected)
+      .addCase(getAllInvoices.pending, handlePending)
+      .addCase(getAllInvoices.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.invoices = action.payload;
+      })
+      .addCase(getAllInvoices.rejected, handleRejected);
   },
 });
 
-export const { setDraft, clearDraft } = ReceiveSlice.actions;
+export const { setDraft, clearDraft, updateInvoices } = ReceiveSlice.actions;
 export const receivesReducer = ReceiveSlice.reducer;

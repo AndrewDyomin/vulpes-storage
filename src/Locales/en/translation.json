@@ -148,5 +148,9 @@
   "availability": "By availability",
   "make": "Make",
   "model": "Model",
-  "year": "Year"
+  "year": "Year",
+  "select invoice": "Select invoice",
+  "result": "Result",
+  "not enough": "Not enough",
+  "extra products": "Extra products"
 }

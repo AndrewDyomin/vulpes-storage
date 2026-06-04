@@ -58,8 +58,6 @@ export const OrdersByArticle = () => {
     );
   };
 
-  console.log(ordersWithArticle);
-
   return (
     <>
       <p>{t('in orders')}:</p>
