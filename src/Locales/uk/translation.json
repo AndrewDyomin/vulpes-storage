@@ -153,5 +153,8 @@
   "select invoice": "Обрати рахунок",
   "result": "Результат",
   "not enough": "Не вистачає",
-  "extra products": "Зайві товарі"
+  "extra products": "Зайві товарі",
+  "goods receipt": "Надходження товарів",
+  "purchase requests": "Запит на закупівлю",
+  "empty": "Порожньо"
 }

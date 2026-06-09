@@ -52,9 +52,14 @@ export const MoteaOrderTemplate = () => {
   }, [ordersArray, firstMount])
 
   async function setBestand(value, row) {
-    setOrdersArray((prev) => prev.map(r => r.row === row ? { ...r, pending: true } : r));
-    const res = await axios.post('/orders/update-row-from-template', {value, row});
-    setOrdersArray((prev) => prev.map(r => r.row === row ? { ...r, bestand: res.data, pending: false } : r));
+    setOrdersArray((prev) => prev.map(r => r.row === row.row ? { ...r, pending: true } : r));
+    const res = await axios.post('/orders/update-row-from-template', {value, row: row.row});
+    if (row?.numbers === 'склад' && value === 'JA') {
+      await axios.post('/products/add-to-purchase-request', { article: row.sku });
+    } else if (row?.numbers === 'склад' && value === '') {
+      await axios.post("/products/remove-from-purchase-request", { _id: null, article: row.sku });
+    }
+    setOrdersArray((prev) => prev.map(r => r.row === row.row ? { ...r, bestand: res.data, pending: false } : r));
   }
 
   async function changeStatusHandler(bool) {
@@ -133,7 +138,14 @@ export const MoteaOrderTemplate = () => {
                         <td className={`${css.cell} ${css.skuSell}`} onClick={() => copyToClipboard(row.sku)}>{row.sku}</td>
                         <td className={css.cell}>{row.amount}</td>
                         <td className={css.cell}>
-                          {row.pending ? <div className={css.loaderCell}><ClockLoader color="#c04545" /></div> : <button className={css.bestandBtn} onClick={() => setBestand(row.bestand, row.row)} style={row.bestand === '' ? {color: '#353535', background: '#9e9e9e'} : row.bestand === 'JA' ? {background: '#3f8e3a'} : {background: '#c04545'}}>{row.bestand === '' ? 'SET' : row.bestand}</button>}
+                          {row.pending ? 
+                            <div className={css.loaderCell}>
+                              <ClockLoader color="#c04545" />
+                            </div> 
+                          : 
+                            <button className={css.bestandBtn} onClick={() => setBestand(row.bestand, row)} style={row.bestand === '' ? {color: '#353535', background: '#9e9e9e'} : row.bestand === 'JA' ? {background: '#3f8e3a'} : {background: '#c04545'}}>
+                              {row.bestand === '' ? 'SET' : row.bestand}
+                            </button>}
                         </td>
                         <td className={css.cell}>{row.name}</td>
                     </tr>

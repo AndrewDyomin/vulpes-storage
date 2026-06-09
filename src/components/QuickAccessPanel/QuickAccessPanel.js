@@ -11,6 +11,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useTranslation } from 'react-i18next';
 import moteaLogo from '../../images/motea_logo_no_claim.png';
 import puigLogo from '../../images/puig.png'
@@ -48,13 +49,13 @@ export const QuickAccessPanel = () => {
                 <p className={css.linkCardTitle}>{t('inventory check')}</p>
             </div>
         </Link>)}
-        {(user.role === 'owner' || user.role === 'administrator') && (
+        {(user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') && (
         <Link to="/get-products-in" className={css.link}>
             <div className={css.linkCard}>
                 <div className={css.iconArea}>
                     <AddHomeWorkOutlinedIcon fontSize='large'/>
                 </div>
-                <p className={css.linkCardTitle}>{t('get in')} MOTEA</p>
+                <p className={css.linkCardTitle}>{t('goods receipt')}</p>
             </div>
         </Link>)}
         {user.role === 'owner' && (
@@ -118,6 +119,15 @@ export const QuickAccessPanel = () => {
                     <InsertChartOutlinedIcon fontSize='large'/>
                 </div>
                 <p className={css.linkCardTitle}>{t('statistic')}</p>
+            </div>
+        </Link>)}
+        {(user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') && (
+        <Link to="/purchase-request" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <PostAddIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('purchase requests')}</p>
             </div>
         </Link>)}
     </div>

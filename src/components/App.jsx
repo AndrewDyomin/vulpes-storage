@@ -28,6 +28,7 @@ const PuigApi = lazy(() => import('../pages/PuigApi'));
 const PuigCategoryPage = lazy(() => import('../pages/PuigCategory'));
 const PuigProductPage = lazy(() => import('../pages/PuigProduct'));
 const MarketplacesPage = lazy(() => import('../pages/Marketplaces'));
+const PurcasePage = lazy(() => import('../pages/PurchaseRequest'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -189,6 +190,15 @@ export const App = () => {
               <PrivateRoute
                 redirectTo="/login"
                 component={<MarketplacesPage />}
+              />
+            }
+          />
+          <Route
+            path="/purchase-request/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<PurcasePage />}
               />
             }
           />

@@ -1,0 +1,92 @@
+.addButton {
+    display: flex;
+    margin-left: auto;
+    border: none;
+    background-color: #ffffff00;
+    color: #c04545;
+    cursor: pointer;
+}
+
+.countArea {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.notFoundArea {
+    flex-direction: column;
+    align-items: center;
+}
+
+.countInput {
+    box-sizing: border-box;
+    width: calc(50% - 3px);
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+    background: transparent;
+    border: 2px solid #8a2313;
+    color: #8a2313;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.list {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.item {
+    width: calc(100% / 3 - 10px);
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.itemImage {
+    width: 100%;
+}
+
+.itemArticle, .itemName {
+    position: absolute;
+    background-color: #ffffff77;
+    left: 3px;
+}
+
+.itemArticle {
+    top: 3px;
+    font-weight: 700;
+}
+
+.itemName {
+    bottom: 3px;
+    font-size: 4vw;
+    max-height: 50%;
+}
+
+.delBtn {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    color: #8a2313;
+    max-width: 20px;
+}
+
+@media screen and (min-width: 400px) {
+    .itemName {
+        font-size: 15px;
+    }
+}

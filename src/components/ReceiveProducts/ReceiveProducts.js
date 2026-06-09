@@ -198,6 +198,18 @@ export const ReceiveProducts = () => {
     }
   }
 
+  const closeInvoice = async() => {
+    
+    try {
+      const res = await axios.post('/receive-products/close-invoice', { _id: activeInvoice?._id });
+      toast.success(t(res.data.message));
+      closeModal();
+      dispatch(getAllInvoices());
+    } catch(err) {
+      toast.error(err.message)
+    }
+  }
+
   const updateInvoice = async() => {
     // toast.error("Эта кнопка еще не работает.")
     setActiveInvoice(invoice);
@@ -443,13 +455,20 @@ export const ReceiveProducts = () => {
                         ))}
                       </ul> : <p>{t('empty')}</p>}
                       <p className={css.invoiceTotal}>Total EUR: <strong>{activeInvoice?.total}</strong></p>
-                      <div>
+                      <div className={css.invoiceButtons}>
                         <button 
                           className={css.button}
                           onClick={()=> {removeInvoice()}}
                         >
                           {t('delete')}
                         </button>
+                        {!activeInvoice?.verified && 
+                        <button
+                          className={`${css.button} ${css.saveButton}`}
+                          onClick={()=> closeInvoice(activeInvoice?.name)}
+                        >
+                          {t('close invoice')}
+                        </button>}
                       </div>
                     </div>
                   }

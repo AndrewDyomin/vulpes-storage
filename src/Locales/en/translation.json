@@ -152,5 +152,8 @@
   "select invoice": "Select invoice",
   "result": "Result",
   "not enough": "Not enough",
-  "extra products": "Extra products"
+  "extra products": "Extra products",
+  "goods receipt": "Goods receipt",
+  "purchase requests": "Purchase Requests",
+  "empty": "Empty"
 }

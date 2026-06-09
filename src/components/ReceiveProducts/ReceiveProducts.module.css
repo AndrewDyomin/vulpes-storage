@@ -17,6 +17,12 @@
     align-items: center;
 }
 
+.invoiceButtons {
+    display: flex;
+    gap: 0 20px;
+    flex-wrap: wrap;
+}
+
 .addButton {
     border: none;
     background-color: #ffffff00;
@@ -58,7 +64,7 @@
     border-radius: 20px;
     margin-top: 30px;
     cursor: pointer;
-    min-width: 50%;
+    min-width: calc(50% - 10px);
 }
 
 .countArea {

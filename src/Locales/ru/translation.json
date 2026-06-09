@@ -153,5 +153,8 @@
   "select invoice": "Выбрать счет",
   "result": "Результат",
   "not enough": "Не хватает",
-  "extra products": "Лишние товары"
+  "extra products": "Лишние товары",
+  "goods receipt": "Поступление товаров",
+  "purchase requests": "Запрос на закупку",
+  "empty": "Пусто"
 }
