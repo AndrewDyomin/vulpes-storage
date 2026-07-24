@@ -1,0 +1,287 @@
+.leversWrapper {
+    margin-top: 20px;
+}
+
+.targetDetailsWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+
+.targetDetailsColumn {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+}
+
+.targetDetailsItem {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    border: 1px solid #858585;
+    border-radius: 10px;
+    width: 100%;
+    position: relative;
+}
+
+.detailImage {
+    max-width: 100%;
+}
+
+.detailArticle {
+    background-color: #fff;
+    font-weight: 700;
+}
+
+.detailQuantity {
+    background-color: #fff;
+    font-weight: 700;
+}
+
+.loadSpinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.headImageWrapper {
+    width: 100%;
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.topImage {
+    width: 100%;
+}
+
+.notFound {
+    height: 200px;
+}
+
+.constructorButtonsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.colorBtnsList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.colorBtn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+}
+
+.activeColorBtn {
+    transform: scale(1.2) translate(0, -10%);
+}
+
+.priceWrapper {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: baseline;
+    position: relative;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #df591d;
+}
+
+.oldPrice {
+    font-size: 20px;
+    text-decoration: line-through;
+    color: #a2a2a2;
+    font-weight: 700;
+}
+
+.saleCount {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 15px;
+    color: #df591d;
+    font-weight: 700;
+    translate: 0 -50%;
+}
+
+.orderButton {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    border: 3px solid var(--primary);
+    border-radius: 20px;
+    padding: 5px 15px;
+    display: flex;
+    margin: 15px 15px 0 auto;
+    background-color: transparent;
+}
+
+/* -----MODAL----- */
+
+.orderModalTitle {
+   text-transform: capitalize; 
+}
+
+.orderForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.topImageWrapper {
+    max-width: 240px;
+    max-height: 200px;
+}
+
+.field {
+    position: relative;
+}
+
+.inputLabel {
+    padding: 0 2px;
+    position: absolute;
+    translate: 0 -50%;
+    top: 0;
+    left: 5px;
+    background-color: #fff;
+    font-weight: 700;
+}
+
+.inputField {
+    padding: 6px 10px;
+    border: 3px solid #9c9c9c;
+    border-radius: 5px;
+}
+
+.modalErrorMessage {
+    color: red;
+    font-weight: 600;
+}
+
+.citiesList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 3px solid #d9d9d9;
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 2px 5px;
+    max-width: 220px;
+}
+
+.citiesItem {
+    border-radius: 5px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.citiesItem:hover {
+    background-color: #d9d9d9;
+}
+
+.thanksModalBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 250px;
+    gap: 15px;
+}
+
+.orderId {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+@media screen and (min-width: 832px) {
+    .modelFilter {
+        display: flex;
+        gap: 10px;
+    }
+
+    .modelItem {
+        width: 100%;
+    }
+
+    .detailImage {
+        max-width: 30%;
+    }
+
+    .targetDetailsItem {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .detailArticle {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        transform: translate(0, -50%);
+    }
+    
+    .detailQuantity {
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        transform: translate(0, 50%);
+    }
+
+    .secondSelectArea {
+        display: flex;
+        flex-direction: row;
+        gap: 10px
+    }
+
+    .headImageWrapper {
+        max-width: 50%;
+    }
+
+    .colorBtnsList {
+        gap: 5px;
+    }
+
+    .colorBtn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .colorBtn:hover {
+        transform: scale(1.2) translate(0, -18%);
+        transition: transform 0.2s ease;
+    }
+
+    /* --- MODAL --- */
+    .modalBody {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .orderModalHeader {
+        position: absolute;
+        top: -35px;
+    }
+
+    .topImage {
+        margin-top: 30px;
+    }
+}

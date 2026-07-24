@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { I18nextProvider } from 'react-i18next';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
@@ -48,15 +49,17 @@ i18n
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter basename="/vulpes-storage">
-        {/* <BrowserRouter > */}
-          <I18nextProvider i18n={i18n}>
-            <App />
-          </I18nextProvider>
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter basename="/vulpes-storage">
+          {/* <BrowserRouter > */}
+            <I18nextProvider i18n={i18n}>
+              <App />
+            </I18nextProvider>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );

@@ -89,9 +89,17 @@ export const ReceiveProducts = () => {
   };
 
   const addItemToList = () => {
+    const newItem = {
+      article: !article ? activeItem.article : article,
+      count,
+      barcode: null
+    };
+    if (!article || activeItem?.article === article) {
+      newItem.barcode = activeItem?.barcode;
+    }
     const newList = [
       ...addItemsList,
-      { article: !article ? activeItem.article : article, count },
+      newItem,
     ];
     setAddItemsList(newList);
     dispatch(setDraft({ name: listDate(), items: newList }));
@@ -101,6 +109,17 @@ export const ReceiveProducts = () => {
     dispatch(clearActiveProduct());
     scannerRef.current?.startScan();
   };
+
+  const delItem = (index) => {
+    const newList = [ ...addItemsList ];
+    newList.splice(index, 1);
+    setAddItemsList(newList);
+    if (newList?.length === 0) {
+      dispatch(setDraft(null));
+    } else {
+      dispatch(setDraft({ name: listDate(), items: newList }));
+    }
+  }
 
   const listDate = () => {
     const now = new Date();
@@ -515,6 +534,12 @@ export const ReceiveProducts = () => {
                       {t('count')}: {item.count}
                       {t('pcs')}.
                     </p>
+                    <button
+                      className={`${css.addButton} ${css.delButton}`}
+                      onClick={() => delItem(index)}
+                    >
+                      <HighlightOffIcon fill="transparent" fontSize="medium" />
+                    </button>
                   </li>
                 ))}
               </ul>

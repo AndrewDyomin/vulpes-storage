@@ -1,16 +1,56 @@
 import css from './AutomaticActions.module.css';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ClockLoader } from 'react-spinners';
 import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 // import UpdateIcon from '@mui/icons-material/Update';
 import { PopUp } from '../PopUp/PopUp';
 import { EditableTable } from '../EditableTable/EditableTable';
+import { useGoogleLogin } from '@react-oauth/google';
+
+export function useGoogleReauth() {
+  const promiseRef = useRef(null);
+
+  const login = useGoogleLogin({
+    flow: 'auth-code',
+    scope: 'https://www.googleapis.com/auth/drive',
+
+    onSuccess: async ({ code }) => {
+      try {
+        await axios.post('/marketplaces/refresh-google-oauth-token', { code });
+
+        promiseRef.current?.resolve();
+      } catch (err) {
+        promiseRef.current?.reject(err);
+      } finally {
+        promiseRef.current = null;
+      }
+    },
+
+    onError: (err) => {
+      promiseRef.current?.reject(err);
+      promiseRef.current = null;
+    },
+  });
+
+  return () => {
+    if (promiseRef.current) {
+      return Promise.reject(new Error('Google auth already in progress'));
+    }
+
+    return new Promise((resolve, reject) => {
+      promiseRef.current = { resolve, reject };
+      login();
+    });
+  };
+}
 
 export const AutomaticActions = () => {
   const { t } = useTranslation();
+  const googleReauth = useGoogleReauth();
   const [isPending, setIsPending] = useState(false);
   // const [articlesSended, setArticlesSended] = useState(false);
   const [isBrokerTableOpen, setIsBrokerTableOpen] = useState(false);
@@ -49,6 +89,19 @@ export const AutomaticActions = () => {
       toast.error(`Ошибка при скачивании: ${error.message}`);
     }
   };
+
+  const checkOutdatedImagesHandler = async () => {
+    try {
+      const res = await axios.get('/marketplaces/check-images-from-outdated-products');
+      if (res?.data?.error === 'invalid_grant') {
+        await googleReauth();
+        return checkOutdatedImagesHandler();
+      }
+      toast.success("Проверка изображений запущена. О результатах отчитаюсь в телеграм.");
+    } catch(err) {
+      toast.error("Что-то пошло не так. Попробуй позже.");
+    }
+  }
 
   // const updatePromTableHandler = async () => {
   //   setIsPending(true);
@@ -93,6 +146,16 @@ export const AutomaticActions = () => {
             <>
               <BackupTableOutlinedIcon />
               <p>{t('create table for broker')}</p>
+            </>
+          )}
+        </div>
+        <div className={css.button} onClick={() => checkOutdatedImagesHandler()}>
+          {isPending ? (
+            <ClockLoader color="#c04545" />
+          ) : (
+            <>
+              <ImageNotSupportedIcon />
+              <p>{t('check images from outdated products')}</p>
             </>
           )}
         </div>

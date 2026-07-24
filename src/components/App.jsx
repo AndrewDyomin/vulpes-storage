@@ -29,6 +29,7 @@ const PuigCategoryPage = lazy(() => import('../pages/PuigCategory'));
 const PuigProductPage = lazy(() => import('../pages/PuigProduct'));
 const MarketplacesPage = lazy(() => import('../pages/Marketplaces'));
 const PurcasePage = lazy(() => import('../pages/PurchaseRequest'));
+const LeversPage = lazy(() => import('../pages/Levers'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -201,6 +202,10 @@ export const App = () => {
                 component={<PurcasePage />}
               />
             }
+          />
+          <Route
+            path="/brake-clutch-levers/"
+            element={<LeversPage />}
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>

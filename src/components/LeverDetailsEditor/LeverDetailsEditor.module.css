@@ -1,0 +1,158 @@
+.settingsBtn {
+    display: flex;
+    margin-left: auto;
+    border: none;
+    background-color: transparent;
+    color: #949494;
+}
+
+.settingsBtn:hover {
+    color: #858585;
+}
+
+.skuWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.skuInput {
+    margin-left: auto;
+    padding: 3px 8px;
+    max-width: 100px;
+    border: 1px solid #858585;
+    border-radius: 5px;
+}
+
+.skuBtn {
+    display: flex;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--button-green);
+    transition: 0.3s border-color linear;
+}
+
+.skuBtn:hover {
+    border-color: var(--button-green);
+    transition: 0.3s border-color linear;
+}
+
+.detailInfo {
+    margin-top: 20px;
+}
+
+.leverSide {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.leverSideChecker {
+    max-width: calc(50% - 5px);
+    border: 3px solid #858585;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.leverSideActive {
+    border-color: var(--button-green);
+}
+
+.leverClutchName {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-weight: 700;
+    color: #858585;
+}
+
+.leverBrakeName {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-weight: 700;
+    color: #858585;
+}
+
+.checkIcon {
+    color: var(--button-green);
+    position: absolute;
+    transform: translate(-50%, 0);
+    bottom: 0;
+    left: 50%;
+}
+
+.leverIcon {
+    width: 100%;
+}
+
+.brakeLever {
+    transform: scaleX(-1);
+}
+
+.bikesWrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 10px;
+}
+
+.bikeList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.bikeListItem {
+    position: relative;
+    border: 1px solid #949494;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bikeSaveBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    color: var(--button-green)
+}
+
+.bikeDelBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    border: none;
+    color: var(--primary)
+}
+
+.addItem {
+    color: var(--button-green);
+    cursor: pointer;
+}
+
+.modalOkButton {
+    padding: 3px 10px;
+    margin-top: 20px;
+    display: flex;
+    margin-left: auto;
+    border-radius: 10px;
+    border: 3px solid var(--button-green);
+    color: var(--button-green);
+    font-weight: 700;
+    background-color: #fff;
+}

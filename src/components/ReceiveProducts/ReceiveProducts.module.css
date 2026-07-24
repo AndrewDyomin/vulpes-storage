@@ -35,6 +35,12 @@
     margin-left: auto;
 }
 
+.delButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .activeSelect {
     color: green;
 }

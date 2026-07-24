@@ -31,6 +31,13 @@
     padding: 5px;
 }
 
+.qrIcon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: green;
+}
+
 .itemImage {
     height: 100%;
 }
@@ -240,6 +247,11 @@
     .item {
         height: 170px;
         width: 100%;
+    }
+
+    .qrIcon {
+        top: -100%;
+        left: 0;
     }
 
     .itemArticle {

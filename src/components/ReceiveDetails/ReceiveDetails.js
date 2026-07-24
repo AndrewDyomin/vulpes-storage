@@ -9,6 +9,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { PopUp } from '../PopUp/PopUp';
@@ -81,10 +82,12 @@ export const ReceiveDetails = ({ id }) => {
           item.article !== ''
             ? item.article
             : document.getElementById(`${index}Article`).value;
+        const barcode = item?.barcode || null;
 
         result.items.push({
           article,
           count,
+          barcode,
         });
       });
     } else {
@@ -356,7 +359,7 @@ export const ReceiveDetails = ({ id }) => {
                   className={css.itemArticle}
                 />
               ) : (
-                <p className={css.itemArticle}>{t('article')}: {item.article}</p>
+                <p className={css.itemArticle}>{item?.barcode ? <QrCodeIcon fontSize='small' className={css.qrIcon}/> : ''}{t('article')}: {item.article}</p>
               )}
               {editMode ? (
                 <input

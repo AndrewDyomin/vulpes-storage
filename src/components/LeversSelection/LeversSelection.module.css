@@ -1,0 +1,71 @@
+.section {
+    margin-top: 30px;
+    padding: 0 0 30px 0;
+}
+
+.sectionCard {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.sectionTitle {
+    text-align: center;
+}
+
+.sectionText {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.sectionButton {
+    margin: 0 auto;
+    max-width: 250px;
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 700;
+    border: 3px solid var(--primary);
+    border-radius: 20px;
+    padding: 3px 10px;
+    background-color: transparent;
+}
+
+ /* ----- MODAL ----- */
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 300px;
+}
+
+.field {
+    position: relative;
+}
+
+.inputLabel {
+    padding: 0 2px;
+    position: absolute;
+    translate: 0 -50%;
+    top: 0;
+    left: 5px;
+    background-color: #fff;
+    font-weight: 700;
+}
+
+.inputField {
+    padding: 6px 10px;
+    border: 3px solid #9c9c9c;
+    border-radius: 5px;
+}
+
+.fieldError {
+    border-color: var(--primary);
+}
+
+.modalButton {
+    margin: 0 0 0 auto;
+    padding: 6px 12px;
+}

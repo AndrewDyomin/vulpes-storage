@@ -1,3 +1,8 @@
+:root {
+  --primary: #8a2313;
+  --button-green: green;
+}
+
 body {
   width: 100%;
   padding: 0 15px;

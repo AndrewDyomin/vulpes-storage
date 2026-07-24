@@ -14,7 +14,8 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { useTranslation } from 'react-i18next';
 import moteaLogo from '../../images/motea_logo_no_claim.png';
-import puigLogo from '../../images/puig.png'
+import puigLogo from '../../images/puig.png';
+import leverIcon from '../../images/clutch-lever.png';
 
 export const QuickAccessPanel = () => {
   const user = useSelector(selectUser);
@@ -130,6 +131,14 @@ export const QuickAccessPanel = () => {
                 <p className={css.linkCardTitle}>{t('purchase requests')}</p>
             </div>
         </Link>)}
+        <Link to="/brake-clutch-levers" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <img src={leverIcon} alt='lever icon' className={css.moteaIcon}/>
+                </div>
+                <p className={css.linkCardTitle}>{t('levers constructor')}</p>
+            </div>
+        </Link>
     </div>
   );
 };

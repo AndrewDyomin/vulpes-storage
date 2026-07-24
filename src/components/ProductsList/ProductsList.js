@@ -27,6 +27,7 @@ export const ProductsList = () => {
   const totalPages = pagination?.totalPages || 1;
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [activeProductIndex, setActiveProductIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [detailsModal, setDetailsModal] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -55,6 +56,16 @@ export const ProductsList = () => {
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  const prevStreamProductHandler = () => {
+    setActiveProductIndex(prev => prev - 1);
+    setNext(true)
+  }
+
+  const nextStreamProductHandler = () => {
+    setActiveProductIndex(prev => prev + 1);
+    setNext(true)
   }
 
   useEffect(() => {
@@ -95,29 +106,57 @@ export const ProductsList = () => {
 
     async function showNext() {
       await sleep(100);
-      const nextProduct = productsArray.find(product =>
-        product.name.UA === '' ||
-        product.name.RU === '' ||
-        product.description.RU === '' ||
-        product.description.UA === '' ||
-        product.color === ''
-      );
-      if (nextProduct) {
-        dispatch(setActiveProduct(nextProduct));
+      // const nextProduct = productsArray.find(product =>
+      //   product.name.UA === '' ||
+      //   product.name.RU === '' ||
+      //   product.description.RU === '' ||
+      //   product.description.UA === '' ||
+      //   product.color === ''
+      // );
+      // if (nextProduct) {
+      //   dispatch(setActiveProduct(nextProduct));
+      //   await sleep(100);
+      // } else {
+      //   toast.success('All products ok')
+      // }
+      if (productsArray?.length >= activeProductIndex + 1) {
+        dispatch(setActiveProduct(productsArray[activeProductIndex]));
         await sleep(100);
+        setEditMode(true);
+        setDetailsModal(true);
+        setNext(false);
       } else {
-        toast.success('All products ok')
+        setActiveProductIndex(0);
+        setEditMode(false);
+        setDetailsModal(false);
+        setNext(false);
+        toast.success(t('open the next page'))
       }
-
-      setEditMode(true);
-      setDetailsModal(true);
-      setNext(false);
     }
     
     if (next) {
       showNext()
     }
-  }, [streaming, productsArray, dispatch, next])
+  }, [streaming, productsArray, dispatch, next, activeProductIndex, t])
+
+  // СЛУШАТЕЛЬ НА КЛАВИШИ
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowLeft') {
+        prevStreamProductHandler();
+      }
+
+      if (event.key === 'ArrowRight') {
+        nextStreamProductHandler();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeProductIndex]);
 
   const handleSearch = (value) => {
     setQuery(prev => ({
@@ -194,7 +233,7 @@ export const ProductsList = () => {
             </label>
             {access && <label 
               className={css.filterLabel}
-              onClick={() => {setStreaming(prev => !prev); setNext(true)}}
+              onClick={() => {setActiveProductIndex(0); setStreaming(prev => !prev); setNext(true)}}
             >
               {t('streaming editing')}
               <CheckCircleOutlineIcon className={`${css.filterCheck} ${streaming && css.checked}`}/>
@@ -249,6 +288,7 @@ export const ProductsList = () => {
                 className={css.listItem}
                 key={`${product.article}-${index}`}
                 onClick={() => { 
+                  setActiveProductIndex(index);
                   dispatch(setActiveProduct(product)); 
                   setDetailsModal(true);
                 }}
@@ -295,7 +335,7 @@ export const ProductsList = () => {
           dispatch(setActiveProduct({}))
         }}
         body={
-          <>
+          <div className={css.activeProductWrapper}>
             <ActiveProductDetails 
               editMode={editMode}
               setEditMode={setEditMode}
@@ -305,7 +345,9 @@ export const ProductsList = () => {
               setStreaming={setStreaming}
               setNext={setNext}
             />
-          </>
+            {streaming && <button className={css.prevProductBtn} onClick={prevStreamProductHandler}>{'<'}</button>}
+            {streaming && <button className={css.nextProductBtn} onClick={nextStreamProductHandler}>{'>'}</button>}
+          </div>
         }
       />
     </div>

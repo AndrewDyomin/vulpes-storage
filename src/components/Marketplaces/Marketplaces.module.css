@@ -1,11 +1,26 @@
+.marketBody {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settingsBtn {
+    margin-left: auto;
+    color: #7b7b7b;
+    border: none;
+    background-color: transparent;
+}
+
 .marketList {
     width: 100%;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .marketItem {
-    width: calc(100% / 3 - 6px);
+    width: calc((100% / 3) - 7px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,16 +37,12 @@
 
 .marketName {
     font-weight: 900;
-    font-size: 4vw;
+    font-size: 3.5vw;
 }
 
 .active {
     background-color: #97d77c;
     transition: background-color 0.4s ease;
-}
-
-.marketBody {
-    margin-top: 20px;
 }
 
 .firstStage {
@@ -41,7 +52,6 @@
 }
 
 .button {
-  margin-top: 20px;
   background-color: transparent;
   color: #c04545;
   border: 3px solid #c04545;
@@ -50,6 +60,7 @@
   font-weight: 700;
   text-align: center;
   min-width: 100px;
+  max-width: fit-content;
 }
 
 .button:hover {
@@ -126,6 +137,105 @@
     padding-top: 10px;
     border-radius: 0 0 5px 5px;
     cursor: pointer;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.addModalInput {
+    text-align: center;
+    padding: 3px 0;
+}
+
+.modalOkButton {
+  background-color: transparent;
+  color: var(--button-green);
+  border: 3px solid var(--button-green);
+  border-radius: 30px;
+  padding: 5px 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.markup {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    align-items: center;
+}
+
+.marketLabel {
+    display: flex;
+    flex-direction: column;
+}
+
+.marketInput {
+
+}
+
+.importVariant {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.disabledInput {
+    color: #949494;
+    border: 1px solid #949494;
+    border-radius: 3px;
+}
+
+.toggleBtn {
+    height: 26px;
+    border: 2px solid #949494;
+    border-radius: 40px;
+    position: relative;
+    width: 60px
+}
+
+.toggleBullet {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: gray;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    left: 3px;
+    transition: left 0.5s, background-color 0.5s linear;
+}
+
+.activeBullet {
+    background-color: green;
+    left: 33px;
+    transition: left 0.5s, background-color 0.5s linear;
+}
+
+.markupInput {
+    max-width: 65px;
+    margin-left: 10px;
+    text-align: center;
+    border: 2px solid #bbbbbb;
+    border-radius: 4px;
+}
+
+.saveBtn {
+    display: flex;
+    align-items: center;
+    color: var(--button-green);
+    background-color: transparent;
+    border: none;
+}
+
+.refreshBtn {
+    margin-left: 20px;
+    color: var(--button-green);
+    background-color: transparent;
+    border: none;
 }
 
 @media screen and (width < 425px) {

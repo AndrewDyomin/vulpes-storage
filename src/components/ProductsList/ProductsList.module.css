@@ -170,6 +170,34 @@
     transform: translateX(-4px);
 }
 
+.activeProductWrapper {
+  position: relative;
+}
+
+.prevProductBtn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: -20px;
+  left: 130px;
+  border: 1px solid #b9b9b9;
+  border-radius: 10px 0 0 10px;
+  font-weight: 700;
+  background-color: #b9b9b9;
+  color: #000;
+}
+
+.nextProductBtn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: -20px;
+  left: 155px;
+  border: 1px solid #b9b9b9;
+  border-radius: 0 10px 10px 0;
+  font-weight: 700;
+  background-color: #b9b9b9;
+  color: #000;
+}
+
 @media screen and (max-width: 405px) {
   .listItem:nth-child(n + 2) {
     margin-top: 10px;
