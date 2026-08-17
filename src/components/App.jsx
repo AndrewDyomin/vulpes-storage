@@ -30,6 +30,7 @@ const PuigProductPage = lazy(() => import('../pages/PuigProduct'));
 const MarketplacesPage = lazy(() => import('../pages/Marketplaces'));
 const PurcasePage = lazy(() => import('../pages/PurchaseRequest'));
 const LeversPage = lazy(() => import('../pages/Levers'));
+const KnowledgePage = lazy(() => import('../pages/Knowledge'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -206,6 +207,15 @@ export const App = () => {
           <Route
             path="/brake-clutch-levers/"
             element={<LeversPage />}
+          />
+          <Route
+            path="/knowledge/"
+            element={
+              <PrivateRoute
+                redirectTo="/login"
+                component={<KnowledgePage />}
+              />
+            }
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Route>

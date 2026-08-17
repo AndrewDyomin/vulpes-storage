@@ -1,0 +1,35 @@
+.container {
+    position: relative;
+    width: max-content;
+    min-height: 100px;
+}
+
+.loader {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(50%);
+}
+
+.addButton {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(50%);
+    border: none;
+    color: #33901e;
+}
+
+.connectNodesAlarm {
+    position: fixed;
+    top: 70px;
+    left: 30px;
+    padding: 6px;
+    background: #fff;
+    border: 3px solid green;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 1;
+}

@@ -6,6 +6,7 @@ import TurnSlightRightIcon from '@mui/icons-material/TurnSlightRight';
 import { ClipLoader, ClockLoader } from 'react-spinners';
 import UpdateIcon from '@mui/icons-material/Update';
 import toast from 'react-hot-toast';
+import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 // import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -60,6 +61,7 @@ const Horoshop = ({ market, setMarkets }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [settingsModal, setSettingsModal] = useState(false);
   const [settings, setSettings] = useState({ ...market });
+  const [reauthModal, setReauthModal] = useState(false);
 
   const updatePriceHandler = async() => {
     setIsLoading(true);
@@ -78,6 +80,12 @@ const Horoshop = ({ market, setMarkets }) => {
   }
   const googleReauth = useGoogleReauth();
 
+  const googleDriveReauth = async() => {
+    await googleReauth();
+    setReauthModal(false);
+    return showOutdatedProductsHandler();
+  };
+
   const showOutdatedProductsHandler = async() => {
     setIsLoading(true);
     try {
@@ -86,8 +94,7 @@ const Horoshop = ({ market, setMarkets }) => {
         setOutdatedList(data);
       } else if (data?.error === 'invalid_grant') {
         toast.error(t(data?.error));
-        await googleReauth();
-        return showOutdatedProductsHandler();
+        setReauthModal(true);
       } else {
         toast.success(t('outdated products not found'));
       }
@@ -274,6 +281,22 @@ const Horoshop = ({ market, setMarkets }) => {
           </div>
         }
       />
+      <PopUp
+        isOpen={reauthModal}
+        close={() => setReauthModal(false)}
+        body={
+          <div className={css.modalBody}>
+            <h2>{t('refresh google drive authorization')}?</h2>
+            <button 
+              className={css.modalOkButton} 
+              onClick={googleDriveReauth}
+              disabled={isLoading}
+            >
+              {isLoading ? t('pending') : t('ok')}
+            </button>
+          </div>
+        }
+      />
     </div>
   );
 };
@@ -315,6 +338,17 @@ const Prom = ({ market, setMarkets }) => {
   const [settingsModal, setSettingsModal] = useState(false);
   const [settings, setSettings] = useState({ ...market });
   const [shouldSave, setShouldSave] = useState(false);
+  const [categories, setCategories] = useState({ our: [], promGroups: [], promCategories: [] });
+
+  const promGroupOptions = categories?.promGroups.map(g => ({
+    value: g.id,
+    label: g.name,
+  })) || [];
+
+  const promCategoriesOptions = categories?.promCategories.map(g => ({
+    value: g.id,
+    label: g.name,
+  })) || [];
 
   const updatePromTableHandler = async () => {
     setIsPending(true);
@@ -336,6 +370,16 @@ const Prom = ({ market, setMarkets }) => {
     return;
   }
 
+  const updateCategory = async(category) => {
+    const res = await axios.post("/products/update-category", { ...category, prom: true })
+    .then(e => {
+      console.log(e);
+      setCategories(prev => ({ ...prev, our: prev.our.map(c => c.id === category.id ? category : c) }))
+    })
+    .catch(() => toast.error(t('something went wrong')));
+  }
+
+  // IF SETTINGS WAS CHANGED -> SAVE IT
   useEffect(() => {
     if (JSON.stringify(market) !== JSON.stringify(settings)) {
       setShouldSave(true)
@@ -353,6 +397,18 @@ const Prom = ({ market, setMarkets }) => {
     setMarkets([]);
   }
 
+  useEffect(() => {
+    async function getCategories() {
+      const res = await axios.get("/marketplaces/prom-categories");
+      if (res?.data?.promCategories?.length) {
+        setCategories(res.data)
+      }
+    }
+    if (!categories?.promGroups?.length) {
+      getCategories();
+    }
+  }, [categories]);
+
   return (
     <div className={css.marketBody}>
       <button
@@ -361,6 +417,27 @@ const Prom = ({ market, setMarkets }) => {
       >
         <SettingsIcon />
       </button>
+      {/* ----PRICE---- */}
+      <div>
+        <h3>{t('price')}:</h3>
+        <div className={css.markup}>
+          <label className={css.markupLabel}>{t('markup')}
+            <input 
+              className={css.markupInput} 
+              type='number' step={0.1} 
+              placeholder='0' 
+              value={settings?.markup} 
+              onChange={(e) => setSettings(prev => ({ ...prev, markup: Math.round(Number(e.target.value) * 100) / 100 }))}
+            />
+          </label>
+          <p>{`( 100грн = ${(100 * Number(settings?.markup)).toFixed(2)}грн )`}</p>
+          {(market?.markup !== settings?.markup) && 
+            <button className={css.saveBtn} onClick={saveSettings}>
+              <SaveAsOutlinedIcon />
+            </button>
+          }
+        </div>
+      </div>
       {/* ----CATALOG---- */}
       <div>
         <h3>{t('catalog')}:</h3>
@@ -419,26 +496,38 @@ const Prom = ({ market, setMarkets }) => {
           }
         </div>
       </div>
-      {/* ----PRICE---- */}
+      {/* ----CATEGORIES---- */}
       <div>
-        <h3>{t('price')}:</h3>
-        <div className={css.markup}>
-          <label className={css.markupLabel}>{t('markup')}
-            <input 
-              className={css.markupInput} 
-              type='number' step={0.1} 
-              placeholder='0' 
-              value={settings?.markup} 
-              onChange={(e) => setSettings(prev => ({ ...prev, markup: Math.round(Number(e.target.value) * 100) / 100 }))}
-            />
-          </label>
-          <p>{`( 100грн = ${(100 * Number(settings?.markup)).toFixed(2)}грн )`}</p>
-          {(market?.markup !== settings?.markup) && 
-            <button className={css.saveBtn} onClick={saveSettings}>
-              <SaveAsOutlinedIcon />
-            </button>
-          }
-        </div>
+        <h3>{t('categories')}:</h3>
+          {categories?.our?.length > 0 ? 
+          <ul className={css.categoriesList}>
+            <li key={'1'} className={css.categoriesItem}>
+              <p className={css.categoriesHead}>{t('category')}</p>
+              <p className={css.categoriesHead}>{t('prom goup')}</p>
+              <p className={css.categoriesHead}>{t('prom category')}</p>
+            </li>
+            {categories.our.map(c => (
+              <li key={c.id} className={css.categoriesItem}>
+                <p>{c.name}</p>
+                <Select 
+                  name='group' 
+                  onChange={(e) => updateCategory({ ...c, promGroup: e.value })}
+                  // placeholder={'---'}
+                  defaultValue={promGroupOptions.find(g => g.value === c.promGroup) || {value: '---', label: '---'}}
+                  options={promGroupOptions}
+                />
+                <Select 
+                  name='category' 
+                  onChange={(e) => updateCategory({ ...c, promCategory: e.value })}
+                  // placeholder={'---'}
+                  defaultValue={promCategoriesOptions.find(g => g.value === c.promCategory) || {value: '---', label: '---'}}
+                  options={promCategoriesOptions}
+                />
+              </li>
+            ))}
+          </ul>
+          : 
+          <p>Loading...</p>}
       </div>
       <PopUp
         isOpen={settingsModal}

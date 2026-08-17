@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { ClockLoader } from 'react-spinners';
 import BackupTableOutlinedIcon from '@mui/icons-material/BackupTableOutlined';
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
-// import UpdateIcon from '@mui/icons-material/Update';
+import UpdateIcon from '@mui/icons-material/Update';
 import { PopUp } from '../PopUp/PopUp';
 import { EditableTable } from '../EditableTable/EditableTable';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -103,6 +103,15 @@ export const AutomaticActions = () => {
     }
   }
 
+  const updateProductsFromSd = async () => {
+    const res = await axios.get("/products/get-products-from-sd");
+    if (res?.data?.message) {
+      toast.success(res?.data?.message)
+    } else {
+      toast.error(t('something went wrong'))
+    }
+  }
+
   // const updatePromTableHandler = async () => {
   //   setIsPending(true);
   //   toast.success("Это может занять несколько минут");
@@ -156,6 +165,16 @@ export const AutomaticActions = () => {
             <>
               <ImageNotSupportedIcon />
               <p>{t('check images from outdated products')}</p>
+            </>
+          )}
+        </div>
+        <div className={css.button} onClick={updateProductsFromSd}>
+          {isPending ? (
+            <ClockLoader color="#c04545" />
+          ) : (
+            <>
+              <UpdateIcon />
+              <p>{t('update products from sales drive')}</p>
             </>
           )}
         </div>

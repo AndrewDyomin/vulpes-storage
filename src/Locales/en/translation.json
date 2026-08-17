@@ -171,6 +171,9 @@
   "adjustor": "adjustor",
   "tip": "Tip",
   "generation": "Generation",
+  "lever model": "Lever model",
+  "short 14,5cm": "Short 14,5см",
+  "long 17,5cm": "Long 17,5см",
   "lever details editor": "Lever details editor",
   "request a selection of levers": "Request a selection of levers",
   "can't find the right one yourself? leave it to us.": "Can't find the right one yourself? Leave it to us.",
@@ -196,5 +199,7 @@
   "phone number required": "Phone number required",
   "select your city": "Select your city",
   "select your branch": "Select your branch",
-  "city not found": "City not found"
+  "city not found": "City not found",
+  "all products received": "All products received",
+  "update products from sales drive": "Update products from Sales Drive"
 }

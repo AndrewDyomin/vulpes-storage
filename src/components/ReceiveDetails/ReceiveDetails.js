@@ -154,7 +154,7 @@ export const ReceiveDetails = ({ id }) => {
     try {
       const response = await axios.post(
         '/receive-products/report',
-        { invoices: target?.invoices, notEnough, extra, receive: target?.name }
+        { invoices: target?.invoices, notEnough: notEnough.flatMap(obj => obj.items), extra, receive: target?.name }
       );
       toast.success(response.data.message)
     } catch(err) {
@@ -248,6 +248,8 @@ export const ReceiveDetails = ({ id }) => {
 
   // calc invoice item sets and add invoices to select
   useEffect(()=> {
+
+    // выбираем инвойсы, которые можно закрепить к приходу товаров
     if (allInvoices && allInvoices?.length && invoiceSelectList?.length === 0) {
       const freeInv = allInvoices.filter(i => !i.verified);
       setInvoiceSelectList([ ...freeInv.map(i => ({ value: i.name, label: i.name })) ])
@@ -256,11 +258,10 @@ export const ReceiveDetails = ({ id }) => {
     if (allInvoices?.length && target?.invoices?.length) {
       const targetInvoices = allInvoices.filter(i => target.invoices.includes(i.name));
       const result = [];
-      const totalProducts = [];
-      const totalItems = [];
+      const totalProducts = []; // -- все товары из закрепленных инвойсов
       const extraItems = [];
-      const notEnoughProducts = [];
 
+      // собираем товары из всех инвойсов
       for(const invoice of targetInvoices) {
         const updated = { ...invoice, items: [] };
         for (const item of invoice.items) {
@@ -288,33 +289,6 @@ export const ReceiveDetails = ({ id }) => {
       }
 
       for (const item of target.items) {
-        const target = totalItems.find(i => i.article === item.article);
-        if (!target) {
-          totalItems.push({ article: String(item.article), count: Number(item.count) })
-        } else {
-          target.count += Number(item.count)
-        }
-      }
-
-      for(const product of totalProducts) {
-        const item = { ...target.items.find(i => String(i.article) === product.article) };
-        if (item) {
-          item.count = target.items.reduce(
-            (sum, i) => i.article === product.article
-              ? sum + Number(i.count)
-              : sum,
-            0
-          );
-          if (Number(item.count) < product.count) {
-            const diff = Number(product.count) - Number(item.count);
-            notEnoughProducts.push({ article: product.article, count: diff });
-          }
-        } else {
-          notEnoughProducts.push(product);
-        }
-      }
-
-      for (const item of totalItems) {
         const product = totalProducts.find(i => i.article === item.article);
         if (!product || item.count > product?.count) {
           const diff = Number(item.count) - Number(product?.count) || Number(item.count);
@@ -322,12 +296,23 @@ export const ReceiveDetails = ({ id }) => {
         }
       }
 
-      setExtra(extraItems)
-      setNotEnough(notEnoughProducts);
+      setExtra(extraItems);
       setInView(result);
     }
 
-  }, [allInvoices, invoiceSelectList, target])
+  }, [allInvoices, invoiceSelectList, target, allReceives])
+
+  useEffect(() => {
+    async function checkInvoices() {
+      const res = await axios.post("/receive-products/check-invoices-products", { _id: target._id});
+      if (res?.data[0]?.name) {
+        setNotEnough(res.data.filter(i => target.invoices.includes(i.name)))
+      }
+    }
+    if (target?._id) {
+      checkInvoices();
+    }
+  }, [target]);
 
   return (
     <>
@@ -385,10 +370,22 @@ export const ReceiveDetails = ({ id }) => {
           <div className={css.resultColumn}>
             <p>{t('not enough')}</p>
             <ul>
-              {notEnough.map((i, index) => (
-                <li key={i.article+index}  className={css.resultItem}>
-                  <p>{i.article}</p>
-                  <p>{i.count}{t('pcs')}.</p>
+              {notEnough.map((inv, index) => (
+                <li key={inv.name+index}  className={css.resultName}>
+                  <p>{inv.name}</p>
+                  <ul>
+                    {inv?.items?.length ? 
+                      inv.items.map(i => (
+                        <li key={i.article+index}  className={css.resultItem}>
+                          <p>{i.article}</p>
+                          <p>{i.count}{t('pcs')}.</p>
+                        </li>
+                      ))
+                    : <li key={inv.name}  className={css.resultItem}>
+                      {t('all products received')}
+                      </li>
+                    }
+                  </ul>
                 </li>
               ))}
             </ul>

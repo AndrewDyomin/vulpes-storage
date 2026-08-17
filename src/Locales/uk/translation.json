@@ -172,6 +172,9 @@
   "adjustor": "Регулятор",
   "tip": "Наконечник",
   "generation": "Покоління",
+  "lever model": "Модель важелів",
+  "short 14,5cm": "Короткі 14,5см",
+  "long 17,5cm": "Довгі 17,5см",
   "lever details editor": "Редактор деталей",
   "request a selection of levers": "Замовити підбір важелів",
   "can't find the right one yourself? leave it to us.": "Не вдається підібрати самостійно? Довірте це нам.",
@@ -198,5 +201,7 @@
   "select your city": "Оберіть своє місто",
   "select your branch": "Оберіть своє відділення",
   "city not found": "Місто не знайдено",
-  "branch not found": "Відділення не знайдено"
+  "branch not found": "Відділення не знайдено",
+  "all products received": "Всі товари отримані",
+  "update products from sales drive": "Оновити товари з Sales Drive"
 }

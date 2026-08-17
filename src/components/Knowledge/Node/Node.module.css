@@ -1,0 +1,161 @@
+.nodeWrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.node {
+    max-width: 250px;
+    width: max-content;
+    margin: 0 auto;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.connect:hover {
+    -webkit-box-shadow: 0px 0px 10px 5px #14B315; 
+    box-shadow: 0px 0px 10px 5px #14B315;
+}
+
+.nodeTitle {
+    font-weight: 700;
+}
+
+.nodeDescription {
+    margin-top: 10px;
+    padding: 3px 6px;
+    border: 3px dashed #c9c8c8;
+    border-radius: 10px;
+    font-style: italic;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.nodeSetStatus {
+    margin-top: 10px;
+}
+
+.children {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 80px;
+}
+
+.nodeInputWrapper {
+    position: relative;
+}
+
+.nodeInputWrapper:nth-child(n + 2) {
+    margin-top: 15px;
+}
+
+.nodeInput {
+    max-width: 100%;
+    border: 3px solid #c8c8c8;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.nodeLabel {
+    position: absolute;
+    left: 5px;
+    top: -11px;
+    background-color: #fff;
+    padding: 0 4px;
+}
+
+.nodeSave {
+    position: absolute;
+    bottom: -13px;
+    right: -5px;
+    cursor: pointer;
+    color: #2e7b0d;
+}
+
+.nodeActions {
+  position: absolute;
+  right: -45px;
+  top: -5px;
+  transform: translateX(-5px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-left: 15px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.nodeWrapper:hover .nodeActions {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.nodeButton {
+    background-color: transparent;
+    border: none;
+}
+
+.nodeAddParent {
+    position: absolute;
+    left: 50%;
+    top: -15px;
+    transform: translate(-50%, 0);
+
+    color: #2e7b0d;
+    cursor: pointer;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.nodeWrapper:hover .nodeAddParent {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -15px);
+  pointer-events: auto;
+}
+
+.nodeAddChild {
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    transform: translate(-50%, 0);
+
+    color: #2e7b0d;
+    padding: 15px 10px 0 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.nodeWrapper:hover .nodeAddChild {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 15px);
+  pointer-events: auto;
+}

@@ -71,10 +71,13 @@ export const LeverDetailsEditor = () => {
         setBikeYear([...targetModel.years.map(y => ({ value: y, label: y }))]);
       }
     }
-    setIsLoading(true);
-    getBikes();
-    setIsLoading(false);
-  }, [bikeModelsArray, dispatch, bikeBrands, currentBike]);
+    if (settingsModal) {
+      setIsLoading(true);
+      getBikes();
+      setIsLoading(false);
+    }
+    
+  }, [bikeModelsArray, dispatch, bikeBrands, currentBike, settingsModal]);
 
   const detailTypes = [
     { value: 'adapter', label: t('adapter') },

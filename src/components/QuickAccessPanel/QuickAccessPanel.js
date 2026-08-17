@@ -12,6 +12,7 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { useTranslation } from 'react-i18next';
 import moteaLogo from '../../images/motea_logo_no_claim.png';
 import puigLogo from '../../images/puig.png';
@@ -137,6 +138,14 @@ export const QuickAccessPanel = () => {
                     <img src={leverIcon} alt='lever icon' className={css.moteaIcon}/>
                 </div>
                 <p className={css.linkCardTitle}>{t('levers constructor')}</p>
+            </div>
+        </Link>
+        <Link to="/knowledge" className={css.link}>
+            <div className={css.linkCard}>
+                <div className={css.iconArea}>
+                    <AutoStoriesIcon fontSize='large'/>
+                </div>
+                <p className={css.linkCardTitle}>{t('knowledge')}</p>
             </div>
         </Link>
     </div>

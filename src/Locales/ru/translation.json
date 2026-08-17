@@ -172,6 +172,9 @@
   "adjustor": "Регулятор",
   "tip": "Наконечник",
   "generation": "Поколение",
+  "lever model": "Модель рычагов",
+  "short 14,5cm": "Короткие 14,5см",
+  "long 17,5cm": "Длинные 17,5см",
   "lever details editor": "Редактор деталей",
   "request a selection of levers": "Заказать подбор рычагов",
   "can't find the right one yourself? leave it to us.": "Не получается подобрать самостоятельно? Доверьте это нам.",
@@ -197,5 +200,7 @@
   "phone number required": "Введите номер телефона",
   "select your city": "Выберите свой город",
   "select your branch": "Выберите свое отделение",
-  "city not found": "Город не найден"
+  "city not found": "Город не найден",
+  "all products received": "Все товары получены",
+  "update products from sales drive": "Обновить товары из Sales Drive"
 }

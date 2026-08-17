@@ -229,12 +229,18 @@
     gap: 5px;
 }
 
+.resultName {
+    margin-top: 10px;
+    font-weight: 700;
+}
+
 .resultItem {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     height: 20px;
     margin-bottom: auto;
+    font-weight: 500;
 }
 
 @media screen and (width >= 834px) {

@@ -57,8 +57,8 @@ export const LeversConstructor = () => {
   const [thanksModal, setThanksModal] = useState(false);
 
   const leverGenerations = [
-    {value: 'standart short', label: 'Standart short'},
-    {value: 'standart long', label: 'Standart long'},
+    {value: 'standart short', label: t('short 14,5cm')},
+    {value: 'standart long', label: t('long 17,5cm')},
     {value: 'safety', label: 'Safety'},
     {value: 'vario', label: 'Vario'},
     {value: 'vario safety', label: 'Vario Safety'},
@@ -166,7 +166,6 @@ export const LeversConstructor = () => {
   const sendOrder = async(credentials) => {
     setIsLoading(true)
     try {
-      console.log(credentials);
       const data = {
         ...credentials,
         ...query,
@@ -217,14 +216,14 @@ export const LeversConstructor = () => {
     async function getBikes() {
       if (bikeModelsArray.length === 0) {
         if (!query.brand || query.brand === '') {
-          const res = await axios.get('/products/bikes');
+          const res = await axios.get("/products/bikes?filter=leverAdapters");
           if (res?.data.length > 0) {
             setBikeBrands([
               ...res?.data.map(b => ({ value: b, label: b.toUpperCase() })),
             ]);
           }
         } else if (query.brand && query.brand !== '') {
-          const res = await axios.get(`/products/bikes?brand=${query.brand}`);
+          const res = await axios.get(`/products/bikes?brand=${query.brand}&filter=leverAdapters`);
           if (res?.data.length > 0) {
             setBikeModelsArray(res?.data);
             setBikeModels([
@@ -332,7 +331,7 @@ export const LeversConstructor = () => {
           />
         </div>
         <div className={css.modelItem}>
-          <span className={css.modelLabel}>{t('generation')}</span>
+          <span className={css.modelLabel}>{t('lever model')}</span>
           <Select
             name="generation"
             options={leverGenerations}
