@@ -4,24 +4,30 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectActiveProduct } from '../../redux/products/selectors';
+import { ClipLoader } from 'react-spinners';
 
-export const OrdersByArticle = () => {
+export const OrdersByArticle = ({ item }) => {
   const { t } = useTranslation();
   const activeItem = useSelector(selectActiveProduct);
 
   const [ordersWithArticle, setOrdersWithArticle] = useState(null);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async article => {
+      setIsPending(true);
       const targetOrders = await axios.post('/orders/by-article', {
         article,
       });
       setOrdersWithArticle(targetOrders.data.result);
+      setIsPending(false);
     };
-    if (activeItem && activeItem.article) {
+    if (activeItem?.article) {
       fetchOrders(activeItem.article);
+    } else if (item?.article) {
+      fetchOrders(item.article);
     }
-  }, [activeItem]);
+  }, [activeItem, item]);
 
   const articlesToList = list => {
     return (
@@ -38,7 +44,8 @@ export const OrdersByArticle = () => {
               {art.article}
             </p>
             {art.set.length > 0 && (
-              <span>{'('}
+              <span>
+                {'('}
                 {art.set.map((sku, index) => (
                   <span
                     key={sku}
@@ -49,7 +56,8 @@ export const OrdersByArticle = () => {
                     {sku}
                     {index < art.set.length - 1 && ', '}
                   </span>
-                ))}{')'}
+                ))}
+                {')'}
               </span>
             )}
           </li>
@@ -60,21 +68,29 @@ export const OrdersByArticle = () => {
 
   return (
     <>
-      <p>{t('in orders')}:</p>
-      {ordersWithArticle && ordersWithArticle.length > 0 ? (
-        <ul>
-          {ordersWithArticle.map(order => (
-            <li key={order.number}>
-              <div className={css.orderTitle}>
-                <p>№: {order.number}</p>
-                <p css={css.orderStatus}>'{order.status}'</p>
-              </div>
-              {articlesToList(order.articles)}
-            </li>
-          ))}
-        </ul>
+      {isPending ? (
+        <div className={css.loader}>
+          <ClipLoader color="#c04545" size="30px"/>
+        </div>
       ) : (
-        <p>{t('not found')}</p>
+        <>
+          <p>{t('in orders')}:</p>
+          {ordersWithArticle && ordersWithArticle.length > 0 ? (
+            <ul>
+              {ordersWithArticle.map(order => (
+                <li key={order.number}>
+                  <div className={css.orderTitle}>
+                    <p>№: {order.number}</p>
+                    <p css={css.orderStatus}>'{order.status}'</p>
+                  </div>
+                  {articlesToList(order.articles)}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>{t('not found')}</p>
+          )}
+        </>
       )}
     </>
   );

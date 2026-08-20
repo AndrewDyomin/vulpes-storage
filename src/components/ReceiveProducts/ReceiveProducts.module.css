@@ -35,6 +35,10 @@
     margin-left: auto;
 }
 
+.deviceSelector {
+    margin-left: auto;
+}
+
 .delButton {
     position: absolute;
     top: 0;

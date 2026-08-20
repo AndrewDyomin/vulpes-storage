@@ -371,7 +371,7 @@ const Prom = ({ market, setMarkets }) => {
   }
 
   const updateCategory = async(category) => {
-    const res = await axios.post("/products/update-category", { ...category, prom: true })
+    await axios.post("/products/update-category", { ...category, prom: true })
     .then(e => {
       console.log(e);
       setCategories(prev => ({ ...prev, our: prev.our.map(c => c.id === category.id ? category : c) }))
@@ -561,18 +561,18 @@ const Prom = ({ market, setMarkets }) => {
 };
 const Custom = ({ market, setMarkets }) => {
   console.log(market)
-  const { t } = useTranslation();
-  const [isPending, setIsPending] = useState(false);
+  // const { t } = useTranslation();
+  // const [isPending, setIsPending] = useState(false);
 
   return (
     <div className={css.marketBody}>
-      {isPending ? (
+      {/* {isPending ? (
         <ClockLoader color="#c04545" />
-      ) : (
+      ) : ( */}
         <>
           EMPTY
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };

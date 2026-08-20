@@ -36,3 +36,222 @@
 .inOrders {
     margin-top: 20px;
 }
+
+/* ----- VERSION 2 ----- */
+
+.search {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+.modeSelector {
+    min-width: 120px;
+}
+
+.searchInput {
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+    min-width: 100px;
+    max-width: 200px;
+    padding: 5px;
+    border: 3px solid #c3c3c3;
+    border-radius: 10px;
+}
+
+.searchInput:focus {
+  border-color: #9c9c9c;
+  outline: none;
+}
+
+.loader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.productCard {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.productImg {
+    max-width: 100%;
+}
+
+.notFound {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: larger;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.shelvesArea {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shelvesList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.shelf {
+    border: 1px solid #8d8c8c;
+    border-radius: 10px;
+    position: relative;
+    padding: 5px;
+    min-height: 80px;
+    display: flex;
+    align-items: end;
+}
+
+.shelfName {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 5;
+    font-size: 25px;
+    font-weight: 700;
+    background-color: #fff;
+    padding: 0 2px;
+}
+
+.qrBtn {
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    border-radius: 5px;
+    border: none;
+    position: absolute;
+    top: 2px;
+    right: 3px;
+}
+
+.qrArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.printBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 25px;
+}
+
+.addShelfBtn {
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    color: var(--primary);
+    border: none;
+    background-color: transparent;
+}
+
+.printArea {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: 80mm 48mm;
+    margin: 0;
+  }
+
+  html,
+  body {
+    width: 80mm !important;
+    height: 48mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .printArea,
+  .printArea * {
+    visibility: visible !important;
+  }
+
+  .printArea {
+    display: flex !important;
+
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    z-index: 999999 !important;
+
+    width: 80mm !important;
+    height: 48mm !important;
+
+    margin: 0 !important;
+    padding: 2mm !important;
+
+    box-sizing: border-box;
+
+    flex-direction: row;
+    gap: 5mm;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+  }
+
+  .printArea svg {
+    display: block;
+    width: 38mm !important;
+    height: 38mm !important;
+  }
+
+  .printName {
+    font-size: 25mm;
+    /* line-height: 50mm; */
+    font-weight: 700;
+    text-align: center;
+  }
+}
+
+/* --- TABLET --- */
+@media screen and (min-width: 833px) {
+    .productCard {
+        display: flex;
+        gap: 10px;
+    }
+
+    .productImg {
+        max-width: 50%;
+    }
+
+    .shelvesList {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+/* --- DESCTOP --- */
+@media screen and (min-width: 833px) {
+    .shelvesList {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}

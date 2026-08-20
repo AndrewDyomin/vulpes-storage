@@ -19,10 +19,12 @@ import { setDraft } from '../../redux/receives/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { PopUp } from '../PopUp/PopUp';
 import toast from 'react-hot-toast';
+import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { OrdersByArticle } from '../OrdersByArticle/OrdersByArticle';
+import { BtBarcodeScanner } from '../BarcodeScanner/BtBarcodeScanner';
 
 export const ReceiveProducts = () => {
   const { t } = useTranslation();
@@ -50,6 +52,7 @@ export const ReceiveProducts = () => {
   const [activeInvoice, setActiveInvoice] = useState(null);
   const [invoiceModal, setInvoiceModal] = useState(false);
   const [invoiceUpdateMode, setInvoiceUpdateMode] = useState(false);
+  const [device, setDevice] = useState('bt-scanner');
 
   const changeMode = mode => {
     if (mode === 'add') {
@@ -107,7 +110,9 @@ export const ReceiveProducts = () => {
     setArticle();
     setCount();
     dispatch(clearActiveProduct());
-    scannerRef.current?.startScan();
+    if (device === 'camera') {
+      scannerRef.current?.startScan();
+    }
   };
 
   const delItem = (index) => {
@@ -499,6 +504,7 @@ export const ReceiveProducts = () => {
       )}
       {addMode && !invoiceMode && (
         <>
+          {/* CHOOSE SCANNER DEVICE OR EXIT */}
           <div className={css.modeButtons}>
             <button
               className={`${css.addButton} ${css.closeButton}`}
@@ -506,21 +512,135 @@ export const ReceiveProducts = () => {
             >
               <HighlightOffIcon fill="transparent" fontSize="large" />
             </button>
+            <Select 
+              name='devise-selector' 
+              className={css.deviceSelector}
+              onChange={(e) => (setDevice(e.value))}
+              placeholder={t(device)}
+              options={[{value: 'camera', label: t('camera')}, {value: 'bt-scanner', label: 'bt-scanner'}]}
+            />
           </div>
+
+          {/* DEVICE === CAMERA */}
+          {device === "camera" && 
+            <>
+              <div className={css.controlArea}>
+                  <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
+              </div>
+              {activeItem && activeItem.article && (
+                <button className={css.button} onClick={() => setIsModalOpen(true)}>
+                  {t('last scan')}
+                </button>
+              )}
+              
+              <PopUp
+                isOpen={isModalOpen}
+                close={closeModal}
+                body={
+                  activeItem && activeItem.article ? (
+                    <div className={css.modalArea}>
+                      {Array.isArray(activeItem.images) &&
+                      activeItem.images.length > 0 ? (
+                        <img
+                          className={css.modalImage}
+                          alt="scanned product"
+                          src={activeItem.images[0]}
+                        />
+                      ) : (
+                        <p>No image</p>
+                      )}
+                      <p>{`${activeItem.name?.UA || t('no name')} (${
+                        activeItem.article
+                      })`}</p>
+                      <p>
+                        {activeItem.price?.UAH
+                          ? `${activeItem.price.UAH} грн.`
+                          : 'Цена не указана'}
+                      </p>
+                      <div className={css.countArea}>
+                        <input
+                          placeholder={t('count')}
+                          onChange={e => setCount(e.target.value)}
+                          defaultValue={count}
+                          className={css.countInput}
+                        />
+                        <button className={css.countAddBtn} onClick={addItemToList}>
+                          {t('add')}
+                        </button>
+                      </div>
+                      <div className={css.inOrders}>
+                        <OrdersByArticle />
+                      </div>
+                    </div>
+                  ) : activeItem === null ? (
+                    <div>
+                      <p>{t('product not found')}!</p>
+                      <p>
+                        {'barcode'}: {lastResult}
+                      </p>
+                      <div className={css.countArea}>
+                        <input
+                          placeholder={t('article')}
+                          onChange={e => setArticle(e.target.value)}
+                          defaultValue={article}
+                          className={css.countInput}
+                        />
+                        <input
+                          placeholder={t('count')}
+                          onChange={e => setCount(e.target.value)}
+                          defaultValue={count}
+                          className={css.countInput}
+                        />
+                        <button className={css.countAddBtn} onClick={addItemToList}>
+                          {t('add')}
+                        </button>
+                      </div>
+                    </div>
+                  ) : null
+                }
+              />
+            </>
+          }
+
+          {/* DEVICE === BT-SCANNER */}
+          {device === 'bt-scanner' && 
+          <>
+            {/* <BtBarcodeScanner setLastResult={setLastResult}/> */}
+            <BtBarcodeScanner listDate={listDate} setDraftLoaded={setDraftLoaded}/>
+          </>
+          }
           <div className={css.controlArea}>
-              <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
-            <button
-              className={`${css.addButton} ${css.addArtBtn}`}
-              onClick={() => setAddArticleModal(true)}
-            >
-              <AddCircleOutlineIcon fill="transparent" fontSize="large" />
-            </button>
+              <button
+                className={`${css.addButton} ${css.addArtBtn}`}
+                onClick={() => setAddArticleModal(true)}
+              >
+                <AddCircleOutlineIcon fill="transparent" fontSize="large" />
+              </button>
           </div>
-          {activeItem && activeItem.article && (
-            <button className={css.button} onClick={() => setIsModalOpen(true)}>
-              {t('last scan')}
-            </button>
-          )}
+          
+          {/* HAND-ADD ARTICLE */}
+          <PopUp
+            isOpen={addArticleModal}
+            close={closeModal}
+            body={
+              <div className={`${css.countArea} ${css.notFoundArea}`}>
+                <input
+                  placeholder={t('article')}
+                  onChange={e => setArticle(e.target.value)}
+                  className={css.countInput}
+                />
+                <input
+                  placeholder={t('count')}
+                  onChange={e => setCount(e.target.value)}
+                  type="number"
+                  className={css.countInput}
+                />
+                <button className={css.countAddBtn} onClick={addItemToList}>
+                  {t('add')}
+                </button>
+              </div>
+            }
+          />
           {addItemsList?.length > 0 && (
             <div className={css.addListArea}>
               <p>{listDate()}</p>
@@ -548,94 +668,6 @@ export const ReceiveProducts = () => {
               </button>
             </div>
           )}
-          <PopUp
-            isOpen={isModalOpen}
-            close={closeModal}
-            body={
-              activeItem && activeItem.article ? (
-                <div className={css.modalArea}>
-                  {Array.isArray(activeItem.images) &&
-                  activeItem.images.length > 0 ? (
-                    <img
-                      className={css.modalImage}
-                      alt="scanned product"
-                      src={activeItem.images[0]}
-                    />
-                  ) : (
-                    <p>No image</p>
-                  )}
-                  <p>{`${activeItem.name?.UA || t('no name')} (${
-                    activeItem.article
-                  })`}</p>
-                  <p>
-                    {activeItem.price?.UAH
-                      ? `${activeItem.price.UAH} грн.`
-                      : 'Цена не указана'}
-                  </p>
-                  <div className={css.countArea}>
-                    <input
-                      placeholder={t('count')}
-                      onChange={e => setCount(e.target.value)}
-                      defaultValue={count}
-                      className={css.countInput}
-                    />
-                    <button className={css.countAddBtn} onClick={addItemToList}>
-                      {t('add')}
-                    </button>
-                  </div>
-                  <div className={css.inOrders}>
-                    <OrdersByArticle />
-                  </div>
-                </div>
-              ) : activeItem === null ? (
-                <div>
-                  <p>{t('product not found')}!</p>
-                  <p>
-                    {'barcode'}: {lastResult}
-                  </p>
-                  <div className={css.countArea}>
-                    <input
-                      placeholder={t('article')}
-                      onChange={e => setArticle(e.target.value)}
-                      defaultValue={article}
-                      className={css.countInput}
-                    />
-                    <input
-                      placeholder={t('count')}
-                      onChange={e => setCount(e.target.value)}
-                      defaultValue={count}
-                      className={css.countInput}
-                    />
-                    <button className={css.countAddBtn} onClick={addItemToList}>
-                      {t('add')}
-                    </button>
-                  </div>
-                </div>
-              ) : null
-            }
-          />
-          <PopUp
-            isOpen={addArticleModal}
-            close={closeModal}
-            body={
-              <div className={`${css.countArea} ${css.notFoundArea}`}>
-                <input
-                  placeholder={t('article')}
-                  onChange={e => setArticle(e.target.value)}
-                  className={css.countInput}
-                />
-                <input
-                  placeholder={t('count')}
-                  onChange={e => setCount(e.target.value)}
-                  type="number"
-                  className={css.countInput}
-                />
-                <button className={css.countAddBtn} onClick={addItemToList}>
-                  {t('add')}
-                </button>
-              </div>
-            }
-          />
         </>
       )}
       {addMode && invoiceMode && (

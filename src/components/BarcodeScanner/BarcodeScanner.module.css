@@ -36,3 +36,63 @@
     cursor: pointer;
     min-width: 50%;
 }
+
+/* ----- BT BARCODE SCANNER ----- */
+.orderInfo {
+    position: relative;
+    border: 3px solid #a6a6a6;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 10px 10px 5px 10px;
+}
+
+.infoIcon {
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    transform: translateY(-50%);
+    background: #fff;
+    color: #1c9f13;
+}
+
+.orderInfoTitle {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 5px;
+    font-weight: 700;
+}
+
+.countArea {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.notFoundArea {
+    flex-direction: column;
+    align-items: center;
+}
+
+.countInput {
+    box-sizing: border-box;
+    max-width: 100%;
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.countAddBtn {
+    width: calc(50% - 3px);
+    background:#8a2313;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    margin-top: 30px;
+    cursor: pointer;
+    min-width: calc(50% - 10px);
+}

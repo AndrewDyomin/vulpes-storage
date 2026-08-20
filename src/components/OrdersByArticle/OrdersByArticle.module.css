@@ -21,3 +21,8 @@
     padding: 0 5px;
     border-radius: 5px;
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+}

@@ -202,5 +202,6 @@
   "select your branch": "Выберите свое отделение",
   "city not found": "Город не найден",
   "all products received": "Все товары получены",
-  "update products from sales drive": "Обновить товары из Sales Drive"
+  "update products from sales drive": "Обновить товары из Sales Drive",
+  "knowledge": "База знаний"
 }
