@@ -58,6 +58,35 @@ export const BtBarcodeScanner = ({ listDate, setDraftLoaded }) => {
     }
   };
 
+  const addItemToList = () => {
+    const currentDraft = draftRef.current;
+    let newDraft;
+    const item = {
+      article,
+      barcode: scannedBarcode,
+      count: Number(count),
+      newBarcode: true,
+    };
+
+    if (!currentDraft) {
+      newDraft = {
+        name: listDate(),
+        items: [item],
+      };
+    } else {
+      newDraft = {
+        ...currentDraft,
+        items: [...currentDraft.items, item],
+      };
+    }
+
+    dispatch(setDraft(newDraft));
+    draftRef.current = newDraft;
+    setNotFoundModal(false);
+    setArticle('');
+    setCount(0);
+  };
+
   // SCANNETR LISTENER
   useEffect(() => {
     let buffer = '';
@@ -161,9 +190,9 @@ export const BtBarcodeScanner = ({ listDate, setDraftLoaded }) => {
 
     return (
       <div className={css.orderInfo}>
-        <InfoOutlinedIcon className={css.infoIcon}/>
+        <InfoOutlinedIcon className={css.infoIcon} />
         <p className={css.orderInfoTitle}>{product?.article}</p>
-        <OrdersByArticle item={product}/>
+        <OrdersByArticle item={product} />
         {/* HAND-ADD ARTICLE */}
         <PopUp
           isOpen={notFoundModal}
@@ -191,10 +220,7 @@ export const BtBarcodeScanner = ({ listDate, setDraftLoaded }) => {
                 type="number"
                 className={css.countInput}
               />
-              <button 
-                className={css.countAddBtn} 
-                onClick={() => {}}
-              >
+              <button className={css.countAddBtn} onClick={addItemToList}>
                 {t('add')}
               </button>
             </div>

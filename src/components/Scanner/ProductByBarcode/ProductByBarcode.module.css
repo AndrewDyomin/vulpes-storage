@@ -50,9 +50,14 @@
     min-width: 120px;
 }
 
-.searchInput {
+.searchForm {
     display: flex;
     margin: 0 auto;
+    position: relative;
+}
+
+.searchInput {
+    display: flex;
     text-align: center;
     min-width: 100px;
     max-width: 200px;
@@ -66,6 +71,17 @@
   outline: none;
 }
 
+.searchBtn {
+    color: #9c9c9c;
+    background-color: transparent;
+    border: none;
+    padding: 3px;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 3px;
+}
+
 .loader {
     width: 100%;
     display: flex;
@@ -76,10 +92,13 @@
 .productCard {
     width: 100%;
     margin-top: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .productImg {
-    max-width: 100%;
+    width: 30%;
+    height: 100%;
 }
 
 .notFound {
@@ -137,6 +156,8 @@
     position: absolute;
     top: 2px;
     right: 3px;
+    background-color: transparent;
+    color: black;
 }
 
 .qrArea {

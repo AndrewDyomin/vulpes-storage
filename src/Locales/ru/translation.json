@@ -203,5 +203,11 @@
   "city not found": "Город не найден",
   "all products received": "Все товары получены",
   "update products from sales drive": "Обновить товары из Sales Drive",
-  "knowledge": "База знаний"
+  "knowledge": "База знаний",
+  "mode": "Режим",
+  "add to shelf": "Положить на полку",
+  "all items have been gathered and are ready to ship": "Все товары собраны, можно отправлять",
+  "prepare for shipment": "Собрать",
+  "close": "Закрыть",
+  "somewhere in the warehouse": "Где-то на складе"
 }

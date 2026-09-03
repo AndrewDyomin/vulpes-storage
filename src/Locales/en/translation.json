@@ -202,5 +202,11 @@
   "city not found": "City not found",
   "all products received": "All products received",
   "update products from sales drive": "Update products from Sales Drive",
-  "knowledge": "Knowledge"
+  "knowledge": "Knowledge",
+  "mode": "Mode",
+  "add to shelf": "Add to shelf",
+  "all items have been gathered and are ready to ship": "All items have been gathered and are ready to ship",
+  "prepare for shipment": "Prepare for shipment",
+  "close": "Close",
+  "somewhere in the warehouse": "Somewhere in the warehouse"
 }

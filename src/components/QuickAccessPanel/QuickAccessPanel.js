@@ -140,6 +140,7 @@ export const QuickAccessPanel = () => {
                 <p className={css.linkCardTitle}>{t('levers constructor')}</p>
             </div>
         </Link>
+        {(user.role === 'owner' || user.role === 'administrator' || user.role === 'manager') && (
         <Link to="/knowledge" className={css.link}>
             <div className={css.linkCard}>
                 <div className={css.iconArea}>
@@ -148,6 +149,7 @@ export const QuickAccessPanel = () => {
                 <p className={css.linkCardTitle}>{t('knowledge')}</p>
             </div>
         </Link>
+        )}
     </div>
   );
 };

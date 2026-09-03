@@ -5,28 +5,36 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useEffect, useState, useRef } from 'react';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
-import { selectActiveProduct } from '../../redux/products/selectors';
+import { selectActiveProduct, selectProductsBarcodes } from '../../redux/products/selectors';
 import { selectAllInventoryChecks, selectLoading } from '../../redux/inventory/selectors';
 import { clearActiveProduct } from '../../redux/products/slice';
 import { setDraft } from '../../redux/inventory/slice';
 import { addInventoryCheck, getAllInventoryChecks } from '../../redux/inventory/operations';
 import { selectUser } from '../../redux/auth/selectors';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
 import { PopUp } from '../PopUp/PopUp';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export const InventoryCheckList = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveProduct);
+  const allBarcodes = useSelector(selectProductsBarcodes);
   const user = useSelector(selectUser);
   const isLoading = useSelector(selectLoading);
   const allChecks = useSelector(selectAllInventoryChecks);
   const draft = useSelector(state => state.inventory.draft);
+  const draftRef = useRef(draft);
   const scannerRef = useRef();
+  const beepRef = useRef(null);
   const [addMode, setAddMode] = useState(false);
   const [selectMode, setSelectMode] = useState(false);
   const [selected, setSelected] = useState([]);
@@ -37,6 +45,8 @@ export const InventoryCheckList = () => {
   const [article, setArticle] = useState();
   const [addArticleModal, setAddArticleModal] = useState();
   const [draftLoaded, setDraftLoaded] = useState(false);
+  const [device, setDevice] = useState('bt-scanner');
+  const [scannedBarcode, setScannedBarcode] = useState(null);
 
   const changeMode = (mode) => {
     if (mode === 'add') {
@@ -122,6 +132,34 @@ export const InventoryCheckList = () => {
     return i;
   };
 
+  // ADD BEEP SOUND
+  useEffect(() => {
+    beepRef.current = new Audio('/vulpes-storage/beep.m4a');
+    beepRef.current.preload = 'auto';
+
+    return () => {
+      beepRef.current?.pause();
+      beepRef.current = null;
+    };
+  }, []);
+  
+  const playBeep = async count => {
+    const audio = beepRef.current;
+
+    if (!audio) return;
+
+    for (let i = 0; i < count; i++) {
+      try {
+        audio.currentTime = 0;
+        await audio.play();
+        await sleep(350);
+      } catch (error) {
+        console.error('Beep error:', error);
+        break;
+      }
+    }
+  };
+
   useEffect(() => {
     if (lastResult === '') return;
 
@@ -146,6 +184,103 @@ export const InventoryCheckList = () => {
       setDraftLoaded(true);
     }
   }, [draft, draftLoaded]);
+
+  // SCANNETR LISTENER
+  useEffect(() => {
+    let buffer = '';
+
+    const handleKeyDown = async e => {
+      if (
+        e.target.tagName === 'INPUT' ||
+        e.target.tagName === 'TEXTAREA' ||
+        e.target.isContentEditable
+      ) {
+        return;
+      }
+
+      if (e.key === 'Enter') {
+        if (!buffer) return;
+
+        const barcode = buffer;
+        setScannedBarcode(buffer);
+        buffer = '';
+
+        try {
+          const product = allBarcodes.map[barcode];
+
+          // Берем актуальный draft из ref
+          const currentDraft = draftRef.current;
+
+          if (!currentDraft) {
+            const newDraft = {
+              name: listDate(),
+              items: [
+                {
+                  article: product.article,
+                  barcode,
+                  count: 1,
+                },
+              ],
+            };
+
+            dispatch(setDraft(newDraft));
+            draftRef.current = newDraft;
+          } else if (
+            currentDraft.items.some(item => item.barcode === barcode)
+          ) {
+            const newDraft = {
+              ...currentDraft,
+              items: currentDraft.items.map(item =>
+                item.barcode === barcode
+                  ? {
+                      ...item,
+                      count: item.count + 1,
+                    }
+                  : item
+              ),
+            };
+
+            dispatch(setDraft(newDraft));
+            draftRef.current = newDraft;
+          } else {
+            const newDraft = {
+              ...currentDraft,
+              items: [
+                ...currentDraft.items,
+                {
+                  article: product.article,
+                  barcode,
+                  count: 1,
+                },
+              ],
+            };
+
+            dispatch(setDraft(newDraft));
+            draftRef.current = newDraft;
+          }
+
+          await playBeep(1);
+          setDraftLoaded(false);
+        } catch (error) {
+          await playBeep(3);
+          toast.error(t('product not found'));
+        }
+
+        return;
+      }
+
+      // Добавляем символы штрихкода
+      if (e.key.length === 1) {
+        buffer += e.key;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [dispatch, setDraftLoaded, t, allBarcodes]);
 
   return (
     <>
@@ -202,14 +337,27 @@ export const InventoryCheckList = () => {
       )}
       {addMode && (
         <>
-          <button
-            className={`${css.addButton} ${css.closeButton}`}
-            onClick={() => changeMode('add')}
-          >
-            <HighlightOffIcon fill="transparent" fontSize="large" />
-          </button>
+          <div className={css.deviceArea}>
+            <button
+              className={`${css.addButton} ${css.closeButton}`}
+              onClick={() => changeMode('add')}
+            >
+              <HighlightOffIcon fill="transparent" fontSize="large" />
+            </button>
+            <Select 
+              name='devise-selector' 
+              className={css.deviceSelector}
+              onChange={(e) => (setDevice(e.value))}
+              placeholder={t(device)}
+              options={[{value: 'camera', label: t('camera')}, {value: 'bt-scanner', label: 'bt-scanner'}]}
+            />
+          </div>
+          
           <div className={css.controlArea}>
-            <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
+            {device === 'camera' && 
+              <BarcodeScanner setLastResult={setLastResult} ref={scannerRef} />
+            }
+
             <button
               className={`${css.addButton} ${css.addArtBtn}`}
               onClick={() => setAddArticleModal(true)}

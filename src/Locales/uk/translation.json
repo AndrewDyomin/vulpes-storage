@@ -204,5 +204,11 @@
   "branch not found": "Відділення не знайдено",
   "all products received": "Всі товари отримані",
   "update products from sales drive": "Оновити товари з Sales Drive",
-  "knowledge": "База знань"
+  "knowledge": "База знань",
+  "mode": "Режим",
+  "add to shelf": "Покласти на полицю",
+  "all items have been gathered and are ready to ship": "Всі товари зібрані, можна відправляти",
+  "prepare for shipment": "Зібрати",
+  "close": "Закрити",
+  "somewhere in the warehouse": "Десь на складі"
 }
